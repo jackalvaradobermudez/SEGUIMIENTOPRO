@@ -1,0 +1,195 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { toast } from 'sonner'
+import { Plus, Ban } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { PaymentForm } from '@/components/forms/payment-form'
+import { PaymentsTable, type PaymentRow } from '@/components/tables/payments-table'
+import { cancelSaleAction } from '@/app/dashboard/sales/actions'
+import { formatCurrency, formatDate, getStatusLabel } from '@/lib/utils'
+import { SALE_STATUS_BADGE_CLASS } from '@/lib/constants'
+import type { Database } from '@/types/database'
+
+type Sale = Database['public']['Tables']['sales']['Row']
+type SaleItem = Database['public']['Tables']['sale_items']['Row']
+
+export function SaleDetail({
+  sale,
+  clientName,
+  items,
+  payments,
+  currency,
+}: {
+  sale: Sale
+  clientName: string
+  items: SaleItem[]
+  payments: PaymentRow[]
+  currency: string
+}) {
+  const [paymentOpen, setPaymentOpen] = useState(false)
+  const [cancelOpen, setCancelOpen] = useState(false)
+  const [cancelling, setCancelling] = useState(false)
+
+  async function handleCancel() {
+    setCancelling(true)
+    const result = await cancelSaleAction(sale.id)
+    if (result?.error) {
+      toast.error(result.error)
+      setCancelling(false)
+      return
+    }
+    toast.success('Venta cancelada')
+    setCancelOpen(false)
+    setCancelling(false)
+  }
+
+  const canCancel = sale.status !== 'cancelled' && sale.status !== 'paid'
+  const pendingBalance = sale.total_amount - sale.paid_amount
+
+  return (
+    <div className="dashboard-page animate-fade-in">
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Venta #{sale.sale_number}</h1>
+          <p className="page-subtitle">
+            {formatDate(sale.sale_date)} ·{' '}
+            <Link href={`/dashboard/clients/${sale.client_id}`} className="text-accent">
+              {clientName}
+            </Link>{' '}
+            ·{' '}
+            <span className={`${SALE_STATUS_BADGE_CLASS[sale.status]} rounded-full px-2 py-0.5 text-xs font-medium`}>
+              {getStatusLabel(sale.status)}
+            </span>
+          </p>
+        </div>
+
+        {canCancel && (
+          <Button variant="destructive" onClick={() => setCancelOpen(true)} id="cancel-sale-button">
+            <Ban size={16} />
+            Cancelar venta
+          </Button>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
+        <div className="flex flex-col gap-8">
+          <div>
+            <h2 className="section-title mb-4">Productos</h2>
+            <Table className="data-table">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Producto</TableHead>
+                  <TableHead>Cantidad</TableHead>
+                  <TableHead>Precio unitario</TableHead>
+                  <TableHead>Subtotal</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {items.map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.quantity}</TableCell>
+                    <TableCell>{formatCurrency(item.unit_price, currency)}</TableCell>
+                    <TableCell>{formatCurrency(item.subtotal, currency)}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          <div>
+            <div className="section-header">
+              <h2 className="section-title">Pagos</h2>
+              {sale.status !== 'cancelled' && pendingBalance > 0 && (
+                <Button size="sm" onClick={() => setPaymentOpen(true)} id="register-payment-button">
+                  <Plus size={16} />
+                  Registrar abono
+                </Button>
+              )}
+            </div>
+            <PaymentsTable saleId={sale.id} payments={payments} currency={currency} />
+          </div>
+
+          <div>
+            <h2 className="section-title mb-4">Gestiones de cobro</h2>
+            <div className="empty-placeholder">
+              <p>Sin gestiones registradas.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex h-fit flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-6">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Total</span>
+            <span className="font-semibold">{formatCurrency(sale.total_amount, currency)}</span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Pagado</span>
+            <span className="font-semibold">{formatCurrency(sale.paid_amount, currency)}</span>
+          </div>
+          <div className="flex items-center justify-between border-t border-[var(--border)] pt-3 text-sm">
+            <span className="text-muted-foreground">Pendiente</span>
+            <span
+              className="font-display text-lg font-bold"
+              style={{ color: pendingBalance > 0 ? 'var(--warning)' : 'var(--success)' }}
+            >
+              {formatCurrency(pendingBalance, currency)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <Dialog open={paymentOpen} onOpenChange={setPaymentOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Registrar abono</DialogTitle>
+            <DialogDescription>Venta #{sale.sale_number}</DialogDescription>
+          </DialogHeader>
+          <PaymentForm
+            saleId={sale.id}
+            pendingBalance={pendingBalance}
+            currency={currency}
+            onSuccess={() => setPaymentOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>¿Cancelar esta venta?</DialogTitle>
+            <DialogDescription>
+              La venta #{sale.sale_number} pasará a estado cancelada. Esta acción no se puede deshacer desde aquí.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setCancelOpen(false)} disabled={cancelling}>
+              Volver
+            </Button>
+            <Button variant="destructive" onClick={handleCancel} disabled={cancelling} id="confirm-cancel-sale">
+              {cancelling ? 'Cancelando...' : 'Cancelar venta'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}

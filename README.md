@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SeguimientoPro
 
-## Getting Started
+## Contexto de negocio
+**Problema que resuelve:** El vendedor independiente pierde dinero porque no lleva control ordenado de quién le debe, cuánto y desde cuándo.  
+**Usuario objetivo:** Vendedor independiente que vende a crédito y necesita registro profesional de ventas y cartera.  
+**KPI palanca:** Retención — el usuario vuelve diario porque ve su cartera viva.  
+**Métrica de éxito:** 80% de usuarios activos a los 30 días del registro.
 
-First, run the development server:
+## Evento de primer valor
+El usuario siente valor por primera vez cuando: **registra su primera venta a crédito y ve el saldo pendiente actualizado en el dashboard.**
+
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Base de datos | PostgreSQL via Supabase |
+| Auth | Supabase Auth |
+| UI | shadcn/ui + CSS Variables (Quiet Luxury dark) |
+| Deploy | Vercel |
+| Tipado | TypeScript + Zod |
+
+## ADR Principal
+Ver: [Implementación plan](./implementation_plan.md)
+
+**Stack elegido:** Next.js 15 + Supabase + Vercel  
+**Alternativas descartadas:** Remix (ecosistema menor), Laravel/Inertia (PHP, no Node-first)  
+**Trigger de revisión:** +1,000 usuarios activos o necesidad de edge computing custom
+
+## Fases de desarrollo
+
+- **Fase 0** ✅ — Fundación: Next.js + Supabase + Auth + Layout
+- **Fase 1** — Módulos heredados: Clientes, Productos, Ventas, Pagos
+- **Fase 2** — Módulos core: Cobros, Cartera por edades, Dashboard completo
+- **Fase 3** — Secundarios: Calendario, Metas, PDF, WhatsApp
+- **Fase 4** — Landing + PWA + SEO
+
+## Cómo correr localmente
 
 ```bash
+# 1. Clonar el repo
+git clone <repo-url>
+cd seguimientopro
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno
+cp .env.example .env.local
+# Completar NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+# 4. Ejecutar el schema en Supabase
+# Ir a supabase.com → SQL Editor → pegar contenido de supabase/migrations/001_initial_schema.sql
+
+# 5. Correr en desarrollo
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura del proyecto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/
+│   ├── (auth)/          — login, register
+│   └── (dashboard)/     — todas las rutas del CRM
+├── components/
+│   ├── layout/          — sidebar, header
+│   ├── ui/              — shadcn primitivos
+│   ├── dashboard/       — KPI cards, charts
+│   ├── forms/           — formularios
+│   └── tables/          — tablas de datos
+├── lib/
+│   ├── supabase/        — client, server, middleware
+│   └── validations/     — schemas Zod
+├── hooks/               — custom hooks
+└── types/               — TypeScript types
+supabase/
+└── migrations/          — SQL schema
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variables de entorno requeridas
 
-## Learn More
+Ver `.env.example`
 
-To learn more about Next.js, take a look at the following resources:
+## Seguridad
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Row Level Security (RLS) activado en todas las tablas
+- Middleware de autenticación en todas las rutas `/dashboard`
+- `.env.local` excluido del repositorio
+- Service Role Key nunca expuesta al frontend

@@ -1,0 +1,141 @@
+'use client'
+
+import { useMemo, useState } from 'react'
+import { toast } from 'sonner'
+import Link from 'next/link'
+import { Package } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { toggleProductActiveAction } from '@/app/dashboard/products/actions'
+import { formatCurrency } from '@/lib/utils'
+
+export type ProductRow = {
+  id: string
+  name: string
+  category: string | null
+  default_price: number
+  cost_price: number | null
+  stock: number
+  stock_minimum: number
+  track_stock: boolean
+  is_active: boolean
+}
+
+export function ProductsTable({ products, currency }: { products: ProductRow[]; currency: string }) {
+  const [categoryFilter, setCategoryFilter] = useState('all')
+  const [rows, setRows] = useState(products)
+
+  const categories = useMemo(() => {
+    const set = new Set(rows.map((p) => p.category).filter((c): c is string => !!c))
+    return Array.from(set)
+  }, [rows])
+
+  const filtered = useMemo(() => {
+    if (categoryFilter === 'all') return rows
+    return rows.filter((p) => p.category === categoryFilter)
+  }, [rows, categoryFilter])
+
+  async function handleToggle(productId: string, next: boolean) {
+    setRows((prev) => prev.map((p) => (p.id === productId ? { ...p, is_active: next } : p)))
+    const result = await toggleProductActiveAction(productId, next)
+    if (result?.error) {
+      toast.error(result.error)
+      setRows((prev) => prev.map((p) => (p.id === productId ? { ...p, is_active: !next } : p)))
+      return
+    }
+    toast.success(next ? 'Producto activado' : 'Producto desactivado')
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="empty-placeholder">
+        <Package size={32} color="var(--text-subtle)" />
+        <p>Aún no tienes productos registrados.</p>
+        <Link href="/dashboard/products/new" id="products-empty-cta" className="placeholder-cta">
+          Agrega tu primer producto
+        </Link>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value ?? 'all')}>
+        <SelectTrigger className="w-56" id="products-category-filter" aria-label="Filtrar por categoría">
+          <SelectValue placeholder="Todas las categorías" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Todas las categorías</SelectItem>
+          {categories.map((category) => (
+            <SelectItem key={category} value={category}>
+              {category}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <Table className="data-table">
+        <TableHeader>
+          <TableRow>
+            <TableHead>Nombre</TableHead>
+            <TableHead>Categoría</TableHead>
+            <TableHead>Precio</TableHead>
+            <TableHead>Costo</TableHead>
+            <TableHead>Margen</TableHead>
+            <TableHead>Stock</TableHead>
+            <TableHead>Estado</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filtered.map((product) => {
+            const margin =
+              product.cost_price != null && product.default_price > 0
+                ? Math.round(((product.default_price - product.cost_price) / product.default_price) * 100)
+                : null
+            const lowStock = product.track_stock && product.stock <= product.stock_minimum
+
+            return (
+              <TableRow key={product.id}>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>{product.category ?? '—'}</TableCell>
+                <TableCell>{formatCurrency(product.default_price, currency)}</TableCell>
+                <TableCell>{product.cost_price != null ? formatCurrency(product.cost_price, currency) : '—'}</TableCell>
+                <TableCell>{margin != null ? `${margin}%` : '—'}</TableCell>
+                <TableCell>
+                  {product.track_stock ? (
+                    <span className={lowStock ? 'badge-overdue rounded-full px-2 py-0.5 text-xs font-medium' : ''}>
+                      {product.stock} {lowStock ? '· Bajo stock' : ''}
+                    </span>
+                  ) : (
+                    '—'
+                  )}
+                </TableCell>
+                <TableCell>
+                  <Switch
+                    checked={product.is_active}
+                    onCheckedChange={(checked) => handleToggle(product.id, checked)}
+                    aria-label={product.is_active ? 'Desactivar producto' : 'Activar producto'}
+                  />
+                </TableCell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
+    </div>
+  )
+}
