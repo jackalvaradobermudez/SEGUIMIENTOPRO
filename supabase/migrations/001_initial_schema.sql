@@ -65,9 +65,16 @@ CREATE TABLE IF NOT EXISTS products (
 -- ============================================================
 -- SALES
 -- ============================================================
-CREATE TYPE IF NOT EXISTS sale_status AS ENUM ('paid', 'partial', 'pending', 'overdue', 'cancelled');
-CREATE TYPE IF NOT EXISTS payment_method_type AS ENUM ('cash', 'transfer', 'card', 'other');
-CREATE TYPE IF NOT EXISTS sale_type AS ENUM ('cash', 'credit');
+-- CREATE TYPE no soporta IF NOT EXISTS; se usa DO + duplicate_object para idempotencia
+DO $$ BEGIN
+    CREATE TYPE sale_status AS ENUM ('paid', 'partial', 'pending', 'overdue', 'cancelled');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    CREATE TYPE payment_method_type AS ENUM ('cash', 'transfer', 'card', 'other');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    CREATE TYPE sale_type AS ENUM ('cash', 'credit');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS sales (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -124,10 +131,14 @@ CREATE TABLE IF NOT EXISTS payments (
 -- ============================================================
 -- COLLECTION_ACTIONS (diferenciador clave)
 -- ============================================================
-CREATE TYPE IF NOT EXISTS collection_type AS ENUM ('call', 'whatsapp', 'sms', 'visit', 'email', 'other');
-CREATE TYPE IF NOT EXISTS collection_result AS ENUM (
-    'promised', 'paid', 'no_answer', 'refused', 'rescheduled', 'partial_payment', 'other'
-);
+DO $$ BEGIN
+    CREATE TYPE collection_type AS ENUM ('call', 'whatsapp', 'sms', 'visit', 'email', 'other');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+    CREATE TYPE collection_result AS ENUM (
+        'promised', 'paid', 'no_answer', 'refused', 'rescheduled', 'partial_payment', 'other'
+    );
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS collection_actions (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -146,9 +157,11 @@ CREATE TABLE IF NOT EXISTS collection_actions (
 -- ============================================================
 -- REMINDERS
 -- ============================================================
-CREATE TYPE IF NOT EXISTS reminder_type AS ENUM (
-    'birthday', 'collection', 'follow_up', 'meeting', 'custom'
-);
+DO $$ BEGIN
+    CREATE TYPE reminder_type AS ENUM (
+        'birthday', 'collection', 'follow_up', 'meeting', 'custom'
+    );
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
 CREATE TABLE IF NOT EXISTS reminders (
     id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
