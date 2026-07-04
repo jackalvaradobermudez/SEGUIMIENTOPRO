@@ -21,25 +21,9 @@ export default async function DashboardLayout({
     redirect('/login')
   }
 
-  const { data: business } = await supabase
-    .from('businesses')
-    .select('id')
-    .eq('user_id', user.id)
-    .is('deleted_at', null)
-    .single()
-
-  let lowStockCount = 0
-  if (business) {
-    const { count } = await supabase
-      .from('v_low_stock_products')
-      .select('*', { count: 'exact', head: true })
-      .eq('business_id', business.id)
-    lowStockCount = count ?? 0
-  }
-
   return (
     <div className="dashboard-root">
-      <Sidebar lowStockCount={lowStockCount} />
+      <Sidebar />
       <div className="dashboard-main">
         <Header />
         <main className="dashboard-content" id="main-content" role="main">
