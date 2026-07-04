@@ -32,8 +32,8 @@ export default async function SaleDetailPage({
 
   if (!sale) notFound()
 
-  const [{ data: client }, { data: items }, { data: payments }] = await Promise.all([
-    supabase.from('clients').select('name').eq('id', sale.client_id).single(),
+  const [{ data: client }, { data: items }, { data: payments }, { data: collectionActions }] = await Promise.all([
+    supabase.from('clients').select('name, phone').eq('id', sale.client_id).single(),
     supabase.from('sale_items').select('*').eq('sale_id', sale.id).order('created_at', { ascending: true }),
     supabase
       .from('payments')
@@ -41,14 +41,21 @@ export default async function SaleDetailPage({
       .eq('sale_id', sale.id)
       .is('deleted_at', null)
       .order('payment_date', { ascending: false }),
+    supabase
+      .from('collection_actions')
+      .select('*')
+      .eq('sale_id', sale.id)
+      .order('action_date', { ascending: false }),
   ])
 
   return (
     <SaleDetail
       sale={sale}
       clientName={client?.name ?? 'Cliente'}
+      clientPhone={client?.phone ?? null}
       items={items ?? []}
       payments={payments ?? []}
+      collectionActions={collectionActions ?? []}
       currency={business.currency}
     />
   )

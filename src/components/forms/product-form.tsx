@@ -47,7 +47,7 @@ export function ProductForm({ productId, defaultValues }: ProductFormProps) {
       category: '',
       sku: '',
       default_price: 0,
-      cost_price: undefined,
+      cost_price: 0,
       unit: 'unidad',
       track_stock: false,
       stock: 0,

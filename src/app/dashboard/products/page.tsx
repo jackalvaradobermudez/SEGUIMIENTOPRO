@@ -20,6 +20,13 @@ export default async function ProductsPage() {
     .is('deleted_at', null)
     .order('name', { ascending: true })
 
+  // stock y stock_minimum son nullable en DB; ProductRow los espera como number
+  const productRows = (products ?? []).map((p) => ({
+    ...p,
+    stock: p.stock ?? 0,
+    stock_minimum: p.stock_minimum ?? 0,
+  }))
+
   return (
     <div className="dashboard-page animate-fade-in">
       <div className="page-header">
@@ -34,7 +41,7 @@ export default async function ProductsPage() {
         </Link>
       </div>
 
-      <ProductsTable products={products ?? []} currency={business.currency} />
+      <ProductsTable products={productRows} currency={business.currency} />
     </div>
   )
 }

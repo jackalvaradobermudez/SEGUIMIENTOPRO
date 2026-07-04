@@ -29,7 +29,7 @@ export default async function ClientsPage() {
 
   const rows: ClientRow[] = (clients ?? []).map((client) => {
     const clientSales = (sales ?? []).filter((s) => s.client_id === client.id)
-    const pendingBalance = clientSales.reduce((sum, s) => sum + s.balance, 0)
+    const pendingBalance = clientSales.reduce((sum, s) => sum + (s.balance ?? 0), 0)
     const lastSaleDate = clientSales.reduce<string | null>((latest, s) => {
       if (!latest || s.sale_date > latest) return s.sale_date
       return latest

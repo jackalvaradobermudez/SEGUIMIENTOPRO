@@ -8,7 +8,7 @@ export async function getActiveBusiness() {
 
   const { data: business } = await supabase
     .from('businesses')
-    .select('id, name, currency, timezone')
+    .select('id, name, description, currency, timezone')
     .eq('user_id', user.id)
     .is('deleted_at', null)
     .single()

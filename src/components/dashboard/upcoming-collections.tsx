@@ -35,12 +35,13 @@ export function UpcomingCollections({
           <div>
             <p className="font-medium text-foreground">{collection.client_name}</p>
             <p className="text-xs text-muted-foreground">
-              Venta #{collection.sale_number} · Vence {formatDate(collection.due_date)}
+              {/* due_date y balance siempre tienen valor en v_upcoming_collections */}
+              Venta #{collection.sale_number} · Vence {formatDate(collection.due_date ?? '')}
             </p>
           </div>
           <div className="text-right">
             <p className="font-display font-semibold" style={{ color: 'var(--warning)' }}>
-              {formatCurrency(collection.balance, currency)}
+              {formatCurrency(collection.balance ?? 0, currency)}
             </p>
             <p className="text-xs text-muted-foreground">
               {collection.days_until_due === 0 ? 'Hoy' : `En ${collection.days_until_due} días`}

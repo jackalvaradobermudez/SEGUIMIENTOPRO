@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { Plus, Ban } from 'lucide-react'
+import { Plus, Ban, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -23,28 +24,37 @@ import {
 } from '@/components/ui/table'
 import { PaymentForm } from '@/components/forms/payment-form'
 import { PaymentsTable, type PaymentRow } from '@/components/tables/payments-table'
+import { CollectionActionForm } from '@/components/forms/collection-action-form'
+import { CollectionActionsTable } from '@/components/tables/collection-actions-table'
 import { cancelSaleAction } from '@/app/dashboard/sales/actions'
-import { formatCurrency, formatDate, getStatusLabel } from '@/lib/utils'
+import { formatCurrency, formatDate, getStatusLabel, buildWhatsAppUrl } from '@/lib/utils'
 import { SALE_STATUS_BADGE_CLASS } from '@/lib/constants'
 import type { Database } from '@/types/database'
 
 type Sale = Database['public']['Tables']['sales']['Row']
 type SaleItem = Database['public']['Tables']['sale_items']['Row']
+type CollectionActionRow = Database['public']['Tables']['collection_actions']['Row']
 
 export function SaleDetail({
   sale,
   clientName,
+  clientPhone,
   items,
   payments,
+  collectionActions,
   currency,
 }: {
   sale: Sale
   clientName: string
+  clientPhone: string | null
   items: SaleItem[]
   payments: PaymentRow[]
+  collectionActions: CollectionActionRow[]
   currency: string
 }) {
+  const router = useRouter()
   const [paymentOpen, setPaymentOpen] = useState(false)
+  const [collectionOpen, setCollectionOpen] = useState(false)
   const [cancelOpen, setCancelOpen] = useState(false)
   const [cancelling, setCancelling] = useState(false)
 
@@ -61,8 +71,17 @@ export function SaleDetail({
     setCancelling(false)
   }
 
+  function handleCreateActionSuccess() {
+    setCollectionOpen(false)
+    router.refresh()
+  }
+
   const canCancel = sale.status !== 'cancelled' && sale.status !== 'paid'
   const pendingBalance = sale.total_amount - sale.paid_amount
+
+  const whatsAppMessage = clientName
+    ? `Hola ${clientName}, te contacto para recordarte el saldo pendiente de tu compra por ${formatCurrency(pendingBalance > 0 ? pendingBalance : sale.total_amount, currency)}. ¿Podemos coordinar el pago?`
+    : ''
 
   return (
     <div className="dashboard-page animate-fade-in">
@@ -81,12 +100,27 @@ export function SaleDetail({
           </p>
         </div>
 
-        {canCancel && (
-          <Button variant="destructive" onClick={() => setCancelOpen(true)} id="cancel-sale-button">
-            <Ban size={16} />
-            Cancelar venta
-          </Button>
-        )}
+        <div className="header-quick-links">
+          {clientPhone && (
+            <a
+              href={buildWhatsAppUrl(clientPhone, whatsAppMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="sale-detail-whatsapp"
+              className="quick-link"
+              aria-label="Contactar por WhatsApp"
+            >
+              <MessageCircle size={16} />
+              WhatsApp
+            </a>
+          )}
+          {canCancel && (
+            <Button variant="destructive" onClick={() => setCancelOpen(true)} id="cancel-sale-button">
+              <Ban size={16} />
+              Cancelar venta
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_280px]">
@@ -108,7 +142,7 @@ export function SaleDetail({
                     <TableCell>{item.description}</TableCell>
                     <TableCell>{item.quantity}</TableCell>
                     <TableCell>{formatCurrency(item.unit_price, currency)}</TableCell>
-                    <TableCell>{formatCurrency(item.subtotal, currency)}</TableCell>
+                    <TableCell>{formatCurrency(item.subtotal ?? 0, currency)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -129,10 +163,14 @@ export function SaleDetail({
           </div>
 
           <div>
-            <h2 className="section-title mb-4">Gestiones de cobro</h2>
-            <div className="empty-placeholder">
-              <p>Sin gestiones registradas.</p>
+            <div className="section-header">
+              <h2 className="section-title">Gestiones de cobro</h2>
+              <Button size="sm" onClick={() => setCollectionOpen(true)} id="register-collection-button">
+                <Plus size={16} />
+                Registrar gestión
+              </Button>
             </div>
+            <CollectionActionsTable saleId={sale.id} actions={collectionActions} currency={currency} />
           </div>
         </div>
 
@@ -156,6 +194,20 @@ export function SaleDetail({
           </div>
         </div>
       </div>
+
+      <Dialog open={collectionOpen} onOpenChange={setCollectionOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Registrar gestión de cobro</DialogTitle>
+            <DialogDescription>Venta #{sale.sale_number} &middot; {clientName}</DialogDescription>
+          </DialogHeader>
+          <CollectionActionForm
+            saleId={sale.id}
+            clientId={sale.client_id}
+            onSuccess={handleCreateActionSuccess}
+          />
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={paymentOpen} onOpenChange={setPaymentOpen}>
         <DialogContent>

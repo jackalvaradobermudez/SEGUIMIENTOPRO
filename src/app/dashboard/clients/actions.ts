@@ -112,6 +112,7 @@ export async function deleteClientAction(clientId: string) {
     return { error: 'No se pudo eliminar el cliente. Intenta de nuevo.' }
   }
 
+  // La redirección la maneja el componente cliente (handleDelete → router.push)
   revalidatePath('/dashboard/clients')
-  redirect('/dashboard/clients')
+  return { success: true }
 }

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/table'
 import { cn, formatCurrency, formatDate, getStatusLabel } from '@/lib/utils'
 import { SALE_STATUS_BADGE_CLASS } from '@/lib/constants'
+import { SalesDateFilter } from '@/components/tables/sales-date-filter'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -29,14 +30,15 @@ const PERIOD_FILTERS = [
   { value: 'all', label: 'Todo el tiempo' },
   { value: 'this_month', label: 'Este mes' },
   { value: 'last_month', label: 'Último mes' },
+  { value: 'custom', label: 'Personalizado' },
 ] as const
 
 export default async function SalesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string; period?: string }>
+  searchParams: Promise<{ status?: string; period?: string; from?: string; to?: string }>
 }) {
-  const { status = 'all', period = 'all' } = await searchParams
+  const { status = 'all', period = 'all', from = '', to = '' } = await searchParams
   const business = await getActiveBusiness()
   const supabase = await createClient()
 
@@ -59,6 +61,9 @@ export default async function SalesPage({
     const start = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString().split('T')[0]
     const end = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
     query = query.gte('sale_date', start).lt('sale_date', end)
+  } else if (period === 'custom') {
+    if (from) query = query.gte('sale_date', from)
+    if (to) query = query.lte('sale_date', to)
   }
 
   const { data: sales } = await query
@@ -117,6 +122,12 @@ export default async function SalesPage({
         </div>
       </div>
 
+      {period === 'custom' && (
+        <div className="mb-4">
+          <SalesDateFilter from={from} to={to} status={status} />
+        </div>
+      )}
+
       {!sales || sales.length === 0 ? (
         <div className="empty-placeholder">
           <ShoppingCart size={32} color="var(--text-subtle)" />
@@ -150,7 +161,7 @@ export default async function SalesPage({
                 <TableCell>{formatDate(sale.sale_date)}</TableCell>
                 <TableCell>{formatCurrency(sale.total_amount, business.currency)}</TableCell>
                 <TableCell>{formatCurrency(sale.paid_amount, business.currency)}</TableCell>
-                <TableCell>{formatCurrency(sale.balance, business.currency)}</TableCell>
+                <TableCell>{formatCurrency(sale.balance ?? 0, business.currency)}</TableCell>
                 <TableCell>
                   <span className={`${SALE_STATUS_BADGE_CLASS[sale.status]} rounded-full px-2 py-0.5 text-xs font-medium`}>
                     {getStatusLabel(sale.status)}

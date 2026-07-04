@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowUpRight, Clock, AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { ArrowUpRight, Clock, AlertTriangle, CheckCircle2, TrendingUp, TrendingDown } from 'lucide-react'
 import { formatCurrency } from '@/lib/utils'
 
 export type KpiData = {
@@ -9,9 +9,20 @@ export type KpiData = {
   monthTotal: number
   monthSalesCount: number
   monthCollected: number
+  prevMonthTotal: number
+  prevMonthCollected: number
+  overduePercentage: number
+  avgCollectionDays: number
 }
 
 export function KpiCards({ data, currency }: { data: KpiData; currency: string }) {
+  const salesDelta = data.prevMonthTotal > 0
+    ? Math.round(((data.monthTotal - data.prevMonthTotal) / data.prevMonthTotal) * 100)
+    : null
+  const collectedDelta = data.prevMonthCollected > 0
+    ? Math.round(((data.monthCollected - data.prevMonthCollected) / data.prevMonthCollected) * 100)
+    : null
+
   const kpis = [
     {
       id: 'kpi-pending',
@@ -21,7 +32,11 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       iconColor: 'var(--warning)',
       iconBg: 'var(--warning-bg)',
       href: '/dashboard/collections',
-      description: `${data.clientsWithDebt} clientes con deuda`,
+      description: (
+        <>
+          {data.clientsWithDebt} clientes con deuda · {data.overduePercentage}% vencida
+        </>
+      ),
     },
     {
       id: 'kpi-overdue',
@@ -31,7 +46,7 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       iconColor: 'var(--danger)',
       iconBg: 'var(--danger-bg)',
       href: '/dashboard/collections/aging',
-      description: 'Requiere gestión inmediata',
+      description: `Cobro promedio: ${data.avgCollectionDays} días`,
     },
     {
       id: 'kpi-month-sales',
@@ -41,7 +56,17 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       iconColor: 'var(--accent)',
       iconBg: 'var(--accent-light)',
       href: '/dashboard/sales',
-      description: `${data.monthSalesCount} transacciones`,
+      description: (
+        <span className="inline-flex items-center gap-1">
+          {data.monthSalesCount} transacciones
+          {salesDelta !== null && salesDelta !== 0 && (
+            <span className={salesDelta >= 0 ? 'text-green-400' : 'text-red-400'}>
+              {salesDelta >= 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+              {Math.abs(salesDelta)}% vs mes anterior
+            </span>
+          )}
+        </span>
+      ),
     },
     {
       id: 'kpi-month-collected',
@@ -51,7 +76,17 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       iconColor: 'var(--success)',
       iconBg: 'var(--success-bg)',
       href: '/dashboard/collections',
-      description: 'Pagos recibidos este mes',
+      description: (
+        <span className="inline-flex items-center gap-1">
+          Pagos recibidos este mes
+          {collectedDelta !== null && collectedDelta !== 0 && (
+            <span className={collectedDelta >= 0 ? 'text-green-400' : 'text-red-400'}>
+              {collectedDelta >= 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+              {Math.abs(collectedDelta)}% vs mes anterior
+            </span>
+          )}
+        </span>
+      ),
     },
   ]
 

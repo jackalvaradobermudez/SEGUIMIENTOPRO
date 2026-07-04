@@ -1,19 +1,28 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { useForm, useFieldArray, useWatch, type Resolver } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
-import { Check, ChevronsUpDown, Plus, CalendarIcon } from 'lucide-react'
-import { saleSchema, type SaleFormData } from '@/lib/validations/sale'
-import { createSaleAction } from '@/app/dashboard/sales/actions'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useState } from "react";
+import Link from "next/link";
+import {
+  useForm,
+  useFieldArray,
+  useWatch,
+  type Resolver,
+} from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { Check, ChevronsUpDown, Plus, CalendarIcon } from "lucide-react";
+import { saleSchema, type SaleFormData } from "@/lib/validations/sale";
+import { createSaleAction } from "@/app/dashboard/sales/actions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -21,14 +30,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command'
+} from "@/components/ui/command";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 import {
   Form,
   FormControl,
@@ -36,50 +45,60 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { SaleItemRow, type ProductOption } from '@/components/forms/sale-item-row'
-import { PAYMENT_METHOD_OPTIONS } from '@/lib/constants'
-import { cn, formatCurrency, formatDate } from '@/lib/utils'
+} from "@/components/ui/form";
+import {
+  SaleItemRow,
+  type ProductOption,
+} from "@/components/forms/sale-item-row";
+import { PAYMENT_METHOD_OPTIONS } from "@/lib/constants";
+import { cn, formatCurrency, formatDate } from "@/lib/utils";
 
-export type ClientOption = { id: string; name: string; phone: string | null }
+export type ClientOption = { id: string; name: string; phone: string | null };
 
 export function SaleForm({
   clients,
   products,
   currency,
 }: {
-  clients: ClientOption[]
-  products: ProductOption[]
-  currency: string
+  clients: ClientOption[];
+  products: ProductOption[];
+  currency: string;
 }) {
-  const [submitting, setSubmitting] = useState(false)
-  const [clientPopoverOpen, setClientPopoverOpen] = useState(false)
+  const [submitting, setSubmitting] = useState(false);
+  const [clientPopoverOpen, setClientPopoverOpen] = useState(false);
 
   const form = useForm<SaleFormData>({
     // z.coerce fields make the resolver's input type diverge from SaleFormData; cast is safe at runtime.
     resolver: zodResolver(saleSchema) as Resolver<SaleFormData>,
     defaultValues: {
-      client_id: '',
-      sale_type: 'cash',
-      sale_date: new Date().toISOString().split('T')[0],
-      due_date: '',
+      client_id: "",
+      sale_type: "cash",
+      sale_date: new Date().toISOString().split("T")[0],
+      due_date: "",
       installments: 1,
       discount: 0,
-      payment_method: 'cash',
-      notes: '',
-      items: [{ description: '', quantity: 1, unit_price: 0 }],
+      payment_method: "cash",
+      notes: "",
+      items: [{ description: "", quantity: 1, unit_price: 0 }],
     },
-  })
+  });
 
-  const { fields, append, remove, update } = useFieldArray({ control: form.control, name: 'items' })
-  const saleType = useWatch({ control: form.control, name: 'sale_type' })
-  const clientId = useWatch({ control: form.control, name: 'client_id' })
-  const discount = useWatch({ control: form.control, name: 'discount' }) || 0
-  const items = useWatch({ control: form.control, name: 'items' })
+  const { fields, append, remove, update } = useFieldArray({
+    control: form.control,
+    name: "items",
+  });
+  const saleType = useWatch({ control: form.control, name: "sale_type" });
+  const clientId = useWatch({ control: form.control, name: "client_id" });
+  const discount = useWatch({ control: form.control, name: "discount" }) || 0;
+  const items = useWatch({ control: form.control, name: "items" });
 
-  const selectedClient = clients.find((c) => c.id === clientId)
-  const subtotal = items.reduce((sum, item) => sum + (Number(item.quantity) || 0) * (Number(item.unit_price) || 0), 0)
-  const total = Math.max(subtotal - Number(discount), 0)
+  const selectedClient = clients.find((c) => c.id === clientId);
+  const subtotal = items.reduce(
+    (sum, item) =>
+      sum + (Number(item.quantity) || 0) * (Number(item.unit_price) || 0),
+    0,
+  );
+  const total = Math.max(subtotal - Number(discount), 0);
 
   function handleSelectProduct(index: number, product: ProductOption) {
     update(index, {
@@ -87,32 +106,39 @@ export function SaleForm({
       product_id: product.id,
       description: product.name,
       unit_price: product.default_price,
-    })
+    });
   }
 
   async function onSubmit(values: SaleFormData) {
-    setSubmitting(true)
-    const result = await createSaleAction(values)
+    setSubmitting(true);
+    const result = await createSaleAction(values);
 
     if (result?.error) {
-      toast.error(result.error)
-      setSubmitting(false)
-      return
+      toast.error(result.error);
+      setSubmitting(false);
+      return;
     }
 
-    toast.success('Venta registrada')
+    toast.success("Venta registrada");
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" id="sale-form">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-6"
+        id="sale-form"
+      >
         <FormField
           control={form.control}
           name="client_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Cliente *</FormLabel>
-              <Popover open={clientPopoverOpen} onOpenChange={setClientPopoverOpen}>
+              <Popover
+                open={clientPopoverOpen}
+                onOpenChange={setClientPopoverOpen}
+              >
                 <PopoverTrigger
                   render={
                     <Button
@@ -123,7 +149,9 @@ export function SaleForm({
                   }
                 >
                   <span className="truncate">
-                    {selectedClient ? `${selectedClient.name}${selectedClient.phone ? ` · ${selectedClient.phone}` : ''}` : 'Selecciona un cliente...'}
+                    {selectedClient
+                      ? `${selectedClient.name}${selectedClient.phone ? ` · ${selectedClient.phone}` : ""}`
+                      : "Selecciona un cliente..."}
                   </span>
                   <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
                 </PopoverTrigger>
@@ -148,15 +176,26 @@ export function SaleForm({
                         {clients.map((client) => (
                           <CommandItem
                             key={client.id}
-                            value={`${client.name} ${client.phone ?? ''}`}
+                            value={`${client.name} ${client.phone ?? ""}`}
                             onSelect={() => {
-                              field.onChange(client.id)
-                              setClientPopoverOpen(false)
+                              field.onChange(client.id);
+                              setClientPopoverOpen(false);
                             }}
                           >
-                            <Check className={cn('mr-2 size-4', field.value === client.id ? 'opacity-100' : 'opacity-0')} />
+                            <Check
+                              className={cn(
+                                "mr-2 size-4",
+                                field.value === client.id
+                                  ? "opacity-100"
+                                  : "opacity-0",
+                              )}
+                            />
                             {client.name}
-                            {client.phone && <span className="ml-2 text-muted-foreground">{client.phone}</span>}
+                            {client.phone && (
+                              <span className="ml-2 text-muted-foreground">
+                                {client.phone}
+                              </span>
+                            )}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -177,15 +216,19 @@ export function SaleForm({
               <FormLabel>Tipo de venta</FormLabel>
               <Tabs value={field.value} onValueChange={field.onChange}>
                 <TabsList>
-                  <TabsTrigger value="cash" id="sale-type-cash">Contado</TabsTrigger>
-                  <TabsTrigger value="credit" id="sale-type-credit">Crédito</TabsTrigger>
+                  <TabsTrigger value="cash" id="sale-type-cash">
+                    Contado
+                  </TabsTrigger>
+                  <TabsTrigger value="credit" id="sale-type-credit">
+                    Crédito
+                  </TabsTrigger>
                 </TabsList>
               </Tabs>
             </FormItem>
           )}
         />
 
-        {saleType === 'credit' && (
+        {saleType === "credit" && (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <FormField
               control={form.control}
@@ -195,16 +238,72 @@ export function SaleForm({
                   <FormLabel>Fecha de vencimiento *</FormLabel>
                   <Popover>
                     <PopoverTrigger
-                      render={<Button variant="outline" className="w-full justify-start font-normal" />}
+                      render={
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start font-normal"
+                        />
+                      }
                     >
                       <CalendarIcon className="mr-2 size-4" />
-                      {field.value ? formatDate(field.value) : 'Selecciona una fecha'}
+                      {field.value
+                        ? formatDate(field.value)
+                        : "Selecciona una fecha"}
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
                       <Calendar
                         mode="single"
-                        selected={field.value ? new Date(`${field.value}T00:00:00`) : undefined}
-                        onSelect={(date) => field.onChange(date ? date.toISOString().split('T')[0] : '')}
+                        selected={
+                          field.value
+                            ? new Date(`${field.value}T00:00:00`)
+                            : undefined
+                        }
+                        onSelect={(date) =>
+                          field.onChange(
+                            date ? date.toISOString().split("T")[0] : "",
+                          )
+                        }
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="sale_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fecha de venta</FormLabel>
+                  <Popover>
+                    <PopoverTrigger
+                      render={
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start font-normal sm:w-64"
+                        />
+                      }
+                    >
+                      <CalendarIcon className="mr-2 size-4" />
+                      {field.value
+                        ? formatDate(field.value)
+                        : "Selecciona una fecha"}
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <Calendar
+                        mode="single"
+                        selected={
+                          field.value
+                            ? new Date(`${field.value}T00:00:00`)
+                            : undefined
+                        }
+                        onSelect={(date) =>
+                          field.onChange(
+                            date ? date.toISOString().split("T")[0] : "",
+                          )
+                        }
                       />
                     </PopoverContent>
                   </Popover>
@@ -230,7 +329,8 @@ export function SaleForm({
         )}
 
         <div className="flex flex-col gap-3">
-          <FormLabel>Productos *</FormLabel>
+          {/* Label decorativo de sección — no pertenece a un FormField, usa <p> para no romper useFormField() */}
+          <p className="text-sm font-medium leading-none">Productos *</p>
           {fields.map((item, index) => (
             <SaleItemRow
               key={item.id}
@@ -251,7 +351,9 @@ export function SaleForm({
             size="sm"
             className="self-start"
             id="add-sale-item"
-            onClick={() => append({ description: '', quantity: 1, unit_price: 0 })}
+            onClick={() =>
+              append({ description: "", quantity: 1, unit_price: 0 })
+            }
           >
             <Plus className="size-4" />
             Agregar línea
@@ -268,9 +370,17 @@ export function SaleForm({
             name="discount"
             render={({ field }) => (
               <FormItem className="flex-row items-center justify-between gap-2 space-y-0">
-                <FormLabel className="text-muted-foreground">Descuento</FormLabel>
+                <FormLabel className="text-muted-foreground">
+                  Descuento
+                </FormLabel>
                 <FormControl>
-                  <Input type="number" min={0} step="0.01" className="w-28" {...field} />
+                  <Input
+                    type="number"
+                    min={0}
+                    step="0.01"
+                    className="w-28"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -320,10 +430,15 @@ export function SaleForm({
           )}
         />
 
-        <Button type="submit" id="sale-form-submit" disabled={submitting} className="self-start">
-          {submitting ? 'Registrando...' : 'Registrar venta'}
+        <Button
+          type="submit"
+          id="sale-form-submit"
+          disabled={submitting}
+          className="self-start"
+        >
+          {submitting ? "Registrando..." : "Registrar venta"}
         </Button>
       </form>
     </Form>
-  )
+  );
 }
