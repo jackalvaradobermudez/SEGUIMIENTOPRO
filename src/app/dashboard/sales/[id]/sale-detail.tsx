@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Plus, Ban, MessageCircle } from 'lucide-react'
+import { SalePDFButton } from '@/components/shared/pdf-download-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -43,6 +44,7 @@ export function SaleDetail({
   payments,
   collectionActions,
   currency,
+  businessName,
 }: {
   sale: Sale
   clientName: string
@@ -51,6 +53,7 @@ export function SaleDetail({
   payments: PaymentRow[]
   collectionActions: CollectionActionRow[]
   currency: string
+  businessName: string
 }) {
   const router = useRouter()
   const [paymentOpen, setPaymentOpen] = useState(false)
@@ -101,6 +104,28 @@ export function SaleDetail({
         </div>
 
         <div className="header-quick-links">
+          <SalePDFButton
+            id="sale-pdf-download"
+            sale={{
+              sale_number: sale.sale_number,
+              sale_date: sale.sale_date,
+              sale_type: sale.sale_type,
+              due_date: sale.due_date,
+              total_amount: sale.total_amount,
+              paid_amount: sale.paid_amount,
+              discount: sale.discount ?? 0,
+              notes: sale.notes,
+              payment_method: sale.payment_method,
+            }}
+            client={{ name: clientName, phone: clientPhone }}
+            items={items.map((it) => ({
+              description: it.description,
+              quantity: Number(it.quantity),
+              unit_price: Number(it.unit_price),
+              subtotal: it.subtotal,
+            }))}
+            business={{ name: businessName, currency }}
+          />
           {clientPhone && (
             <a
               href={buildWhatsAppUrl(clientPhone, whatsAppMessage)}

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { LowStockBanner } from '@/components/inventory/LowStockBanner'
 
 const navigation = [
   {
@@ -69,7 +70,7 @@ const navigation = [
   },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ lowStockCount = 0 }: { lowStockCount?: number }) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
@@ -100,6 +101,9 @@ export default function Sidebar() {
 
       {/* Divider */}
       <div className="sidebar-divider" aria-hidden="true" />
+
+      {/* Low stock banner */}
+      <LowStockBanner count={lowStockCount} className="mx-0 mb-1" />
 
       {/* Navegación */}
       <nav className="sidebar-nav">
@@ -148,8 +152,8 @@ export default function Sidebar() {
         .sidebar {
           width: var(--sidebar-width);
           min-height: 100dvh;
-          background: var(--surface);
-          border-right: 1px solid var(--border);
+          background: #0c111b;
+          border-right: 1px solid rgba(255, 255, 255, 0.06);
           display: flex;
           flex-direction: column;
           padding: var(--space-4);
@@ -168,8 +172,8 @@ export default function Sidebar() {
         .sidebar-logo-icon {
           width: 36px;
           height: 36px;
-          background: var(--accent-light);
-          border: 1px solid var(--accent-ring);
+          background: linear-gradient(135deg, rgba(124, 92, 255, 0.18), rgba(55, 208, 255, 0.08));
+          border: 1px solid rgba(124, 92, 255, 0.22);
           border-radius: var(--radius-md);
           display: flex;
           align-items: center;
@@ -188,8 +192,8 @@ export default function Sidebar() {
 
         .sidebar-divider {
           height: 1px;
-          background: var(--border);
-          margin: var(--space-2) 0;
+          background: rgba(255, 255, 255, 0.06);
+          margin: var(--space-3) 0;
         }
 
         .sidebar-nav {
@@ -203,7 +207,7 @@ export default function Sidebar() {
           flex-direction: column;
           gap: var(--space-1);
           list-style: none;
-          padding: var(--space-2) 0;
+          padding: var(--space-1) 0;
         }
 
         :global(.nav-item) {
@@ -211,7 +215,7 @@ export default function Sidebar() {
           align-items: center;
           gap: var(--space-3);
           padding: var(--space-3) var(--space-3);
-          border-radius: var(--radius-md);
+          border-radius: var(--radius-sm);
           color: var(--text-muted);
           font-size: var(--text-sm);
           font-weight: 500;
@@ -219,19 +223,20 @@ export default function Sidebar() {
           cursor: pointer;
           white-space: nowrap;
           text-decoration: none;
-          border: none;
+          border: 1px solid transparent;
           background: transparent;
           width: 100%;
         }
 
         :global(.nav-item:hover) {
-          background: var(--surface-2);
+          background: rgba(255, 255, 255, 0.04);
           color: var(--text);
         }
 
         :global(.nav-item.active) {
-          background: var(--accent-light);
-          color: var(--text-accent);
+          background: rgba(124, 92, 255, 0.10);
+          color: #c4b5fd;
+          border-color: rgba(124, 92, 255, 0.18);
         }
 
         .nav-label { flex: 1; }
@@ -239,15 +244,16 @@ export default function Sidebar() {
         .nav-badge {
           font-size: 9px;
           font-weight: 700;
-          padding: 2px 5px;
-          background: rgba(99, 102, 241, 0.2);
-          color: var(--text-accent);
-          border-radius: 4px;
+          padding: 2px 6px;
+          background: rgba(124, 92, 255, 0.18);
+          color: #c4b5fd;
+          border-radius: var(--radius-xs);
           letter-spacing: 0.05em;
+          border: 1px solid rgba(124, 92, 255, 0.18);
         }
 
         .nav-arrow {
-          opacity: 0.5;
+          opacity: 0.4;
         }
 
         .sidebar-footer {
@@ -256,11 +262,14 @@ export default function Sidebar() {
 
         .logout-btn {
           color: var(--text-muted) !important;
+          border-color: transparent !important;
+          background: transparent !important;
         }
 
         .logout-btn:hover {
-          background: var(--danger-bg) !important;
+          background: rgba(255, 107, 129, 0.08) !important;
           color: var(--danger) !important;
+          border-color: rgba(255, 107, 129, 0.15) !important;
         }
       `}</style>
     </aside>

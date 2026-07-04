@@ -146,6 +146,7 @@ export default async function ClientDetailPage({
       avgPaymentDays={avgPaymentDays}
       daysSinceLastSale={daysSinceLastSale}
       currency={business.currency}
+      businessName={business.name}
     />
   )
 }

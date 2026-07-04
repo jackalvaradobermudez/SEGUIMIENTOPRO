@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useTransition } from 'react'
 import { useForm, type Resolver } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { Calendar as CalendarIcon, Cake, Phone, RefreshCw, Bell } from 'lucide-react'
+import { Calendar as CalendarIcon, Cake, Phone, RefreshCw, Bell, Loader2 } from 'lucide-react'
 import { reminderSchema, type ReminderFormData } from '@/lib/validations/reminder'
 import { createReminderAction } from '@/app/dashboard/calendar/actions'
 import { Button } from '@/components/ui/button'
@@ -38,7 +38,7 @@ const TYPE_OPTIONS = [
 ] as const
 
 export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
-  const [submitting, setSubmitting] = useState(false)
+  const [isPending, startTransition] = useTransition()
 
   const form = useForm<ReminderFormData>({
     resolver: zodResolver(reminderSchema) as Resolver<ReminderFormData>,
@@ -52,17 +52,16 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
     },
   })
 
-  async function onSubmit(values: ReminderFormData) {
-    setSubmitting(true)
-    const result = await createReminderAction(values)
-    if (result?.error) {
-      toast.error(result.error)
-      setSubmitting(false)
-      return
-    }
-    toast.success('Recordatorio creado')
-    setSubmitting(false)
-    onSuccess()
+  function onSubmit(values: ReminderFormData) {
+    startTransition(async () => {
+      const result = await createReminderAction(values)
+      if (result?.error) {
+        toast.error(result.error)
+        return
+      }
+      toast.success('Recordatorio creado')
+      onSuccess()
+    })
   }
 
   return (
@@ -74,7 +73,7 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo</FormLabel>
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select value={field.value} onValueChange={field.onChange} disabled={isPending}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Selecciona tipo" />
@@ -106,7 +105,7 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
             <FormItem>
               <FormLabel>Título *</FormLabel>
               <FormControl>
-                <Input placeholder="Título del recordatorio" {...field} />
+                <Input placeholder="Título del recordatorio" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -120,7 +119,7 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
             <FormItem>
               <FormLabel>Descripción</FormLabel>
               <FormControl>
-                <Textarea placeholder="Detalles del recordatorio" rows={2} {...field} />
+                <Textarea placeholder="Detalles del recordatorio" rows={2} {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -136,7 +135,7 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
               <Popover>
                 <PopoverTrigger
                   render={
-                    <Button variant="outline" className={cn('w-full justify-start font-normal', !field.value && 'text-muted-foreground')} />
+                    <Button variant="outline" className={cn('w-full justify-start font-normal', !field.value && 'text-muted-foreground')} disabled={isPending} />
                   }
                 >
                   <CalendarIcon className="mr-2 size-4" />
@@ -163,7 +162,7 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
               <FormItem>
                 <FormLabel>Cliente (opcional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="ID del cliente" {...field} />
+                  <Input placeholder="ID del cliente" {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -176,7 +175,7 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
               <FormItem>
                 <FormLabel>Venta (opcional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="ID de la venta" {...field} />
+                  <Input placeholder="ID de la venta" {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -184,8 +183,15 @@ export function ReminderForm({ onSuccess }: { onSuccess: () => void }) {
           />
         </div>
 
-        <Button type="submit" id="reminder-form-submit" disabled={submitting}>
-          {submitting ? 'Guardando...' : 'Guardar recordatorio'}
+        <Button type="submit" id="reminder-form-submit" disabled={isPending}>
+          {isPending ? (
+            <>
+              <Loader2 size={14} className="mr-1.5 animate-spin" />
+              Guardando...
+            </>
+          ) : (
+            'Guardar recordatorio'
+          )}
         </Button>
       </form>
     </Form>

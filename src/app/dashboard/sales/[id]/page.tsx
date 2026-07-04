@@ -57,6 +57,7 @@ export default async function SaleDetailPage({
       payments={payments ?? []}
       collectionActions={collectionActions ?? []}
       currency={business.currency}
+      businessName={business.name}
     />
   )
 }

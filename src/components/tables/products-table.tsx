@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { Package } from 'lucide-react'
+import { StockBadge } from '@/components/inventory/StockBadge'
 import {
   Select,
   SelectContent,
@@ -106,7 +107,6 @@ export function ProductsTable({ products, currency }: { products: ProductRow[]; 
               product.cost_price != null && product.default_price > 0
                 ? Math.round(((product.default_price - product.cost_price) / product.default_price) * 100)
                 : null
-            const lowStock = product.track_stock && product.stock <= product.stock_minimum
 
             return (
               <TableRow key={product.id}>
@@ -117,9 +117,7 @@ export function ProductsTable({ products, currency }: { products: ProductRow[]; 
                 <TableCell>{margin != null ? `${margin}%` : '—'}</TableCell>
                 <TableCell>
                   {product.track_stock ? (
-                    <span className={lowStock ? 'badge-overdue rounded-full px-2 py-0.5 text-xs font-medium' : ''}>
-                      {product.stock} {lowStock ? '· Bajo stock' : ''}
-                    </span>
+                    <StockBadge stock={product.stock} minimum={product.stock_minimum} trackStock={true} />
                   ) : (
                     '—'
                   )}

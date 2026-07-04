@@ -33,6 +33,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { ClientForm } from '@/components/forms/client-form'
+import { StatementPDFButton } from '@/components/shared/pdf-download-button'
 import { deleteClientAction } from '@/app/dashboard/clients/actions'
 import {
   formatCurrency,
@@ -109,6 +110,7 @@ type ClientDetailProps = {
   avgPaymentDays: number
   daysSinceLastSale: number
   currency: string
+  businessName: string
 }
 
 export function ClientDetail({
@@ -123,6 +125,7 @@ export function ClientDetail({
   avgPaymentDays,
   daysSinceLastSale,
   currency,
+  businessName,
 }: ClientDetailProps) {
   const router = useRouter()
   const [editing, setEditing] = useState(false)
@@ -258,6 +261,20 @@ export function ClientDetail({
         </div>
 
         <div className="header-quick-links">
+          <StatementPDFButton
+            id="client-statement-pdf"
+            client={{ name: client.name, phone: client.phone, email: client.email }}
+            sales={sales.map((s) => ({
+              sale_number: s.sale_number,
+              sale_date: s.sale_date,
+              due_date: s.due_date,
+              total_amount: s.total_amount,
+              paid_amount: s.paid_amount,
+              balance: s.balance,
+              status: s.status,
+            }))}
+            business={{ name: businessName, currency }}
+          />
           {client.phone && (
             <a
               href={buildWhatsAppUrl(client.phone, whatsAppMessage)}
