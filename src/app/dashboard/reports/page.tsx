@@ -216,38 +216,40 @@ export default async function ReportsPage({
             <p className="text-sm text-[var(--text-muted)]">Sin ventas en el período.</p>
           ) : (
             <div className="sp-card">
-              <div className="sp-card-content !p-0">
-                {topClients.map(([clientId, data], i) => {
-                  const pct = totalSold > 0 ? (data.total / totalSold) * 100 : 0
-                  return (
-                    <div
-                      key={clientId}
-                      className="flex items-center gap-5 p-5 px-7 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150"
-                    >
-                      <span className="text-[15px] font-bold text-[var(--text-muted)] w-6 text-center">
-                        {i + 1}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <Link
-                          href={`/dashboard/clients/${clientId}`}
-                          className="text-sm font-semibold text-white hover:text-[var(--brand-500)] transition-colors truncate block"
-                        >
-                          {data.name}
-                        </Link>
-                        <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
-                          <div
-                            className="h-full rounded-full transition-all duration-500 bg-[var(--brand-500)]"
-                            style={{ width: `${pct}%` }}
-                          />
+              <div className="sp-card-content p-6">
+                <div className="space-y-3">
+                  {topClients.map(([clientId, data], i) => {
+                    const pct = totalSold > 0 ? (data.total / totalSold) * 100 : 0
+                    return (
+                      <div
+                        key={clientId}
+                        className="flex items-center gap-5 p-4 px-5 rounded-2xl border border-white/[0.04] bg-white/[0.01] hover:bg-white/[0.03] transition-colors duration-150"
+                      >
+                        <span className="text-[15px] font-bold text-[var(--text-muted)] w-6 text-center">
+                          {i + 1}
+                        </span>
+                        <div className="flex-1 min-w-0">
+                          <Link
+                            href={`/dashboard/clients/${clientId}`}
+                            className="text-sm font-semibold text-white hover:text-[var(--brand-500)] transition-colors truncate block"
+                          >
+                            {data.name}
+                          </Link>
+                          <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-500 bg-[var(--brand-500)]"
+                              style={{ width: `${pct}%` }}
+                            />
+                          </div>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(data.total, business.currency)}</p>
+                          <p className="text-xs text-[var(--text-muted)] mt-0.5">{data.count} venta{data.count !== 1 ? 's' : ''}</p>
                         </div>
                       </div>
-                      <div className="text-right flex-shrink-0">
-                        <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(data.total, business.currency)}</p>
-                        <p className="text-xs text-[var(--text-muted)] mt-0.5">{data.count} venta{data.count !== 1 ? 's' : ''}</p>
-                      </div>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
             </div>
           )}
@@ -260,33 +262,35 @@ export default async function ReportsPage({
             <h2 id="aging-heading" className="text-lg font-bold text-white tracking-tight">Cartera por edades</h2>
           </div>
           <div className="sp-card">
-            <div className="sp-card-content !p-0">
-              {Object.entries(AGING_BUCKETS).map(([key, bucket]) => {
-                const amount = agingBuckets[key] ?? 0
-                const pct = totalAging > 0 ? (amount / totalAging) * 100 : 0
-                return (
-                  <div key={key} className="flex items-center gap-5 p-5 px-7 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150">
-                    <div className="w-24 flex-shrink-0">
-                      <span className="text-xs font-semibold text-[var(--text-secondary)]">{bucket.label}</span>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                        <div
-                          className="h-full rounded-full transition-all duration-500"
-                          style={{
-                            width: `${pct}%`,
-                            background: key === 'current' ? 'var(--success-500)' : key === '1_30' ? 'var(--warning-500)' : 'var(--danger-500)',
-                          }}
-                        />
+            <div className="sp-card-content p-6">
+              <div className="space-y-3">
+                {Object.entries(AGING_BUCKETS).map(([key, bucket]) => {
+                  const amount = agingBuckets[key] ?? 0
+                  const pct = totalAging > 0 ? (amount / totalAging) * 100 : 0
+                  return (
+                    <div key={key} className="flex items-center gap-5 p-4 px-5 rounded-2xl border border-white/[0.04] bg-white/[0.01] hover:bg-white/[0.03] transition-colors duration-150">
+                      <div className="w-24 flex-shrink-0">
+                        <span className="text-xs font-semibold text-[var(--text-secondary)]">{bucket.label}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-500"
+                            style={{
+                              width: `${pct}%`,
+                              background: key === 'current' ? 'var(--success-500)' : key === '1_30' ? 'var(--warning-500)' : 'var(--danger-500)',
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 text-right min-w-[100px]">
+                        <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(amount, business.currency)}</p>
+                        <p className="text-xs text-[var(--text-muted)] mt-0.5 tabular-nums">{pct.toFixed(1)}%</p>
                       </div>
                     </div>
-                    <div className="flex-shrink-0 text-right min-w-[100px]">
-                      <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(amount, business.currency)}</p>
-                      <p className="text-xs text-[var(--text-muted)] mt-0.5 tabular-nums">{pct.toFixed(1)}%</p>
-                    </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           </div>
         </section>

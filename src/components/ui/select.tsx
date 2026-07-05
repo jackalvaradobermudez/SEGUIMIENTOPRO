@@ -78,19 +78,19 @@ function SelectContent({
         align={align}
         alignOffset={alignOffset}
         alignItemWithTrigger={alignItemWithTrigger}
-        className="isolate z-50"
+        className="isolate z-50 overflow-visible"
       >
         <SelectPrimitive.Popup
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
           className={cn(
-            "relative isolate z-50 max-h-(--available-height) min-w-[240px] w-(--anchor-width) overflow-x-hidden overflow-y-auto rounded-2xl border border-white/10 bg-[#1A273F] text-white shadow-[0_12px_40px_rgba(0,0,0,0.5)] p-2 focus:outline-none",
+            "relative isolate z-50 max-h-(--available-height) min-w-[240px] w-fit min-w-[var(--anchor-width)] overflow-hidden overflow-y-auto rounded-2xl border border-white/10 bg-[#1A273F] text-white shadow-[0_12px_40px_rgba(0,0,0,0.5)] p-2.5 focus:outline-none",
             className
           )}
           {...props}
         >
           <SelectScrollUpButton />
-          <SelectPrimitive.List className="py-1.5 flex flex-col gap-0.5">{children}</SelectPrimitive.List>
+          <SelectPrimitive.List className="py-1.5 flex flex-col gap-1">{children}</SelectPrimitive.List>
           <SelectScrollDownButton />
         </SelectPrimitive.Popup>
       </SelectPrimitive.Positioner>
@@ -120,12 +120,12 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex w-full cursor-pointer items-center rounded-xl py-3 px-4 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-pointer items-center rounded-xl py-3 pl-6 pr-4 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
     >
-      <SelectPrimitive.ItemText className="flex flex-1 shrink-0 gap-2 whitespace-nowrap">
+      <SelectPrimitive.ItemText className="flex flex-1 shrink-0 gap-2 overflow-visible">
         {children}
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
