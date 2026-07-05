@@ -37,7 +37,7 @@ export type ProductRow = {
 }
 
 export function ProductsTable({ products, currency }: { products: ProductRow[]; currency: string }) {
-  const [categoryFilter, setCategoryFilter] = useState('all')
+  const [categoryFilter, setCategoryFilter] = useState('')
   const [rows, setRows] = useState(products)
 
   const categories = useMemo(() => {
@@ -46,7 +46,7 @@ export function ProductsTable({ products, currency }: { products: ProductRow[]; 
   }, [rows])
 
   const filtered = useMemo(() => {
-    if (categoryFilter === 'all') return rows
+    if (categoryFilter === '') return rows
     return rows.filter((p) => p.category === categoryFilter)
   }, [rows, categoryFilter])
 
@@ -75,12 +75,12 @@ export function ProductsTable({ products, currency }: { products: ProductRow[]; 
 
   return (
     <div className="flex flex-col gap-4">
-      <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value ?? 'all')}>
-        <SelectTrigger className="w-56 h-12 rounded-2xl border border-[var(--border-subtle)] bg-white/[0.03] text-sm text-white focus:border-[var(--brand-border)] focus:bg-white/[0.04] px-4 transition-colors font-medium cursor-pointer" id="products-category-filter" aria-label="Filtrar por categoría">
+      <Select value={categoryFilter} onValueChange={(value) => setCategoryFilter(value ?? '')}>
+        <SelectTrigger className="w-56" id="products-category-filter" aria-label="Filtrar por categoría">
           <SelectValue placeholder="Todas las categorías" />
         </SelectTrigger>
-        <SelectContent className="bg-[var(--surface-2)] border border-[var(--border-subtle)] rounded-2xl text-white shadow-2xl p-1.5">
-          <SelectItem value="all">Todas las categorías</SelectItem>
+        <SelectContent>
+          <SelectItem value="">Todas las categorías</SelectItem>
           {categories.map((category) => (
             <SelectItem key={category} value={category}>
               {category}

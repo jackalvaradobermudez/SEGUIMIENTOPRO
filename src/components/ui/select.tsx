@@ -60,7 +60,7 @@ function SelectContent({
   className,
   children,
   side = "bottom",
-  sideOffset = 6,
+  sideOffset = 10,
   align = "start",
   alignOffset = 0,
   alignItemWithTrigger = false,
@@ -84,7 +84,7 @@ function SelectContent({
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
           className={cn(
-            "relative isolate z-50 max-h-(--available-height) w-(--anchor-width) min-w-[200px] overflow-x-hidden overflow-y-auto rounded-2xl border border-[var(--border-subtle)] bg-[#121A28] text-white shadow-2xl p-1.5 focus:outline-none",
+            "relative isolate z-50 max-h-(--available-height) min-w-[240px] w-(--anchor-width) overflow-x-hidden overflow-y-auto rounded-2xl border border-[var(--border-subtle)] bg-[#121A28] text-white shadow-2xl p-2 focus:outline-none",
             className
           )}
           {...props}
@@ -105,7 +105,7 @@ function SelectLabel({
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn("px-3 py-1.5 text-xs font-semibold text-slate-400", className)}
+      className={cn("px-4 py-2 text-xs font-semibold text-slate-400", className)}
       {...props}
     />
   )
@@ -120,7 +120,7 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex w-full cursor-pointer items-center gap-1.5 rounded-xl py-2 px-3 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-pointer items-center rounded-xl py-2.5 pl-4 pr-10 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
@@ -130,7 +130,7 @@ function SelectItem({
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
         render={
-          <span className="pointer-events-none absolute right-3 flex size-4 items-center justify-center" />
+          <span className="pointer-events-none absolute right-4 flex size-4 items-center justify-center" />
         }
       >
         <CheckIcon className="pointer-events-none size-4 text-[var(--brand-500)]" />
