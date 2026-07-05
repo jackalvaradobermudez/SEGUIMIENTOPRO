@@ -533,3 +533,51 @@ table td, table th {
   .sp-card-header { padding: 16px 16px 0; }
   .sp-card-content { padding: 10px 16px 16px; }
 }
+
+/* ── Forced floating element styles (overrides any library defaults) ─── */
+[data-slot="popover-content"],
+[data-slot="select-content"],
+[data-slot="dropdown-menu-content"],
+[cmdk-root] {
+  background: #1A273F !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 16px !important;
+  padding: 8px !important;
+}
+
+[data-slot="select-item"],
+[data-slot="dropdown-menu-item"],
+[cmdk-item] {
+  padding: 10px 14px !important;
+  border-radius: 10px !important;
+  margin: 1px 0 !important;
+}
+
+[data-slot="select-item"]:hover,
+[data-slot="dropdown-menu-item"]:hover,
+[cmdk-item]:hover,
+[data-slot="select-item"][data-highlighted],
+[data-slot="dropdown-menu-item"]:focus,
+[cmdk-item][data-selected="true"] {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+[data-slot="command-item"] {
+  padding: 10px 14px !important;
+  border-radius: 10px !important;
+}
+
+/* ── KPI card overflow fix ─────────────────────────────── */
+.kpi-card,
+.kpi-card * {
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  min-width: 0 !important;
+}
+
+.kpi-value {
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
