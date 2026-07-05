@@ -32,7 +32,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   }
 
   // Evitar saltos de renderizado en el cliente antes de montar
-  const sidebarWidth = mounted && isCollapsed ? '76px' : '258px'
+  const sidebarWidth = mounted && isCollapsed ? '88px' : '280px'
 
   const rootStyle = {
     '--sidebar-width': sidebarWidth,
