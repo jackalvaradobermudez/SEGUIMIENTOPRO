@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Trash2, Phone, MessageCircle, MessageSquare, MapPin, Mail, MoreHorizontal } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -67,7 +66,7 @@ export function CollectionActionsTable({
           <TableHead>Resultado</TableHead>
           <TableHead>Promesa</TableHead>
           <TableHead>Notas</TableHead>
-          <TableHead />
+          <TableHead className="text-center">Acción</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -75,38 +74,38 @@ export function CollectionActionsTable({
           const Icon = TYPE_ICON_MAP[action.action_type] ?? MoreHorizontal
           return (
             <TableRow key={action.id}>
-              <TableCell>{formatDate(action.action_date)}</TableCell>
+              <TableCell className="text-[var(--text-secondary)] tabular-nums">{formatDate(action.action_date)}</TableCell>
               <TableCell>
-                <span className="inline-flex items-center gap-1.5">
-                  <Icon className="size-4 text-muted-foreground" />
+                <span className="inline-flex items-center gap-1.5 text-white">
+                  <Icon className="size-4 text-[var(--text-secondary)]" />
+                  <span className="capitalize text-[var(--text-secondary)] text-sm">{action.action_type}</span>
                 </span>
               </TableCell>
               <TableCell>
                 <CollectionResultBadge result={action.result} />
               </TableCell>
-              <TableCell>
+              <TableCell className="text-[var(--text-secondary)] tabular-nums">
                 {action.promised_date ? (
                   <span>
                     {formatDate(action.promised_date)}
                     {action.promised_amount != null && (
-                      <> &middot; {formatCurrency(action.promised_amount, currency)}</>
+                      <> &middot; <span className="font-semibold text-white">{formatCurrency(action.promised_amount, currency)}</span></>
                     )}
                   </span>
                 ) : (
                   '—'
                 )}
               </TableCell>
-              <TableCell className="max-w-[200px] truncate">{action.notes ?? '—'}</TableCell>
-              <TableCell>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label="Eliminar gestión"
+              <TableCell className="max-w-[200px] truncate text-[var(--text-secondary)]">{action.notes ?? '—'}</TableCell>
+              <TableCell className="text-center">
+                <button
                   disabled={deletingId === action.id}
                   onClick={() => handleDelete(action.id)}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--border-subtle)] bg-white/[0.03] text-[var(--text-secondary)] hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-400 transition-colors duration-200 disabled:opacity-50 cursor-pointer"
+                  aria-label="Eliminar gestión"
                 >
                   <Trash2 className="size-4" />
-                </Button>
+                </button>
               </TableCell>
             </TableRow>
           )

@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/dialog'
 import { CollectionActionForm } from '@/components/forms/collection-action-form'
 import { CollectionResultBadge } from '@/components/shared/collection-result-badge'
-import { AGING_BUCKETS, DEFAULT_TEMPLATE_MESSAGES } from '@/lib/constants'
+import { AGING_BUCKETS } from '@/lib/constants'
 import { formatCurrency, formatDate, buildWhatsAppUrl, interpolateTemplate } from '@/lib/utils'
 import type { Database } from '@/types/database'
 
@@ -58,9 +58,11 @@ function groupByClient(rows: AgingRow[]): ClientGroup[] {
 export function AgingTable({
   rows,
   currency,
+  templates,
 }: {
   rows: AgingRow[]
   currency: string
+  templates: Record<string, string>
 }) {
   const [search, setSearch] = useState('')
   const [onlyOverdue, setOnlyOverdue] = useState(false)
@@ -145,7 +147,7 @@ export function AgingTable({
                         href={buildWhatsAppUrl(
                           group.clientPhone,
                           interpolateTemplate(
-                            DEFAULT_TEMPLATE_MESSAGES.reminder_overdue ?? '',
+                            templates.reminder_overdue ?? '',
                             {
                               nombre: group.clientName,
                               monto: formatCurrency(group.totalPending, currency),

@@ -58,7 +58,7 @@ DROP TRIGGER IF EXISTS trg_whatsapp_templates_updated ON whatsapp_templates;
 CREATE TRIGGER trg_whatsapp_templates_updated
   BEFORE UPDATE ON whatsapp_templates
   FOR EACH ROW
-  EXECUTE FUNCTION update_updated_at_column();
+  EXECUTE FUNCTION set_updated_at();
 
 -- ============================================
 -- Seed: plantillas por defecto para negocios existentes

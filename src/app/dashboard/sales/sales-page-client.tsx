@@ -110,20 +110,23 @@ export default function SalesPageClient() {
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(180deg,rgba(20,29,47,0.94),rgba(12,18,31,0.98))] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
-        <table className="w-full">
+      <div className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface">
+        <table className="w-full border-collapse">
           <thead>
-            <tr className="border-b border-white/[0.07] bg-white/[0.015]">
-              {['Venta','Cliente','Fecha','Total','Pagado','Saldo','Estado','Acciones'].map(h => (
-                <th key={h} className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-normal text-slate-400">{h}</th>
-              ))}
+            <tr className="bg-white/[0.01]">
+              {['Venta','Cliente','Fecha','Total','Pagado','Saldo','Estado','Acciones'].map(h => {
+                const isRight = ['Total', 'Pagado', 'Saldo'].includes(h)
+                return (
+                  <th key={h} className={`px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)] ${isRight ? 'text-right' : 'text-left'}`}>{h}</th>
+                )
+              })}
             </tr>
           </thead>
           <tbody>
             {filtered.map(sale => <SalesTableRow key={sale.id} sale={sale} />)}
           </tbody>
         </table>
-        <div className="border-t border-white/[0.06]">
+        <div className="border-t border-white/[0.06] bg-white/[0.01]">
           <Pagination current={page} total={44} pageSize={5} onChange={setPage} />
         </div>
       </div>

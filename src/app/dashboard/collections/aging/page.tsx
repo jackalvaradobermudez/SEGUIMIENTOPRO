@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
+import { getBusinessTemplates } from '@/lib/whatsapp/get-message'
 import { AgingSummary } from '@/components/collections/aging-summary'
 import { AgingChart } from '@/components/collections/aging-chart'
 import { AgingTable } from '@/components/collections/aging-table'
@@ -22,6 +23,8 @@ export default async function AgingReportPage() {
     .eq('business_id', business.id)
     .order('days_overdue', { ascending: false })
 
+  const templates = await getBusinessTemplates()
+
   return (
     <div className="dashboard-page animate-fade-in">
       <div className="page-header">
@@ -34,7 +37,7 @@ export default async function AgingReportPage() {
       <div className="flex flex-col gap-8">
         <AgingSummary rows={(rows ?? []) as AgingRow[]} currency={business.currency} />
         <AgingChart rows={(rows ?? []) as AgingRow[]} currency={business.currency} />
-        <AgingTable rows={(rows ?? []) as AgingRow[]} currency={business.currency} />
+        <AgingTable rows={(rows ?? []) as AgingRow[]} currency={business.currency} templates={templates} />
       </div>
     </div>
   )

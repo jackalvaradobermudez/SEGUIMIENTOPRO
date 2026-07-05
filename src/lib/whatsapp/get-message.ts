@@ -53,3 +53,34 @@ export async function getWhatsAppMessage(
     nombre_negocio: business.name,
   })
 }
+
+/**
+ * Obtiene TODAS las plantillas activas del negocio en UNA sola query.
+ * Retorna un Record<template_type, message_body> que reemplaza a DEFAULT_TEMPLATE_MESSAGES.
+ * Fallback a defaults si la query falla o no hay plantillas.
+ *
+ * Usar en Server Components que renderizan listas con múltiples botones WhatsApp
+ * para evitar N queries por N ventas.
+ */
+export async function getBusinessTemplates(): Promise<Record<string, string>> {
+  const business = await getActiveBusiness()
+  const supabase = await createClient()
+
+  const { data } = await tbl(supabase)
+    .select('template_type, message_body')
+    .eq('business_id' as never, business.id)
+    .eq('is_active' as never, true)
+    .is('deleted_at' as never, null)
+
+  const templates: Record<string, string> = { ...DEFAULT_TEMPLATE_MESSAGES }
+
+  if (data && Array.isArray(data)) {
+    for (const row of data as Array<{ template_type?: string; message_body?: string }>) {
+      if (row.template_type && row.message_body) {
+        templates[row.template_type] = row.message_body
+      }
+    }
+  }
+
+  return templates
+}

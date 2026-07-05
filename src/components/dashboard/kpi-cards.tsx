@@ -91,7 +91,7 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
   ]
 
   return (
-    <div className="kpi-grid">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
       {kpis.map((kpi, i) => {
         const Icon = kpi.icon
         return (
@@ -99,18 +99,18 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
             key={kpi.id}
             href={kpi.href}
             id={kpi.id}
-            className={`kpi-card animate-fade-in delay-${(i + 1) * 50}`}
+            className={`group relative flex flex-col gap-2.5 rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6 shadow-surface hover:shadow-surfaceHover hover:translate-y-[-2px] transition-all duration-200 animate-fade-in delay-${(i + 1) * 50}`}
             aria-label={`${kpi.label}: ${kpi.value}`}
           >
-            <div className="kpi-top">
-              <span className="kpi-label">{kpi.label}</span>
-              <div className="kpi-icon-wrapper" style={{ background: kpi.iconBg }}>
-                <Icon size={18} color={kpi.iconColor} strokeWidth={2} />
+            <div className="flex items-start justify-between gap-3">
+              <span className="text-[13px] font-semibold text-[var(--text-secondary)]">{kpi.label}</span>
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.03] text-slate-400 group-hover:text-white transition-colors">
+                <Icon size={16} strokeWidth={2} />
               </div>
             </div>
-            <div className="kpi-value">{kpi.value}</div>
-            <div className="kpi-description">{kpi.description}</div>
-            <div className="kpi-arrow">
+            <div className="text-[32px] leading-none font-bold tracking-tight text-white tabular-nums">{kpi.value}</div>
+            <div className="text-[12px] leading-4 text-[var(--text-muted)] mt-1 flex items-center gap-1.5">{kpi.description}</div>
+            <div className="absolute bottom-4 right-4 text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">
               <ArrowUpRight size={14} />
             </div>
           </Link>

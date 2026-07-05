@@ -7,51 +7,68 @@
    ================================================================ */
 
 :root {
-  /* ── Fondos ────────────────────────────────────────────── */
-  --bg:             #0B1220;
-  --bg-secondary:   #0E1525;
-  --sidebar-bg:     #0A1220;
-  --surface:        #121B2B;
-  --surface-2:      #152033;
-  --surface-3:      #1A2740;
+  /* ── Brand colors ──────────────────────────────────────── */
+  --brand-500: #7C5CFF;
+  --brand-600: #6A4EF7;
+  --brand-700: #5C43F0;
+  --brand-soft: rgba(124, 92, 255, 0.12);
+  --brand-soft-2: rgba(124, 92, 255, 0.18);
+  --brand-border: rgba(124, 92, 255, 0.28);
+  --brand-glow: rgba(124, 92, 255, 0.24);
 
-  /* ── Bordes ────────────────────────────────────────────── */
-  --border-subtle:   rgba(255, 255, 255, 0.08);
-  --border:          rgba(255, 255, 255, 0.10);
-  --border-strong:   rgba(255, 255, 255, 0.14);
-  --border-accent:   rgba(124, 92, 255, 0.35);
+  /* ── Base / surfaces ───────────────────────────────────── */
+  --bg-app: #0A0F17;
+  --bg-canvas: #0D1420;
+  --bg-shell: #0B121D;
+  --surface-1: #111A28;
+  --surface-2: #162132;
+  --surface-3: #1A2840;
 
-  /* ── Tipografía ────────────────────────────────────────── */
-  --text-primary:    #F5F7FB;
-  --text-secondary:  #AAB4C8;
-  --text-muted:      #7F8AA3;
-  --text:            #F5F7FB;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.14);
 
-  /* ── Marca / acentos ───────────────────────────────────── */
-  --accent:          #7C5CFF;
-  --accent-2:        #5B3DF5;
-  --accent-soft:     rgba(124, 92, 255, 0.16);
-  --accent-ring:     rgba(124, 92, 255, 0.35);
-  --accent-glow:     rgba(124, 92, 255, 0.25);
+  --text-primary: #F5F7FB;
+  --text-secondary: #AAB4C8;
+  --text-muted: #7F8AA3;
+
+  /* ── Semantic tokens ───────────────────────────────────── */
+  --info-500: #26C6FF;
+  --info-soft: rgba(38, 198, 255, 0.14);
+  --info-border: rgba(38, 198, 255, 0.30);
+
+  --success-500: #35D07F;
+  --success-soft: rgba(53, 208, 127, 0.14);
+  --success-border: rgba(53, 208, 127, 0.30);
+
+  --warning-500: #F4B24D;
+  --warning-soft: rgba(244, 178, 77, 0.14);
+  --warning-border: rgba(244, 178, 77, 0.30);
+
+  --danger-500: #F05D6C;
+  --danger-soft: rgba(240, 93, 108, 0.14);
+  --danger-border: rgba(240, 93, 108, 0.30);
+
+  /* ── Mapas retrocompatibles ────────────────────────────── */
+  --bg:             var(--bg-app);
+  --bg-secondary:   var(--bg-canvas);
+  --sidebar-bg:     var(--bg-shell);
+  --surface:        var(--surface-1);
+  --border:          var(--border-medium);
+  --border-accent:   var(--brand-border);
+  --text:            var(--text-primary);
+  --accent:          var(--brand-500);
+  --accent-2:        var(--brand-600);
+  --accent-soft:     var(--brand-soft);
+  --accent-ring:     var(--brand-border);
+  --accent-glow:     var(--brand-glow);
   --text-accent:     #A78BFA;
-
-  /* ── Cian ───────────────────────────────────────────────── */
-  --cyan:            #26C6FF;
-  --cyan-soft:       rgba(38, 198, 255, 0.14);
-  --cyan-border:     rgba(38, 198, 255, 0.35);
-
-  /* ── Estados ────────────────────────────────────────────── */
-  --success:         #35D07F;
-  --success-soft:    rgba(53, 208, 127, 0.14);
-  --success-border:  rgba(53, 208, 127, 0.35);
-
-  --warning:         #F4B24D;
-  --warning-soft:    rgba(244, 178, 77, 0.14);
-  --warning-border:  rgba(244, 178, 77, 0.35);
-
-  --danger:          #F05D6C;
-  --danger-soft:     rgba(240, 93, 108, 0.14);
-  --danger-border:   rgba(240, 93, 108, 0.35);
+  --cyan:            var(--info-500);
+  --cyan-soft:       var(--info-soft);
+  --cyan-border:     var(--info-border);
+  --success:         var(--success-500);
+  --warning:         var(--warning-500);
+  --danger:          var(--danger-500);
 
   /* ── Tipografía familias ───────────────────────────────── */
   --font-display:   'Outfit', system-ui, sans-serif;
@@ -89,9 +106,9 @@
   --radius-full: 9999px;
 
   /* ── Sombras ───────────────────────────────────────────── */
-  --shadow-card:    0 10px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  --shadow-glow:    0 10px 30px rgba(124, 92, 255, 0.25);
-  --shadow-glow-lg: 0 10px 30px rgba(124, 92, 255, 0.35);
+  --shadow-card:    0 10px 30px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --shadow-glow:    var(--brand-glow);
+  --shadow-glow-lg: 0 12px 28px rgba(124, 92, 255, 0.24);
 
   /* ── Easings ────────────────────────────────────────────── */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -354,15 +371,16 @@ input::placeholder, textarea::placeholder { color: var(--text-muted) !important;
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-2xl);
   overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-1);
+  box-shadow: var(--shadow-card);
 }
-.data-table thead tr { background: var(--surface-2); }
+.data-table thead tr { background: rgba(255, 255, 255, 0.01); }
 .data-table thead th {
-  padding: 14px 20px;
-  font-size: 11px;
+  padding: 16px 24px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -371,14 +389,14 @@ input::placeholder, textarea::placeholder { color: var(--text-muted) !important;
   border-bottom: 1px solid var(--border-subtle);
 }
 .data-table tbody td {
-  padding: 14px 20px;
+  padding: 16px 24px;
   font-size: var(--text-sm);
   color: var(--text);
   border-bottom: 1px solid var(--border-subtle);
   vertical-align: middle;
 }
 .data-table tbody tr { transition: background var(--transition-fast); }
-.data-table tbody tr:hover { background: var(--surface-2); }
+.data-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
 .data-table tbody tr:last-child td { border-bottom: none; }
 
 /* ── shadcn Table override (used by sales, clients, etc.) ── */

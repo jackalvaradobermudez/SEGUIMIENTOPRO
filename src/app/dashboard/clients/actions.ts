@@ -116,3 +116,42 @@ export async function deleteClientAction(clientId: string) {
   revalidatePath('/dashboard/clients')
   return { success: true }
 }
+
+export async function bulkCreateClientsAction(clients: Array<{
+  name: string
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  company?: string | null
+  id_number?: string | null
+  birthday?: string | null
+  notes?: string | null
+}>) {
+  const business = await getActiveBusiness()
+  const supabase = await createClient()
+
+  // Mapeamos los clientes para insertarlos en Supabase
+  const rows = clients.map((client) => ({
+    business_id: business.id,
+    name: client.name,
+    phone: client.phone ? client.phone.trim() : null,
+    email: client.email ? client.email.trim() : null,
+    address: client.address ? client.address.trim() : null,
+    company: client.company ? client.company.trim() : null,
+    id_number: client.id_number ? client.id_number.trim() : null,
+    birthday: client.birthday ? client.birthday.trim() : null,
+    notes: client.notes ? client.notes.trim() : null,
+    tags: null,
+    deleted_at: null,
+  }))
+
+  const { error } = await supabase.from('clients').insert(rows)
+
+  if (error) {
+    console.error('Error inserting clients:', error)
+    return { error: 'Ocurrió un error al guardar los clientes en la base de datos.' }
+  }
+
+  revalidatePath('/dashboard/clients')
+  return { success: true, count: rows.length }
+}

@@ -977,3 +977,10 @@ export const Constants = {
     },
   },
 } as const
+
+export type WhatsAppTemplateType =
+  | 'reminder_soft'
+  | 'reminder_due_day'
+  | 'reminder_overdue'
+  | 'payment_thanks'
+  | 'account_statement'

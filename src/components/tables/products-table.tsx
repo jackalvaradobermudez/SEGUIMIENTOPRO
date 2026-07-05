@@ -94,11 +94,11 @@ export function ProductsTable({ products, currency }: { products: ProductRow[]; 
           <TableRow>
             <TableHead>Nombre</TableHead>
             <TableHead>Categoría</TableHead>
-            <TableHead>Precio</TableHead>
-            <TableHead>Costo</TableHead>
-            <TableHead>Margen</TableHead>
-            <TableHead>Stock</TableHead>
-            <TableHead>Estado</TableHead>
+            <TableHead className="text-right">Precio</TableHead>
+            <TableHead className="text-right">Costo</TableHead>
+            <TableHead className="text-right">Margen</TableHead>
+            <TableHead className="text-right">Stock</TableHead>
+            <TableHead className="text-center">Estado</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -110,24 +110,30 @@ export function ProductsTable({ products, currency }: { products: ProductRow[]; 
 
             return (
               <TableRow key={product.id}>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{product.category ?? '—'}</TableCell>
-                <TableCell>{formatCurrency(product.default_price, currency)}</TableCell>
-                <TableCell>{product.cost_price != null ? formatCurrency(product.cost_price, currency) : '—'}</TableCell>
-                <TableCell>{margin != null ? `${margin}%` : '—'}</TableCell>
-                <TableCell>
+                <TableCell className="font-semibold text-white">{product.name}</TableCell>
+                <TableCell className="text-[var(--text-secondary)]">{product.category ?? '—'}</TableCell>
+                <TableCell className="text-right font-medium text-white tabular-nums">{formatCurrency(product.default_price, currency)}</TableCell>
+                <TableCell className="text-right text-[var(--text-secondary)] tabular-nums">
+                  {product.cost_price != null ? formatCurrency(product.cost_price, currency) : '—'}
+                </TableCell>
+                <TableCell className="text-right text-[var(--text-secondary)] tabular-nums">
+                  {margin != null ? `${margin}%` : '—'}
+                </TableCell>
+                <TableCell className="text-right tabular-nums">
                   {product.track_stock ? (
                     <StockBadge stock={product.stock} minimum={product.stock_minimum} trackStock={true} />
                   ) : (
                     '—'
                   )}
                 </TableCell>
-                <TableCell>
-                  <Switch
-                    checked={product.is_active}
-                    onCheckedChange={(checked) => handleToggle(product.id, checked)}
-                    aria-label={product.is_active ? 'Desactivar producto' : 'Activar producto'}
-                  />
+                <TableCell className="text-center">
+                  <div className="inline-flex items-center justify-center">
+                    <Switch
+                      checked={product.is_active}
+                      onCheckedChange={(checked) => handleToggle(product.id, checked)}
+                      aria-label={product.is_active ? 'Desactivar producto' : 'Activar producto'}
+                    />
+                  </div>
                 </TableCell>
               </TableRow>
             )

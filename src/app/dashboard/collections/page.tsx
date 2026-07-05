@@ -14,7 +14,7 @@ import {
   CreditCard,
 } from 'lucide-react'
 import { formatCurrency, formatDate, daysBetween, buildWhatsAppUrl, interpolateTemplate } from '@/lib/utils'
-import { DEFAULT_TEMPLATE_MESSAGES } from '@/lib/constants'
+import { getBusinessTemplates } from '@/lib/whatsapp/get-message'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -122,6 +122,8 @@ export default async function CollectionsPage() {
       .order('balance', { ascending: false })
       .limit(10),
   ])
+
+  const templates = await getBusinessTemplates()
 
   const totalOverdue = portfolio?.total_overdue ?? 0
   const hasOverdue = totalOverdue > 0
@@ -279,7 +281,7 @@ export default async function CollectionsPage() {
                           href={buildWhatsAppUrl(
                             sale.clientPhone,
                             interpolateTemplate(
-                              DEFAULT_TEMPLATE_MESSAGES.reminder_due_day ?? '',
+                              templates.reminder_due_day ?? '',
                               {
                                 nombre: sale.clientName,
                                 monto: formatCurrency(sale.balance, business.currency),
@@ -383,8 +385,8 @@ export default async function CollectionsPage() {
                             item.client_phone,
                             interpolateTemplate(
                               daysLeft === 0
-                                ? (DEFAULT_TEMPLATE_MESSAGES.reminder_due_day ?? '')
-                                : (DEFAULT_TEMPLATE_MESSAGES.reminder_soft ?? ''),
+                                ? (templates.reminder_due_day ?? '')
+                                : (templates.reminder_soft ?? ''),
                               {
                                 nombre: item.client_name ?? 'Cliente',
                                 monto: formatCurrency(item.balance ?? 0, business.currency),

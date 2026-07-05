@@ -3,6 +3,7 @@ import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { BusinessSettingsForm } from '@/components/forms/business-settings-form'
 import { GoalForm } from '@/components/forms/goal-form'
 import { WhatsAppTemplatesSection } from '@/components/settings/whatsapp-templates-section'
+import { NotificationsSettingsCard } from '@/components/settings/notifications-settings-card'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LogoutButton } from './logout-button'
 import type { Metadata } from 'next'
@@ -64,6 +65,8 @@ export default async function SettingsPage() {
         </Card>
 
         <WhatsAppTemplatesSection />
+
+        <NotificationsSettingsCard />
 
         <Card>
           <CardHeader>

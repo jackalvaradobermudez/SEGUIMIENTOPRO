@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { formatCurrency } from '@/lib/utils'
-import { ExportCSVButton } from '@/components/reports/export-csv-button'
+import { ExportDataDropdown } from '@/components/reports/export-data-dropdown'
 import { AGING_BUCKETS, SALE_STATUS_BADGE_CLASS, SALE_STATUS_LABEL } from '@/lib/constants'
 import { TrendingUp, Users, Package, BarChart3, AlertTriangle } from 'lucide-react'
 import Link from 'next/link'
@@ -161,8 +161,8 @@ export default async function ReportsPage({
           <h1 className="page-title">Reportes</h1>
           <p className="page-subtitle">Análisis de ventas y cartera — {periodLabel}</p>
         </div>
-        <ExportCSVButton
-          id="reports-export-csv"
+        <ExportDataDropdown
+          id="reports-export-data"
           data={csvData}
           currency={business.currency}
           filename={`reporte-${period}`}

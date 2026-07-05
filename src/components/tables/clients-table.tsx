@@ -48,13 +48,13 @@ export function ClientsTable({ clients, currency }: { clients: ClientRow[]; curr
   return (
     <div className="flex flex-col gap-4">
       <div className="relative max-w-sm">
-        <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+        <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[var(--text-muted)]" />
         <Input
           id="clients-search"
           placeholder="Buscar por nombre o teléfono..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-9"
+          className="pl-10 h-12 rounded-2xl border border-[var(--border-subtle)] bg-white/[0.03] text-sm text-white placeholder:text-[var(--text-muted)] focus:border-[var(--brand-border)] focus:bg-white/[0.04] transition-colors focus-visible:ring-0"
           aria-label="Buscar clientes"
         />
       </div>
@@ -64,30 +64,30 @@ export function ClientsTable({ clients, currency }: { clients: ClientRow[]; curr
           <TableRow>
             <TableHead>Nombre</TableHead>
             <TableHead>Teléfono</TableHead>
-            <TableHead>Saldo pendiente</TableHead>
+            <TableHead className="text-right">Saldo pendiente</TableHead>
             <TableHead>Última compra</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {filtered.map((client) => (
             <TableRow key={client.id} className="cursor-pointer">
-              <TableCell>
-                <Link href={`/dashboard/clients/${client.id}`} className="text-foreground hover:text-accent">
+              <TableCell className="font-semibold text-white">
+                <Link href={`/dashboard/clients/${client.id}`} className="text-white hover:text-[var(--brand-500)] transition-colors">
                   {client.name}
                 </Link>
               </TableCell>
-              <TableCell>{client.phone ?? '—'}</TableCell>
-              <TableCell className={client.pendingBalance > 0 ? 'text-[var(--warning)]' : ''}>
+              <TableCell className="text-[var(--text-secondary)]">{client.phone ?? '—'}</TableCell>
+              <TableCell className={client.pendingBalance > 0 ? 'text-right font-semibold text-[var(--warning-500)] tabular-nums' : 'text-right text-[var(--text-secondary)] tabular-nums'}>
                 {formatCurrency(client.pendingBalance, currency)}
               </TableCell>
-              <TableCell>{client.lastSaleDate ? formatDate(client.lastSaleDate) : '—'}</TableCell>
+              <TableCell className="text-[var(--text-secondary)] tabular-nums">{client.lastSaleDate ? formatDate(client.lastSaleDate) : '—'}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
 
       {filtered.length === 0 && (
-        <p className="text-sm text-muted-foreground">No se encontraron clientes con ese criterio de búsqueda.</p>
+        <p className="text-sm text-[var(--text-muted)] mt-2">No se encontraron clientes con ese criterio de búsqueda.</p>
       )}
     </div>
   )

@@ -1,9 +1,10 @@
 'use client'
 
-import { Bell, ChevronDown, Plus, Search, Settings, ShoppingCart, Users, CreditCard, LayoutDashboard } from 'lucide-react'
+import { ChevronDown, Plus, Search, Settings, ShoppingCart, Users, CreditCard, LayoutDashboard } from 'lucide-react'
 import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 import { User } from '@supabase/supabase-js'
+import { NotificationsDropdown } from '@/components/layout/notifications-dropdown'
 
 interface HeaderProps {
   user: User | null
@@ -31,7 +32,7 @@ export default function Header({ user }: HeaderProps) {
   }, [])
 
   return (
-    <header className="dashboard-header flex h-[90px] items-center justify-between px-9">
+    <header className="dashboard-header flex h-[88px] items-center justify-between px-9">
       {/* Left: Avatar + Name + Enlaces Rápidos (Iconos) */}
       <div className="flex items-center gap-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-full border border-violet-400/40 bg-gradient-to-br from-violet-500/45 to-slate-900 text-sm font-bold text-white shadow-[0_0_22px_rgba(124,92,255,0.22)] flex-shrink-0">
@@ -77,12 +78,12 @@ export default function Header({ user }: HeaderProps) {
       </div>
 
       {/* Center: Search */}
-      <div className="hidden md:flex h-11 w-[320px] lg:w-[388px] items-center gap-3 rounded-lg border border-white/10 bg-white/[0.025] px-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.025)]">
+      <div className="hidden md:flex h-12 w-[320px] lg:w-[388px] items-center gap-3 rounded-2xl border border-[var(--border-subtle)] bg-white/[0.03] px-4 transition-colors duration-200 focus-within:border-[var(--brand-border)] focus-within:bg-white/[0.04]">
         <Search size={18} className="text-slate-400" />
         <input
           type="text"
           placeholder="Buscar clientes, ventas, cobros..."
-          className="flex-1 bg-transparent text-sm text-white placeholder:text-slate-500 outline-none border-none shadow-none ring-0 focus:outline-none"
+          className="flex-1 bg-transparent text-sm text-white placeholder:text-[var(--text-muted)] outline-none border-none shadow-none ring-0 focus:outline-none"
         />
         <div className="flex items-center gap-1 rounded-md border border-white/10 bg-white/[0.035] px-2 py-0.5 text-[11px] text-slate-400">
           <span>⌘</span>
@@ -96,7 +97,7 @@ export default function Header({ user }: HeaderProps) {
         <div className="relative" ref={quickMenuRef}>
           <button
             onClick={() => setIsQuickMenuOpen(!isQuickMenuOpen)}
-            className="inline-flex h-11 items-center gap-2.5 overflow-hidden rounded-lg bg-gradient-to-r from-[#8A62FF] to-[#5B35F5] pl-6 pr-5 text-sm font-semibold text-white shadow-[0_12px_32px_rgba(124,92,255,0.36)] transition-all duration-200 hover:translate-y-[-1px] hover:shadow-[0_16px_38px_rgba(124,92,255,0.44)] cursor-pointer"
+            className="inline-flex h-12 items-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-700)] pl-6 pr-5 text-sm font-semibold text-white shadow-brand transition-all duration-200 hover:brightness-105 cursor-pointer"
           >
             <Plus size={17} />
             <span>Crear</span>
@@ -147,17 +148,14 @@ export default function Header({ user }: HeaderProps) {
         {/* Configuración Rápida */}
         <Link
           href="/dashboard/settings"
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.025] text-slate-300 transition-all duration-200 hover:bg-white/[0.06] hover:text-white"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border-subtle)] bg-white/[0.03] text-[var(--text-secondary)] transition-all duration-200 hover:bg-white/[0.06] hover:text-white"
           title="Configuración"
         >
-          <Settings size={18} />
+          <Settings size={17} />
         </Link>
 
         {/* Notificaciones */}
-        <button className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/[0.025] text-slate-300 transition-all duration-200 hover:bg-white/[0.06] hover:text-white">
-          <Bell size={18} />
-          <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-violet-600 text-[11px] font-bold text-white">3</span>
-        </button>
+        <NotificationsDropdown />
 
         {/* Avatar y Perfil */}
         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#5B3DF5] to-[#201B68] text-sm font-bold text-white shadow-[0_0_24px_rgba(91,61,245,0.3)]">

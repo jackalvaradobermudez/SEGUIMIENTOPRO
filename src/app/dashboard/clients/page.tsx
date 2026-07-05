@@ -3,6 +3,7 @@ import { UserPlus } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { ClientsTable, type ClientRow } from '@/components/tables/clients-table'
+import { ImportCsvModal } from '@/components/clients/import-csv-modal'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -52,10 +53,13 @@ export default async function ClientsPage() {
           <p className="page-subtitle">Gestiona tus clientes y su saldo pendiente</p>
         </div>
 
-        <Link href="/dashboard/clients/new" id="new-client-button" className="quick-link">
-          <UserPlus size={16} />
-          Nuevo cliente
-        </Link>
+        <div className="header-quick-links">
+          <ImportCsvModal />
+          <Link href="/dashboard/clients/new" id="new-client-button" className="quick-link">
+            <UserPlus size={16} />
+            Nuevo cliente
+          </Link>
+        </div>
       </div>
 
       <ClientsTable clients={rows} currency={business.currency} />
