@@ -90,7 +90,7 @@ function SelectContent({
           {...props}
         >
           <SelectScrollUpButton />
-          <SelectPrimitive.List>{children}</SelectPrimitive.List>
+          <SelectPrimitive.List className="py-1.5 flex flex-col gap-0.5">{children}</SelectPrimitive.List>
           <SelectScrollDownButton />
         </SelectPrimitive.Popup>
       </SelectPrimitive.Positioner>
@@ -105,7 +105,7 @@ function SelectLabel({
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn("px-4 py-2 text-xs font-semibold text-slate-400", className)}
+      className={cn("px-5 py-2 text-xs font-semibold text-slate-400", className)}
       {...props}
     />
   )
@@ -120,7 +120,7 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex w-full cursor-pointer items-center rounded-xl py-2.5 pl-4 pr-10 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-pointer items-center rounded-xl py-3 pl-6 pr-12 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
