@@ -84,7 +84,7 @@ function SelectContent({
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
           className={cn(
-            "relative isolate z-50 max-h-(--available-height) min-w-[240px] w-(--anchor-width) overflow-x-hidden overflow-y-auto rounded-2xl border border-[var(--border-subtle)] bg-[#121A28] text-white shadow-2xl p-2 focus:outline-none",
+            "relative isolate z-50 max-h-(--available-height) min-w-[240px] w-(--anchor-width) overflow-x-hidden overflow-y-auto rounded-2xl border border-white/10 bg-[#1A273F] text-white shadow-[0_12px_40px_rgba(0,0,0,0.5)] p-2 focus:outline-none",
             className
           )}
           {...props}
@@ -120,7 +120,7 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex w-full cursor-pointer items-center rounded-xl py-3 pl-6 pr-12 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-pointer items-center rounded-xl py-3 px-4 text-sm text-slate-300 outline-none select-none hover:bg-white/5 hover:text-white focus:bg-white/5 focus:text-white data-disabled:pointer-events-none data-disabled:opacity-50 transition-colors [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
