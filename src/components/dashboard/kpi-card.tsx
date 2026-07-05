@@ -1,4 +1,3 @@
-import { ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface KpiCardProps {
@@ -6,8 +5,8 @@ interface KpiCardProps {
   value: string
   subtitle?: string
   icon: React.ReactNode
-  iconBg: string
-  sparklineColor: string
+  iconBg?: string
+  sparklineColor?: string
   deltaText?: string
   deltaClassName?: string
   subtitleClassName?: string
@@ -20,11 +19,9 @@ export function KpiCard({
   value,
   subtitle,
   icon,
-  iconBg,
-  sparklineColor,
   deltaText,
-  deltaClassName = 'text-emerald-400',
-  subtitleClassName = 'text-slate-500',
+  deltaClassName = 'text-[var(--success-500)]',
+  subtitleClassName = 'text-[var(--text-muted)]',
   href,
   className,
 }: KpiCardProps) {
@@ -35,38 +32,31 @@ export function KpiCard({
     <Wrapper
       {...wrapperProps}
       className={cn(
-        'group relative flex min-h-[122px] min-w-0 items-center gap-5 overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(145deg,rgba(21,31,50,0.96),rgba(12,19,33,0.98))] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] transition-all duration-200 hover:border-white/[0.16] hover:shadow-[0_18px_45px_rgba(0,0,0,0.28)]',
+        'group relative flex flex-col gap-2.5 rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6 shadow-surface hover:shadow-surfaceHover hover:translate-y-[-2px] transition-all duration-200 min-w-0',
         className,
       )}
     >
-      <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl', iconBg)}>
-        {icon}
+      <div className="flex items-start justify-between gap-3">
+        <span className="text-[13px] font-semibold text-[var(--text-secondary)] truncate">{label}</span>
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.03] text-slate-400 group-hover:text-white transition-colors flex-shrink-0">
+          {icon}
+        </div>
       </div>
-      <div className="min-w-0 flex-1 pr-16">
-        <p className="truncate text-[14px] font-medium text-slate-400">{label}</p>
-        <p className="mt-1 font-outfit text-[26px] font-semibold leading-none tracking-[-0.02em] text-white">{value}</p>
-        {subtitle && deltaText && <p className="mt-1 text-xs text-slate-500">{subtitle}</p>}
+      <div className="flex flex-col gap-1.5 mt-0.5">
+        <div className="text-[28px] leading-none font-bold tracking-tight text-white tabular-nums truncate">{value}</div>
+        
+        {/* Info secundaria/Delta */}
         {deltaText && (
-          <div className="mt-3 flex items-center gap-1 text-xs text-slate-500">
-            <ArrowUpRight size={12} className={deltaClassName} />
-            <span className={cn('font-semibold', deltaClassName)}>{deltaText}</span>
+          <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
+            <span className={cn('font-semibold tabular-nums', deltaClassName)}>{deltaText}</span>
             <span>vs mes anterior</span>
           </div>
         )}
-        {subtitle && !deltaText && (
-          <p className={cn('mt-3 text-[13px] font-semibold', subtitleClassName)}>{subtitle}</p>
+        
+        {subtitle && (
+          <p className={cn('text-xs font-medium tabular-nums', subtitleClassName)}>{subtitle}</p>
         )}
       </div>
-      <svg width="104" height="42" viewBox="0 0 104 42" className="absolute bottom-5 right-5 opacity-95">
-        <polyline
-          points="0,34 9,34 16,26 25,28 33,16 43,21 52,10 62,12 72,25 82,18 91,23 104,7"
-          fill="none"
-          stroke={sparklineColor}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
     </Wrapper>
   )
 }

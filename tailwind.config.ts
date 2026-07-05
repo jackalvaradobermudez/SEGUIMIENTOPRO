@@ -26,6 +26,41 @@ const config: Config = {
         success: "var(--success-500)",
         warning: "var(--warning-500)",
         danger: "var(--danger-500)",
+
+        // Shadcn semanticos de compatibilidad
+        border: "var(--border-medium)",
+        input: "var(--surface-2)",
+        ring: "var(--brand-500)",
+        background: "var(--bg-app)",
+        foreground: "var(--text-primary)",
+        primary: {
+          DEFAULT: "var(--brand-500)",
+          foreground: "#ffffff",
+        },
+        secondary: {
+          DEFAULT: "var(--surface-2)",
+          foreground: "var(--text-secondary)",
+        },
+        destructive: {
+          DEFAULT: "var(--danger-500)",
+          foreground: "#ffffff",
+        },
+        muted: {
+          DEFAULT: "var(--surface-2)",
+          foreground: "var(--text-muted)",
+        },
+        accent: {
+          DEFAULT: "var(--brand-soft)",
+          foreground: "var(--text-primary)",
+        },
+        popover: {
+          DEFAULT: "var(--surface-2)",
+          foreground: "var(--text-primary)",
+        },
+        card: {
+          DEFAULT: "var(--surface-1)",
+          foreground: "var(--text-primary)",
+        },
       },
       borderRadius: {
         '4xl': '28px',

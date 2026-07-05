@@ -4,6 +4,7 @@ import { formatCurrency } from '@/lib/utils'
 import { ExportDataDropdown } from '@/components/reports/export-data-dropdown'
 import { AGING_BUCKETS, SALE_STATUS_BADGE_CLASS, SALE_STATUS_LABEL } from '@/lib/constants'
 import { TrendingUp, Users, Package, BarChart3, AlertTriangle } from 'lucide-react'
+import { KpiCard } from '@/components/dashboard/kpi-card'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -158,8 +159,8 @@ export default async function ReportsPage({
       {/* Header */}
       <div className="page-header">
         <div>
-          <h1 className="page-title">Reportes</h1>
-          <p className="page-subtitle">Análisis de ventas y cartera — {periodLabel}</p>
+          <h1 className="page-title text-[32px] font-bold text-white tracking-tight">Reportes</h1>
+          <p className="page-subtitle text-slate-400">Análisis de ventas y cartera — {periodLabel}</p>
         </div>
         <ExportDataDropdown
           id="reports-export-data"
@@ -170,16 +171,16 @@ export default async function ReportsPage({
       </div>
 
       {/* Filtros de período */}
-      <div className="mb-6 flex flex-wrap gap-1 rounded-[var(--radius-md)] border border-[var(--border)] p-1 w-fit">
+      <div className="mb-8 flex flex-wrap gap-1 rounded-2xl border border-[var(--border-subtle)] bg-white/[0.02] p-1 w-fit">
         {PERIODS.map((p) => (
           <Link
             key={p.value}
             href={`/dashboard/reports?period=${p.value}`}
             id={`report-period-${p.value}`}
-            className={`rounded-[var(--radius-sm)] px-3 py-1.5 text-sm font-medium transition-colors ${
+            className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
               period === p.value
-                ? 'bg-[var(--accent-light)] text-[var(--text-accent)]'
-                : 'text-muted-foreground hover:text-foreground'
+                ? 'bg-[var(--brand-soft)] border border-[var(--brand-border)] text-white shadow-[0_0_0_1px_rgba(124,92,255,0.10)]'
+                : 'text-[var(--text-secondary)] hover:text-white hover:bg-white/[0.04]'
             }`}
           >
             {p.label}
@@ -188,24 +189,18 @@ export default async function ReportsPage({
       </div>
 
       {/* KPI Cards */}
-      <div className="mb-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {KPI_DATA.map((kpi) => {
+      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {KPI_DATA.map((kpi, idx) => {
           const Icon = kpi.icon
+          const deltaColor = idx === 1 ? 'text-[var(--success-500)]' : idx === 2 ? 'text-[var(--warning-500)]' : 'text-[var(--danger-500)]'
           return (
-            <div
+            <KpiCard
               key={kpi.label}
-              className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-5"
-            >
-              <div className="mb-2 flex items-center gap-2">
-                <Icon size={16} style={{ color: kpi.color }} />
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  {kpi.label}
-                </p>
-              </div>
-              <p className="font-display text-xl font-bold" style={{ color: kpi.color }}>
-                {kpi.value}
-              </p>
-            </div>
+              label={kpi.label}
+              value={kpi.value}
+              icon={<Icon size={16} />}
+              deltaClassName={deltaColor}
+            />
           )
         })}
       </div>
@@ -214,40 +209,40 @@ export default async function ReportsPage({
         {/* Top Clientes */}
         <section aria-labelledby="top-clients-heading">
           <div className="mb-4 flex items-center gap-2">
-            <Users size={18} style={{ color: 'var(--accent)' }} />
-            <h2 id="top-clients-heading" className="section-title">Top clientes</h2>
+            <Users size={18} className="text-[var(--brand-500)]" />
+            <h2 id="top-clients-heading" className="text-lg font-bold text-white tracking-tight">Top clientes</h2>
           </div>
           {topClients.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Sin ventas en el período.</p>
+            <p className="text-sm text-[var(--text-muted)]">Sin ventas en el período.</p>
           ) : (
-            <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
+            <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface overflow-hidden">
               {topClients.map(([clientId, data], i) => {
                 const pct = totalSold > 0 ? (data.total / totalSold) * 100 : 0
                 return (
                   <div
                     key={clientId}
-                    className="flex items-center gap-4 p-4 border-b border-[var(--border)] last:border-0"
+                    className="flex items-center gap-4 p-5 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150"
                   >
-                    <span className="text-lg font-bold text-muted-foreground w-6 text-center">
+                    <span className="text-[15px] font-bold text-[var(--text-muted)] w-6 text-center">
                       {i + 1}
                     </span>
                     <div className="flex-1 min-w-0">
                       <Link
                         href={`/dashboard/clients/${clientId}`}
-                        className="text-sm font-medium text-[var(--text)] hover:text-[var(--accent)] truncate block"
+                        className="text-sm font-semibold text-white hover:text-[var(--brand-500)] transition-colors truncate block"
                       >
                         {data.name}
                       </Link>
-                      <div className="mt-1.5 h-1.5 rounded-full bg-[var(--surface-2)] overflow-hidden">
+                      <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
                         <div
-                          className="h-full rounded-full transition-all"
-                          style={{ width: `${pct}%`, background: 'var(--accent)' }}
+                          className="h-full rounded-full transition-all duration-500 bg-[var(--brand-500)]"
+                          style={{ width: `${pct}%` }}
                         />
                       </div>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-bold">{formatCurrency(data.total, business.currency)}</p>
-                      <p className="text-xs text-muted-foreground">{data.count} venta{data.count !== 1 ? 's' : ''}</p>
+                      <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(data.total, business.currency)}</p>
+                      <p className="text-xs text-[var(--text-muted)] mt-0.5">{data.count} venta{data.count !== 1 ? 's' : ''}</p>
                     </div>
                   </div>
                 )
@@ -259,32 +254,32 @@ export default async function ReportsPage({
         {/* Cartera por edades */}
         <section aria-labelledby="aging-heading">
           <div className="mb-4 flex items-center gap-2">
-            <BarChart3 size={18} style={{ color: 'var(--accent)' }} />
-            <h2 id="aging-heading" className="section-title">Cartera por edades</h2>
+            <BarChart3 size={18} className="text-[var(--brand-500)]" />
+            <h2 id="aging-heading" className="text-lg font-bold text-white tracking-tight">Cartera por edades</h2>
           </div>
-          <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] overflow-hidden">
+          <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface overflow-hidden">
             {Object.entries(AGING_BUCKETS).map(([key, bucket]) => {
               const amount = agingBuckets[key] ?? 0
               const pct = totalAging > 0 ? (amount / totalAging) * 100 : 0
               return (
-                <div key={key} className="flex items-center gap-4 p-4 border-b border-[var(--border)] last:border-0">
+                <div key={key} className="flex items-center gap-4 p-5 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150">
                   <div className="w-24 flex-shrink-0">
-                    <span className="text-xs font-medium text-muted-foreground">{bucket.label}</span>
+                    <span className="text-xs font-semibold text-[var(--text-secondary)]">{bucket.label}</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="h-2 rounded-full bg-[var(--surface-2)] overflow-hidden">
+                    <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
                       <div
-                        className="h-full rounded-full transition-all"
+                        className="h-full rounded-full transition-all duration-500"
                         style={{
                           width: `${pct}%`,
-                          background: key === 'current' ? 'var(--success)' : key === '1_30' ? 'var(--warning)' : 'var(--danger)',
+                          background: key === 'current' ? 'var(--success-500)' : key === '1_30' ? 'var(--warning-500)' : 'var(--danger-500)',
                         }}
                       />
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right min-w-[100px]">
-                    <p className="text-sm font-bold">{formatCurrency(amount, business.currency)}</p>
-                    <p className="text-xs text-muted-foreground">{pct.toFixed(1)}%</p>
+                    <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(amount, business.currency)}</p>
+                    <p className="text-xs text-[var(--text-muted)] mt-0.5 tabular-nums">{pct.toFixed(1)}%</p>
                   </div>
                 </div>
               )
@@ -294,10 +289,10 @@ export default async function ReportsPage({
       </div>
 
       {/* Tabla de ventas del período */}
-      <section aria-labelledby="sales-period-heading" className="mt-8">
+      <section aria-labelledby="sales-period-heading" className="mt-10">
         <div className="mb-4 flex items-center gap-2">
-          <Package size={18} style={{ color: 'var(--accent)' }} />
-          <h2 id="sales-period-heading" className="section-title">
+          <Package size={18} className="text-[var(--brand-500)]" />
+          <h2 id="sales-period-heading" className="text-lg font-bold text-white tracking-tight">
             Ventas del período ({activeSales.length})
           </h2>
         </div>
@@ -307,34 +302,34 @@ export default async function ReportsPage({
             <p>No hay ventas en el período seleccionado.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border)]">
-            <table className="data-table w-full">
+          <div className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface">
+            <table className="w-full border-collapse">
               <thead>
-                <tr>
-                  <th className="text-left p-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">#Venta</th>
-                  <th className="text-left p-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Cliente</th>
-                  <th className="text-left p-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Fecha</th>
-                  <th className="text-right p-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Total</th>
-                  <th className="text-right p-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Saldo</th>
-                  <th className="text-left p-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Estado</th>
+                <tr className="bg-white/[0.01]">
+                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">#Venta</th>
+                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Cliente</th>
+                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Fecha</th>
+                  <th className="text-right px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Total</th>
+                  <th className="text-right px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Saldo</th>
+                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Estado</th>
                 </tr>
               </thead>
               <tbody>
                 {activeSales.slice(0, 20).map((sale) => (
-                  <tr key={sale.id} className="border-t border-[var(--border)] hover:bg-[var(--surface-2)] transition-colors">
-                    <td className="p-3 text-sm">
-                      <Link href={`/dashboard/sales/${sale.id}`} className="text-[var(--accent)] hover:underline">
+                  <tr key={sale.id} className="border-t border-white/[0.06] hover:bg-white/[0.02] transition-colors duration-150">
+                    <td className="px-5 py-4 text-sm font-semibold">
+                      <Link href={`/dashboard/sales/${sale.id}`} className="text-[var(--brand-500)] hover:underline">
                         #{sale.sale_number}
                       </Link>
                     </td>
-                    <td className="p-3 text-sm">{clientMap.get(sale.client_id) ?? '—'}</td>
-                    <td className="p-3 text-sm text-muted-foreground">{sale.sale_date}</td>
-                    <td className="p-3 text-sm text-right font-medium">{formatCurrency(sale.total_amount, business.currency)}</td>
-                    <td className="p-3 text-sm text-right font-medium" style={{ color: (sale.balance ?? 0) > 0 ? 'var(--warning)' : 'var(--success)' }}>
+                    <td className="px-5 py-4 text-sm text-white">{clientMap.get(sale.client_id) ?? '—'}</td>
+                    <td className="px-5 py-4 text-sm text-[var(--text-secondary)] tabular-nums">{sale.sale_date}</td>
+                    <td className="px-5 py-4 text-sm text-right font-semibold text-white tabular-nums">{formatCurrency(sale.total_amount, business.currency)}</td>
+                    <td className="px-5 py-4 text-sm text-right font-semibold tabular-nums" style={{ color: (sale.balance ?? 0) > 0 ? 'var(--warning-500)' : 'var(--success-500)' }}>
                       {formatCurrency(sale.balance ?? 0, business.currency)}
                     </td>
-                    <td className="p-3 text-sm">
-                      <span className={`${SALE_STATUS_BADGE_CLASS[sale.status as keyof typeof SALE_STATUS_BADGE_CLASS] ?? ''} rounded-full px-2 py-0.5 text-xs font-medium`}>
+                    <td className="px-5 py-4 text-sm">
+                      <span className={`${SALE_STATUS_BADGE_CLASS[sale.status as keyof typeof SALE_STATUS_BADGE_CLASS] ?? ''} rounded-full px-2.5 py-0.5 text-xs font-semibold`}>
                         {SALE_STATUS_LABEL[sale.status as keyof typeof SALE_STATUS_LABEL] ?? sale.status}
                       </span>
                     </td>
@@ -342,7 +337,7 @@ export default async function ReportsPage({
                 ))}
                 {activeSales.length > 20 && (
                   <tr>
-                    <td colSpan={6} className="p-3 text-center text-sm text-muted-foreground">
+                    <td colSpan={6} className="px-5 py-4 text-center text-sm text-[var(--text-muted)] bg-white/[0.005]">
                       Mostrando 20 de {activeSales.length}. Exporta CSV para ver todos.
                     </td>
                   </tr>

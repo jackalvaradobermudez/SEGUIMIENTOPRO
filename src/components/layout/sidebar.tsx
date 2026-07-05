@@ -49,7 +49,7 @@ export default function Sidebar() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`fixed left-0 top-0 z-50 flex h-screen flex-col justify-between border-r border-white/5 bg-[#0B121D]/95 py-6 sidebar-transition ${asideShadow} ${
-        isVisualExpanded ? 'w-[272px] px-6' : 'w-[76px] px-3'
+        isVisualExpanded ? 'w-[280px] px-6' : 'w-[76px] px-3'
       }`}
     >
       {/* Botón Toggle Flotante */}
@@ -130,7 +130,7 @@ export default function Sidebar() {
         {/* Plan card */}
         {isVisualExpanded && (
           <div className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition-all duration-200">
-            <div className="p-6">
+            <div className="p-5">
               <div className="mb-3 flex items-center gap-2">
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--brand-soft)] border border-[var(--brand-border)]">
                   <Crown size={14} className="text-violet-300" />
@@ -144,7 +144,7 @@ export default function Sidebar() {
                 </div>
               </div>
             </div>
-            <div className="border-t border-white/[0.06] p-6">
+            <div className="border-t border-white/[0.06] p-5">
               <div className="mb-2.5 flex items-center justify-between text-xs">
                 <span className="text-[var(--text-muted)]">Usuarios</span>
                 <span className="font-medium text-white">8 / 15</span>
