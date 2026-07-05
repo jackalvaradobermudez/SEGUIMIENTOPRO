@@ -286,7 +286,7 @@ export default async function DashboardPage() {
 
       <KpiCards data={kpiData} currency={business.currency} />
 
-      <div className="mt-8 mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="mt-10 mb-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
         <CollectionFocus
           data={{
             broken: brokenFocus,
@@ -296,24 +296,24 @@ export default async function DashboardPage() {
           currency={business.currency}
         />
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-8">
           <PortfolioHealth data={healthData} />
           <MonthlyProgress data={goalData} currency={business.currency} />
         </div>
       </div>
 
-      <div className="section-header">
+      <div className="section-header mt-12">
         <h2 className="section-title">Próximos cobros (7 días)</h2>
         <Link href="/dashboard/collections" className="section-link" id="dash-see-all-collections">
           Ver todos →
         </Link>
       </div>
 
-      <div className="mb-10">
+      <div className="mb-12">
         <UpcomingCollections collections={upcomingCollections ?? []} currency={business.currency} />
       </div>
 
-      <div className="section-header">
+      <div className="section-header mt-12">
         <h2 className="section-title">Ventas recientes</h2>
         <Link href="/dashboard/sales" className="section-link" id="dash-see-all-sales">
           Ver todas →

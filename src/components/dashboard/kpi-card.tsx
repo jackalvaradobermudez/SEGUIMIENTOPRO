@@ -32,7 +32,7 @@ export function KpiCard({
     <Wrapper
       {...wrapperProps}
       className={cn(
-        'group relative flex flex-col gap-2.5 rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] p-6 shadow-surface hover:shadow-surfaceHover hover:translate-y-[-2px] transition-all duration-200 min-w-0',
+        'sp-kpi-card group min-w-0',
         className,
       )}
     >
