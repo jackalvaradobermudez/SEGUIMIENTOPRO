@@ -97,8 +97,9 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ── Layout ─────────────────────────────────────────────── */
-  --sidebar-width: 280px;
-  --header-height: 88px;
+  --sidebar-width: 258px;
+  --header-height: 90px;
+  --transition-sidebar: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* ── shadcn/ui compat ──────────────────────────────────── */
   --background:         var(--bg);
@@ -204,9 +205,24 @@ a:hover { color: var(--accent); }
 
 /* ── Dashboard Layout ────────────────────────────────────── */
 .dashboard-root { display:flex; min-height:100dvh; background:var(--bg); position:relative; z-index:1; }
-.dashboard-main { margin-left:var(--sidebar-width); flex:1; min-width:0; display:flex; flex-direction:column; overflow-x:hidden; }
+.dashboard-main { margin-left:var(--sidebar-width); flex:1; min-width:0; display:flex; flex-direction:column; overflow-x:hidden; transition: margin-left var(--transition-sidebar); }
 .dashboard-content { flex:1; padding:var(--space-6); max-width:100%; }
 @media(max-width:768px){ .dashboard-root{flex-direction:column} .dashboard-main{margin-left:0} .dashboard-content{padding:var(--space-4)} }
+
+/* ── Sidebar & Sticky Header Customizations ───────────────── */
+.dashboard-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(9, 18, 33, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: width var(--transition-sidebar);
+}
+.sidebar-transition {
+  transition: width var(--transition-sidebar), padding var(--transition-sidebar), background-color var(--transition-sidebar);
+}
 
 /* ── Page Header ─────────────────────────────────────────── */
 .page-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:var(--space-8); gap:var(--space-6); }
@@ -243,20 +259,219 @@ a:hover { color: var(--accent); }
 /* ── Cards legacy ────────────────────────────────────────── */
 .card-premium { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-xl); }
 
-/* ── Inputs ───────────────────────────────────────────────── */
-input, textarea, select { background:var(--surface-2)!important; border:1px solid var(--border)!important; color:var(--text)!important; border-radius:var(--radius-lg)!important; }
-input:focus, textarea:focus, select:focus { border-color:var(--accent)!important; box-shadow:0 0 0 3px var(--accent-ring)!important; outline:none; }
-input::placeholder, textarea::placeholder { color:var(--text-muted)!important; }
+/* ================================================================
+   SP CARD SYSTEM — replaces broken Tailwind v4 --spacing() refs
+   ================================================================ */
+.sp-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: var(--text-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.sp-card:hover {
+  border-color: var(--border-strong);
+}
+.sp-card-sm .sp-card-header,
+.sp-card-sm .sp-card-content,
+.sp-card-sm .sp-card-footer { padding-left: 16px; padding-right: 16px; }
+.sp-card-sm .sp-card-header { padding-top: 16px; }
+.sp-card-sm .sp-card-content { padding-bottom: 16px; }
 
-/* ── Data Table Legacy ───────────────────────────────────── */
-.data-table { width:100%; border-collapse:separate; border-spacing:0; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--border); background:var(--surface); }
-.data-table thead tr { background:var(--surface-2); }
-.data-table thead th { padding:12px 16px; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); text-align:left; border-bottom:1px solid var(--border-subtle); }
-.data-table tbody td { padding:12px 16px; font-size:var(--text-sm); color:var(--text); border-bottom:1px solid var(--border-subtle); vertical-align:middle; }
-.data-table tbody tr { transition:background var(--transition-fast); }
-.data-table tbody tr:hover { background:var(--surface-2); }
-.data-table tbody tr:last-child td { border-bottom:none; }
+.sp-card-header {
+  display: grid;
+  grid-auto-rows: min-content;
+  align-items: start;
+  gap: 4px;
+  padding: 24px 24px 0;
+}
+.sp-card-content {
+  padding: 16px 24px 24px;
+}
+.sp-card-footer {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(255,255,255,0.02);
+  padding: 16px 24px;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+/* ── KPI Icon Wrapper ───────────────────────────────────── */
+.kpi-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  transition: transform var(--transition-fast);
+}
+.kpi-card:hover .kpi-icon-wrapper {
+  transform: scale(1.08);
+}
+
+/* ── Inputs ───────────────────────────────────────────────── */
+input, textarea, select {
+  background: var(--surface-2) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 10px 14px !important;
+  font-size: var(--text-sm) !important;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-ring) !important;
+  outline: none;
+}
+input::placeholder, textarea::placeholder { color: var(--text-muted) !important; }
+
+/* ── Alerts — more breathing room ────────────────────────── */
+[data-slot="alert"] {
+  padding: 14px 18px !important;
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--border);
+  gap: 4px 10px !important;
+}
+[data-slot="alert"][data-destructive] {
+  border-color: var(--danger-border);
+  background: var(--danger-soft);
+}
+
+/* ── Section spacing ─────────────────────────────────────── */
+.section-header { margin-top: var(--space-6); margin-bottom: var(--space-5); }
+.section-title { font-size: var(--text-base); font-weight: 600; color: var(--text-secondary); letter-spacing: -0.01em; }
+
+/* ── Data Table ─────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.data-table thead tr { background: var(--surface-2); }
+.data-table thead th {
+  padding: 14px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.data-table tbody td {
+  padding: 14px 20px;
+  font-size: var(--text-sm);
+  color: var(--text);
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+.data-table tbody tr { transition: background var(--transition-fast); }
+.data-table tbody tr:hover { background: var(--surface-2); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* ── shadcn Table override (used by sales, clients, etc.) ── */
+[role="table"],
+table {
+  border-spacing: 0;
+}
+[role="table"] [role="row"],
+table tbody tr {
+  transition: background var(--transition-fast);
+}
+[role="table"] [role="row"]:hover,
+table tbody tr:hover {
+  background: var(--surface-2);
+}
+[role="table"] [role="cell"],
+[role="table"] [role="columnheader"],
+table td, table th {
+  padding: 14px 16px;
+}
+
+/* ── Empty state polish ─────────────────────────────────── */
+.empty-placeholder {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12) var(--space-8);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ── Dashboard page spacing ─────────────────────────────── */
+.dashboard-page { max-width: 1400px; }
+.dashboard-page > .page-header { margin-bottom: var(--space-6); }
+
+/* ── Quick link refinement ──────────────────────────────── */
+.quick-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.quick-link:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+/* ── Badge status pills ─────────────────────────────────── */
+.badge-paid, .badge-partial, .badge-pending, .badge-overdue, .badge-cancelled {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Form containers ────────────────────────────────────── */
+.sp-card label,
+.sp-card [data-slot="card-content"] label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  display: block;
+}
 
 /* ── Responsive ──────────────────────────────────────────── */
-@media(max-width:768px){ .kpi-grid{grid-template-columns:repeat(2,1fr)} .page-header{flex-direction:column} .page-title{font-size:var(--text-3xl)} }
-@media(max-width:480px){ .kpi-grid{grid-template-columns:1fr} }
+@media (max-width: 768px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .page-header { flex-direction: column; gap: var(--space-4); }
+  .page-title { font-size: var(--text-3xl); }
+  .sp-card-header { padding: 20px 20px 0; }
+  .sp-card-content { padding: 12px 20px 20px; }
+  .sp-card-footer { padding: 12px 20px; }
+  .dashboard-content { padding: var(--space-5) var(--space-4); }
+}
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  .sp-card-header { padding: 16px 16px 0; }
+  .sp-card-content { padding: 10px 16px 16px; }
+}

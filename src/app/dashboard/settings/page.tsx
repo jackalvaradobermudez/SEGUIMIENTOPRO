@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { BusinessSettingsForm } from '@/components/forms/business-settings-form'
 import { GoalForm } from '@/components/forms/goal-form'
+import { WhatsAppTemplatesSection } from '@/components/settings/whatsapp-templates-section'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LogoutButton } from './logout-button'
 import type { Metadata } from 'next'
@@ -34,7 +35,7 @@ export default async function SettingsPage() {
         </div>
       </div>
 
-      <div className="flex max-w-2xl flex-col gap-8">
+      <div className="flex max-w-3xl flex-col gap-8">
         <Card>
           <CardHeader>
             <CardTitle className="text-base">Negocio</CardTitle>
@@ -53,7 +54,6 @@ export default async function SettingsPage() {
               goal={
                 goal
                   ? {
-                      // sales_target y collection_target son nullable en DB (metas opcionales)
                       sales_target: goal.sales_target ?? 0,
                       collection_target: goal.collection_target ?? 0,
                     }
@@ -62,6 +62,8 @@ export default async function SettingsPage() {
             />
           </CardContent>
         </Card>
+
+        <WhatsAppTemplatesSection />
 
         <Card>
           <CardHeader>

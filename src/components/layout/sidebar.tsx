@@ -2,8 +2,10 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Crown, LogOut } from 'lucide-react'
+import { Crown, LogOut, ChevronLeft, ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { useSidebar } from '@/components/layout/sidebar-provider'
+import { useState } from 'react'
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
@@ -20,6 +22,11 @@ export default function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const { isCollapsed, toggleSidebar } = useSidebar()
+  const [isHovered, setIsHovered] = useState(false)
+
+  // El estado visual expandido depende de si no está colapsado O si se está haciendo hover sobre él
+  const isVisualExpanded = !isCollapsed || isHovered
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard'
@@ -32,36 +39,65 @@ export default function Sidebar() {
     router.refresh()
   }
 
+  // Clases condicionales para sombra y borde en modo overlay de hover
+  const asideShadow = isCollapsed && isHovered
+    ? 'shadow-[8px_0_32px_rgba(0,0,0,0.65)] border-r-white/20 bg-[#091221]'
+    : 'shadow-[inset_-1px_0_0_rgba(255,255,255,0.02)]'
+
   return (
-    <aside className="fixed left-0 top-0 z-50 flex h-screen w-[280px] flex-col justify-between border-r border-white/10 bg-[#0A1220] px-5 py-6">
-      {/* Logo */}
+    <aside
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`fixed left-0 top-0 z-50 flex h-screen flex-col justify-between border-r border-white/10 bg-[#091221]/95 py-6 sidebar-transition ${asideShadow} ${
+        isVisualExpanded ? 'w-[258px] px-6' : 'w-[76px] px-3'
+      }`}
+    >
+      {/* Botón Toggle Flotante */}
+      <button
+        onClick={toggleSidebar}
+        className={`absolute -right-3 top-8 z-50 flex h-6 w-6 items-center justify-center rounded-full border border-white/10 bg-[#091221] text-slate-400 shadow-md transition-all duration-200 hover:scale-115 hover:text-white cursor-pointer ${
+          isCollapsed && isHovered ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+        aria-label={isCollapsed ? 'Expandir barra lateral' : 'Colapsar barra lateral'}
+      >
+        {isCollapsed ? <ChevronRight size={13} /> : <ChevronLeft size={13} />}
+      </button>
+
       <div>
-        <div className="mb-8 flex items-center gap-3 px-1">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/20 shadow-[0_0_20px_rgba(124,92,255,0.15)]">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {/* Logo */}
+        <div className={`mb-9 flex items-center ${isVisualExpanded ? 'gap-3 px-1' : 'justify-center'}`}>
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/16 shadow-[0_0_22px_rgba(124,92,255,0.18)] flex-shrink-0">
+            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#7C5CFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
           </div>
-          <span className="font-display text-lg font-bold tracking-tight text-white">
-            Seguimiento<span className="text-violet-400">PRO</span>
-          </span>
+          {isVisualExpanded && (
+            <span className="font-display text-[19px] font-bold tracking-tight text-white transition-opacity duration-200">
+              Seguimiento<span className="text-violet-400">PRO</span>
+            </span>
+          )}
         </div>
 
         {/* Nav */}
-        <nav className="flex flex-col gap-1">
+        <nav className="flex flex-col gap-1 w-full">
           {NAV.map((item) => {
             const active = isActive(item.href)
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group flex h-12 items-center gap-3 rounded-2xl px-4 text-sm font-medium transition-all duration-200 ${
+                className={`group relative flex h-14 items-center rounded-lg transition-all duration-200 ${
+                  isVisualExpanded ? 'gap-4 pl-6 pr-4 w-full' : 'justify-center px-0 w-full'
+                } ${
                   active
-                    ? 'bg-[#2A1D5F]/70 text-white shadow-[0_0_20px_rgba(124,92,255,0.15)] border border-violet-500/20'
-                    : 'text-slate-300 hover:bg-white/[0.03] hover:text-white'
-                }`}
+                    ? `bg-[#2A1D5F]/72 text-white shadow-[0_0_22px_rgba(124,92,255,0.16)] before:absolute ${
+                        isVisualExpanded ? 'before:left-1.5' : 'before:left-1'
+                      } before:top-2 before:h-10 before:w-1 before:rounded-full before:bg-violet-500`
+                    : 'text-white/80 hover:bg-white/[0.035] hover:text-white'
+                } font-bold text-[16px]`}
+                title={isCollapsed && !isHovered ? item.label : undefined}
               >
-                <span className={`${active ? 'text-white' : 'text-slate-400 group-hover:text-white'} transition-colors`}>
+                <span className={`${active ? 'text-white' : 'text-white/70 group-hover:text-white'} transition-colors flex-shrink-0`}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     {item.icon === 'LayoutDashboard' && <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></>}
                     {item.icon === 'Users' && <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>}
@@ -73,9 +109,15 @@ export default function Sidebar() {
                     {item.icon === 'Settings' && <><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></>}
                   </svg>
                 </span>
-                <span className="flex-1">{item.label}</span>
-                {item.badge && (
-                  <span className="rounded-full bg-violet-500/20 px-2 py-0.5 text-[10px] font-bold text-violet-300">
+                {isVisualExpanded && (
+                  <span className={`flex-1 whitespace-nowrap overflow-hidden text-ellipsis transition-colors duration-200 ${
+                    active ? 'text-white' : 'text-white/80 group-hover:text-white'
+                  }`}>
+                    {item.label}
+                  </span>
+                )}
+                {isVisualExpanded && item.badge && (
+                  <span className="rounded-full bg-violet-500/20 px-2 py-0.5 text-[10px] font-bold text-violet-300 flex-shrink-0">
                     {item.badge}
                   </span>
                 )}
@@ -86,34 +128,50 @@ export default function Sidebar() {
       </div>
 
       {/* Footer */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 w-full">
         {/* Plan card */}
-        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
-          <div className="mb-3 flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-violet-500/20">
-              <Crown size={14} className="text-violet-300" />
+        {isVisualExpanded && (
+          <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] transition-all duration-200">
+            <div className="p-5">
+              <div className="mb-3 flex items-center gap-2">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-500/20">
+                  <Crown size={14} className="text-violet-300" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white">Plan Profesional</p>
+                  <p className="flex items-center gap-1.5 text-xs text-slate-400 mt-0.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    Tu plan está activo
+                  </p>
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-semibold text-white">Plan Profesional</p>
-              <p className="text-xs text-slate-400">Tu plan está activo</p>
+            <div className="border-t border-white/[0.06] p-5">
+              <div className="mb-2.5 flex items-center justify-between text-xs">
+                <span className="text-slate-400">Usuarios</span>
+                <span className="font-medium text-white">8 / 15</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
+                <div className="h-full w-[53%] rounded-full bg-gradient-to-r from-violet-500 to-violet-400" />
+              </div>
             </div>
           </div>
-          <div className="mb-2 flex items-center justify-between text-xs">
-            <span className="text-slate-400">Usuarios</span>
-            <span className="font-medium text-white">8 / 15</span>
-          </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
-            <div className="h-full w-[53%] rounded-full bg-gradient-to-r from-violet-500 to-violet-400" />
-          </div>
-        </div>
+        )}
 
         {/* Logout */}
         <button
           onClick={handleLogout}
-          className="flex h-12 w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 text-sm font-medium text-slate-300 transition-all duration-200 hover:bg-white/[0.05] hover:text-white"
+          className={`group flex h-16 w-full items-center border border-white/10 bg-white/[0.035] text-[16px] font-bold transition-all duration-200 hover:bg-white/[0.06] ${
+            isVisualExpanded ? 'gap-4 px-6 rounded-lg' : 'justify-center px-0 rounded-xl'
+          }`}
+          title={isCollapsed && !isHovered ? 'Cerrar sesión' : undefined}
         >
-          <LogOut size={16} className="text-slate-400" />
-          Cerrar sesión
+          <LogOut size={16} className="text-slate-400 group-hover:text-white transition-colors flex-shrink-0" />
+          {isVisualExpanded && (
+            <span className="text-white/80 group-hover:text-white transition-colors duration-200">
+              Cerrar sesión
+            </span>
+          )}
         </button>
       </div>
     </aside>

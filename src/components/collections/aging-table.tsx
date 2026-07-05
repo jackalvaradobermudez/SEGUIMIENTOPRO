@@ -21,8 +21,8 @@ import {
 } from '@/components/ui/dialog'
 import { CollectionActionForm } from '@/components/forms/collection-action-form'
 import { CollectionResultBadge } from '@/components/shared/collection-result-badge'
-import { AGING_BUCKETS } from '@/lib/constants'
-import { formatCurrency, formatDate, buildWhatsAppUrl } from '@/lib/utils'
+import { AGING_BUCKETS, DEFAULT_TEMPLATE_MESSAGES } from '@/lib/constants'
+import { formatCurrency, formatDate, buildWhatsAppUrl, interpolateTemplate } from '@/lib/utils'
 import type { Database } from '@/types/database'
 
 type AgingRow = Database['public']['Views']['v_aging_report']['Row']
@@ -144,7 +144,14 @@ export function AgingTable({
                       <a
                         href={buildWhatsAppUrl(
                           group.clientPhone,
-                          `Hola ${group.clientName}, te contacto para recordarte tu saldo pendiente de ${formatCurrency(group.totalPending, currency)}. ¿Podemos coordinar el pago?`,
+                          interpolateTemplate(
+                            DEFAULT_TEMPLATE_MESSAGES.reminder_overdue ?? '',
+                            {
+                              nombre: group.clientName,
+                              monto: formatCurrency(group.totalPending, currency),
+                              saldo_total: formatCurrency(group.totalPending, currency),
+                            },
+                          ),
                         )}
                         target="_blank"
                         rel="noopener noreferrer"

@@ -45,6 +45,7 @@ export function SaleDetail({
   collectionActions,
   currency,
   businessName,
+  whatsAppMessage,
 }: {
   sale: Sale
   clientName: string
@@ -54,6 +55,7 @@ export function SaleDetail({
   collectionActions: CollectionActionRow[]
   currency: string
   businessName: string
+  whatsAppMessage: string
 }) {
   const router = useRouter()
   const [paymentOpen, setPaymentOpen] = useState(false)
@@ -81,10 +83,6 @@ export function SaleDetail({
 
   const canCancel = sale.status !== 'cancelled' && sale.status !== 'paid'
   const pendingBalance = sale.total_amount - sale.paid_amount
-
-  const whatsAppMessage = clientName
-    ? `Hola ${clientName}, te contacto para recordarte el saldo pendiente de tu compra por ${formatCurrency(pendingBalance > 0 ? pendingBalance : sale.total_amount, currency)}. ¿Podemos coordinar el pago?`
-    : ''
 
   return (
     <div className="dashboard-page animate-fade-in">

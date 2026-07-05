@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
+import { getWhatsAppMessage } from '@/lib/whatsapp/get-message'
 import { ClientDetail } from './client-detail'
 import type { Metadata } from 'next'
 
@@ -133,6 +134,14 @@ export default async function ClientDetailPage({
 
   const totalPurchased = sales.reduce((sum, s) => sum + s.total_amount, 0)
 
+  const whatsAppMessage = totalDebt > 0
+    ? await getWhatsAppMessage('reminder_overdue', {
+        clientName: client.name,
+        totalDebt,
+        currency: business.currency,
+      })
+    : ''
+
   return (
     <ClientDetail
       client={client}
@@ -147,6 +156,7 @@ export default async function ClientDetailPage({
       daysSinceLastSale={daysSinceLastSale}
       currency={business.currency}
       businessName={business.name}
+      whatsAppMessage={whatsAppMessage}
     />
   )
 }

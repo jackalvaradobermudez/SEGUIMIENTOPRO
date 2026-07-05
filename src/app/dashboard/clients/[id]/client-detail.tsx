@@ -111,6 +111,7 @@ type ClientDetailProps = {
   daysSinceLastSale: number
   currency: string
   businessName: string
+  whatsAppMessage: string
 }
 
 export function ClientDetail({
@@ -126,6 +127,7 @@ export function ClientDetail({
   daysSinceLastSale,
   currency,
   businessName,
+  whatsAppMessage,
 }: ClientDetailProps) {
   const router = useRouter()
   const [editing, setEditing] = useState(false)
@@ -212,8 +214,6 @@ export function ClientDetail({
       .slice(0, MAX_TIMELINE_EVENTS)
   }, [sales, payments, collectionActions, reminders])
 
-  const whatsAppMessage = `Hola ${client.name}, te contacto para recordarte tu saldo pendiente de ${formatCurrency(totalDebt, currency)}. ¿Podemos coordinar el pago?`
-
   const contactSummary =
     [client.company, client.phone, client.email].filter(Boolean).join(' · ') ||
     'Sin datos de contacto'
@@ -272,6 +272,12 @@ export function ClientDetail({
               paid_amount: s.paid_amount,
               balance: s.balance,
               status: s.status,
+            }))}
+            payments={payments.map((p) => ({
+              payment_date: p.payment_date,
+              amount: p.amount,
+              payment_method: p.payment_method,
+              sale_sale_number: sales.find(s => s.id === p.sale_id)?.sale_number,
             }))}
             business={{ name: businessName, currency }}
           />

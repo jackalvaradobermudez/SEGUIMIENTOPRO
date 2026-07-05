@@ -13,7 +13,8 @@ import {
   ArrowRight,
   CreditCard,
 } from 'lucide-react'
-import { formatCurrency, formatDate, daysBetween, buildWhatsAppUrl } from '@/lib/utils'
+import { formatCurrency, formatDate, daysBetween, buildWhatsAppUrl, interpolateTemplate } from '@/lib/utils'
+import { DEFAULT_TEMPLATE_MESSAGES } from '@/lib/constants'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -239,7 +240,9 @@ export default async function CollectionsPage() {
         </Alert>
       )}
 
-      <h2 className="section-title">Cobros de hoy</h2>
+      <div className="section-header">
+        <h2 className="section-title">Cobros de hoy</h2>
+      </div>
       <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
@@ -275,7 +278,15 @@ export default async function CollectionsPage() {
                         <a
                           href={buildWhatsAppUrl(
                             sale.clientPhone,
-                            `Hola ${sale.clientName}, te recuerdo que hoy vence tu compra #${sale.sale_number} por ${formatCurrency(sale.balance, business.currency)}. ¿Cuándo podemos coordinar el pago?`,
+                            interpolateTemplate(
+                              DEFAULT_TEMPLATE_MESSAGES.reminder_due_day ?? '',
+                              {
+                                nombre: sale.clientName,
+                                monto: formatCurrency(sale.balance, business.currency),
+                                numero_venta: String(sale.sale_number),
+                                nombre_negocio: business.name,
+                              },
+                            ),
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -342,7 +353,9 @@ export default async function CollectionsPage() {
         </Card>
       </div>
 
-      <h2 className="section-title">Próximos 7 días</h2>
+      <div className="section-header">
+        <h2 className="section-title">Próximos 7 días</h2>
+      </div>
       <Card className="mb-8">
         <CardContent className="pt-6">
           {upcomingCollections.length === 0 ? (
@@ -368,7 +381,19 @@ export default async function CollectionsPage() {
                         <a
                           href={buildWhatsAppUrl(
                             item.client_phone,
-                      `Hola ${item.client_name}, te recuerdo que tienes un pago pendiente de ${formatCurrency(item.balance ?? 0, business.currency)} que vence ${daysLeft === 0 ? 'hoy' : `en ${daysLeft} días`}.`,
+                            interpolateTemplate(
+                              daysLeft === 0
+                                ? (DEFAULT_TEMPLATE_MESSAGES.reminder_due_day ?? '')
+                                : (DEFAULT_TEMPLATE_MESSAGES.reminder_soft ?? ''),
+                              {
+                                nombre: item.client_name ?? 'Cliente',
+                                monto: formatCurrency(item.balance ?? 0, business.currency),
+                                numero_venta: String(item.sale_number),
+                                dias_vencido: String(Math.abs(daysLeft)),
+                                fecha_vencimiento: formatDate(item.due_date ?? new Date().toISOString().split('T')[0]),
+                                nombre_negocio: business.name,
+                              },
+                            ),
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -397,7 +422,9 @@ export default async function CollectionsPage() {
         </CardContent>
       </Card>
 
-      <h2 className="section-title">Cartera crítica</h2>
+      <div className="section-header">
+        <h2 className="section-title">Cartera crítica</h2>
+      </div>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">

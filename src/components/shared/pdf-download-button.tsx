@@ -9,6 +9,7 @@ import type {
   ReceiptItem,
   ReceiptBusiness,
   StatementSale,
+  StatementPayment,
 } from '@/lib/pdf/receipt'
 
 // ─────────────────────────────────────────────
@@ -59,17 +60,18 @@ interface StatementPDFButtonProps {
   client: ReceiptClient
   sales: StatementSale[]
   business: ReceiptBusiness
+  payments?: StatementPayment[]
   id?: string
 }
 
-export function StatementPDFButton({ client, sales, business, id }: StatementPDFButtonProps) {
+export function StatementPDFButton({ client, sales, business, payments, id }: StatementPDFButtonProps) {
   const [loading, setLoading] = useState(false)
 
   async function handleDownload() {
     setLoading(true)
     try {
       const { generateAccountStatement } = await import('@/lib/pdf/receipt')
-      await generateAccountStatement(client, sales, business)
+      await generateAccountStatement(client, sales, business, payments)
     } catch {
       // silently fail
     } finally {

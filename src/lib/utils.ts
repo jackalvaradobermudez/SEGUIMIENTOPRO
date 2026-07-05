@@ -117,3 +117,14 @@ export function getClientScoreLabel(score: number): { label: string; color: stri
 export function todayISO(): string {
   return new Date().toISOString().split('T')[0]
 }
+
+export function interpolateTemplate(
+  template: string,
+  variables: Record<string, string | number | undefined>,
+): string {
+  return template.replace(/\{(\w+)\}/g, (match, key) => {
+    const value = variables[key]
+    if (value === undefined || value === null) return ''
+    return String(value)
+  })
+}

@@ -77,3 +77,44 @@ export const REMINDER_TYPES = {
 } as const
 
 export type ReminderTypeKey = keyof typeof REMINDER_TYPES
+
+export const WHATSAPP_TEMPLATE_TYPES = {
+  reminder_soft: {
+    label: 'Recordatorio suave',
+    description: 'Antes del vencimiento. Tono amable.',
+    icon: 'Bell',
+  },
+  reminder_due_day: {
+    label: 'Día de vencimiento',
+    description: 'El día exacto que vence el pago.',
+    icon: 'Calendar',
+  },
+  reminder_overdue: {
+    label: 'Cobro post-vencimiento',
+    description: 'Después del vencimiento. Tono firme.',
+    icon: 'AlertTriangle',
+  },
+  payment_thanks: {
+    label: 'Agradecimiento por pago',
+    description: 'Después de registrar un abono.',
+    icon: 'ThumbsUp',
+  },
+  account_statement: {
+    label: 'Envío de estado de cuenta',
+    description: 'Al compartir el estado de cuenta.',
+    icon: 'FileText',
+  },
+} as const
+
+export const DEFAULT_TEMPLATE_MESSAGES: Record<string, string> = {
+  reminder_soft:
+    'Hola {nombre}, te recordamos que tu saldo de {monto} vence el {fecha_vencimiento}. ¿Podemos coordinar el pago? Quedo atento.',
+  reminder_due_day:
+    'Hola {nombre}, hoy vence tu saldo de {monto} de la venta #{numero_venta}. ¿Ya pudiste realizar el pago? Quedo pendiente.',
+  reminder_overdue:
+    'Hola {nombre}, tu saldo de {monto} lleva {dias_vencido} días de vencido. Necesitamos coordinar el pago lo antes posible. ¿Cuándo puedes abonar?',
+  payment_thanks:
+    'Hola {nombre}, confirmamos tu pago de {monto_pagado}. Tu nuevo saldo es {saldo_pendiente}. ¡Gracias por tu puntualidad!',
+  account_statement:
+    'Hola {nombre}, te envío tu estado de cuenta actualizado. Tu saldo pendiente total es {saldo_total}. Cualquier duda quedo atento.',
+}

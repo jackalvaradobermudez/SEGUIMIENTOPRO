@@ -43,6 +43,13 @@ export interface StatementSale {
   status: string
 }
 
+export interface StatementPayment {
+  payment_date: string
+  amount: number
+  payment_method: string
+  sale_sale_number?: number
+}
+
 // ─────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────
@@ -241,6 +248,7 @@ export async function generateAccountStatement(
   client: ReceiptClient,
   sales: StatementSale[],
   business: ReceiptBusiness,
+  payments?: StatementPayment[],
 ): Promise<void> {
   const { jsPDF } = await import('jspdf')
   const doc = new jsPDF({ unit: 'pt', format: 'a4' })
@@ -350,6 +358,103 @@ export async function generateAccountStatement(
     doc.setDrawColor(241, 245, 249)
     doc.setTextColor(15, 23, 42)
     doc.line(MARGIN, y, W - MARGIN, y)
+  }
+
+  y += 20
+
+  // ── Antigüedad de cartera ────────────────────
+  const now = new Date()
+  const buckets: { label: string; amount: number }[] = [
+    { label: 'Al día', amount: 0 },
+    { label: '1-30 días', amount: 0 },
+    { label: '31-60 días', amount: 0 },
+    { label: '61-90 días', amount: 0 },
+    { label: '+90 días', amount: 0 },
+  ]
+
+  for (const sale of activeSales) {
+    if (!sale.due_date) { buckets[0].amount += sale.balance ?? (sale.total_amount - sale.paid_amount); continue }
+    const due = new Date(sale.due_date)
+    const days = Math.floor((now.getTime() - due.getTime()) / (1000 * 60 * 60 * 24))
+    const bal = sale.balance ?? (sale.total_amount - sale.paid_amount)
+    if (days <= 0) buckets[0].amount += bal
+    else if (days <= 30) buckets[1].amount += bal
+    else if (days <= 60) buckets[2].amount += bal
+    else if (days <= 90) buckets[3].amount += bal
+    else buckets[4].amount += bal
+  }
+
+  const totalBuckets = buckets.reduce((s, b) => s + b.amount, 0)
+
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(10)
+  doc.setTextColor(15, 23, 42)
+  doc.text('Antigüedad de cartera', MARGIN, y)
+  y += 6
+
+  doc.setDrawColor(226, 232, 240)
+  doc.line(MARGIN, y, W - MARGIN, y)
+  y += 10
+
+  doc.setFontSize(9)
+  for (const bucket of buckets) {
+    const pct = totalBuckets > 0 ? ((bucket.amount / totalBuckets) * 100).toFixed(1) : '0.0'
+    doc.setTextColor(100, 116, 139)
+    doc.text(bucket.label, MARGIN + 8, y + 10)
+    doc.setTextColor(15, 23, 42)
+    doc.text(formatAmt(bucket.amount, business.currency), MARGIN + CONTENT_W * 0.50, y + 10)
+    doc.text(`${pct}%`, W - MARGIN - 8, y + 10, { align: 'right' })
+    y += 18
+    doc.setDrawColor(241, 245, 249)
+    doc.line(MARGIN, y, W - MARGIN, y)
+  }
+
+  // Total row
+  doc.setFont('helvetica', 'bold')
+  doc.setTextColor(15, 23, 42)
+  doc.text('TOTAL', MARGIN + 8, y + 10)
+  doc.text(formatAmt(totalBuckets, business.currency), MARGIN + CONTENT_W * 0.50, y + 10)
+  doc.text('100%', W - MARGIN - 8, y + 10, { align: 'right' })
+  y += 24
+
+  // ── Últimos pagos ─────────────────────────────
+  if (payments && payments.length > 0) {
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(10)
+    doc.setTextColor(15, 23, 42)
+    doc.text('Últimos pagos registrados', MARGIN, y)
+    y += 6
+
+    doc.setDrawColor(226, 232, 240)
+    doc.line(MARGIN, y, W - MARGIN, y)
+    y += 10
+
+    // Table header
+    doc.setFillColor(248, 250, 252)
+    doc.rect(MARGIN, y, CONTENT_W, 18, 'F')
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(9)
+    doc.setTextColor(100, 116, 139)
+    doc.text('FECHA', MARGIN + 8, y + 12)
+    doc.text('VENTA', MARGIN + CONTENT_W * 0.30, y + 12)
+    doc.text('MONTO', MARGIN + CONTENT_W * 0.55, y + 12)
+    doc.text('MÉTODO', W - MARGIN - 8, y + 12, { align: 'right' })
+    y += 18
+
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9)
+    for (const p of payments.slice(0, 10)) {
+      doc.setTextColor(15, 23, 42)
+      doc.text(formatDate(p.payment_date), MARGIN + 8, y + 12)
+      doc.text(p.sale_sale_number ? `#${p.sale_sale_number}` : '—', MARGIN + CONTENT_W * 0.30, y + 12)
+      doc.text(formatAmt(p.amount, business.currency), MARGIN + CONTENT_W * 0.55, y + 12)
+      const methodLabels: Record<string, string> = { cash: 'Efectivo', transfer: 'Transferencia', card: 'Tarjeta', other: 'Otro' }
+      doc.text(methodLabels[p.payment_method] ?? p.payment_method, W - MARGIN - 8, y + 12, { align: 'right' })
+      y += 18
+      doc.setDrawColor(241, 245, 249)
+      doc.line(MARGIN, y, W - MARGIN, y)
+    }
+    y += 16
   }
 
   // ── Footer ───────────────────────────────────

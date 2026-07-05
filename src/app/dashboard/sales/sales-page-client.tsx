@@ -2,10 +2,12 @@
 
 import { useState } from 'react'
 import {
-  TrendingUp,
-  CheckCircle2,
+  BarChart3,
+  ChevronDown,
+  CreditCard,
+  Download,
   Clock,
-  AlertTriangle,
+  CircleAlert,
 } from 'lucide-react'
 import { KpiCard } from '@/components/dashboard/kpi-card'
 import { FilterPills } from '@/components/dashboard/filter-pills'
@@ -47,60 +49,73 @@ export default function SalesPageClient() {
   return (
     <div className="animate-fade-in">
       {/* Page Header */}
-      <div className="mb-7">
-        <h1 className="text-[44px] font-semibold leading-[1.05] tracking-[-0.03em] text-white">Ventas</h1>
-        <p className="mt-1 text-[18px] text-slate-400">Gestiona y consulta el historial de ventas de tu negocio.</p>
+      <div className="mb-6 flex items-start justify-between gap-6">
+        <div>
+          <h1 className="text-[31px] font-semibold leading-none tracking-normal text-white">Ventas</h1>
+          <p className="mt-2 text-[16px] leading-6 text-slate-400">Gestiona y consulta el historial de ventas de tu negocio.</p>
+        </div>
+        <button className="inline-flex h-11 items-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition-all hover:border-white/20 hover:bg-white/[0.06]">
+          <span className="inline-flex h-full items-center gap-2 px-4">
+            <Download size={16} className="text-slate-300" />
+            Exportar
+          </span>
+          <span className="inline-flex h-full w-10 items-center justify-center border-l border-white/10">
+            <ChevronDown size={15} className="text-slate-400" />
+          </span>
+        </button>
       </div>
 
       {/* KPI Cards */}
-      <div className="mb-7 grid grid-cols-4 gap-5">
+      <div className="mb-5 grid grid-cols-1 gap-5 xl:grid-cols-4">
         <KpiCard
           label="Total vendido este mes"
           value="$ 12.480.000"
-          deltaText="+18.2%"
-          icon={<TrendingUp size={20} className="text-violet-300" />}
-          iconBg="bg-violet-500/20 shadow-[0_0_30px_rgba(124,92,255,0.25)]"
+          deltaText="18.6%"
+          icon={<BarChart3 size={22} className="text-violet-200" />}
+          iconBg="bg-violet-500/25 shadow-[0_0_32px_rgba(124,92,255,0.28)]"
           sparklineColor="#7C5CFF"
         />
         <KpiCard
           label="Total cobrado este mes"
           value="$ 9.230.000"
-          deltaText="+12.5%"
-          icon={<CheckCircle2 size={20} className="text-emerald-300" />}
-          iconBg="bg-emerald-500/20 shadow-[0_0_30px_rgba(53,208,127,0.25)]"
-          sparklineColor="#35D07F"
+          deltaText="22.4%"
+          icon={<CreditCard size={22} className="text-cyan-200" />}
+          iconBg="bg-cyan-500/20 shadow-[0_0_32px_rgba(38,198,255,0.22)]"
+          sparklineColor="#26C6FF"
         />
         <KpiCard
           label="Saldo pendiente"
           value="$ 3.250.000"
-          subtitle="32% de la cartera"
-          icon={<Clock size={20} className="text-amber-300" />}
-          iconBg="bg-amber-500/20 shadow-[0_0_30px_rgba(244,178,77,0.25)]"
+          deltaText="8.7%"
+          deltaClassName="text-amber-400"
+          icon={<Clock size={22} className="text-amber-200" />}
+          iconBg="bg-amber-500/25 shadow-[0_0_32px_rgba(244,178,77,0.24)]"
           sparklineColor="#F4B24D"
         />
         <KpiCard
           label="Facturas vencidas"
-          value="8 facturas"
+          value="8"
           subtitle="$ 1.250.000"
-          icon={<AlertTriangle size={20} className="text-rose-300" />}
-          iconBg="bg-rose-500/20 shadow-[0_0_30px_rgba(240,93,108,0.25)]"
+          subtitleClassName="text-rose-400"
+          icon={<CircleAlert size={22} className="text-rose-200" />}
+          iconBg="bg-rose-500/25 shadow-[0_0_32px_rgba(240,93,108,0.22)]"
           sparklineColor="#F05D6C"
         />
       </div>
 
       {/* Filters */}
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-4">
         <FilterPills options={STATUS_FILTERS} active={status} onChange={setStatus} />
         <FilterControls period="Este mes" />
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-3xl border border-white/10 bg-[#121B2B]">
+      <div className="overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(180deg,rgba(20,29,47,0.94),rgba(12,18,31,0.98))] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)]">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-white/[0.06]">
+            <tr className="border-b border-white/[0.07] bg-white/[0.015]">
               {['Venta','Cliente','Fecha','Total','Pagado','Saldo','Estado','Acciones'].map(h => (
-                <th key={h} className="px-6 py-4 text-left text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-400">{h}</th>
+                <th key={h} className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-normal text-slate-400">{h}</th>
               ))}
             </tr>
           </thead>

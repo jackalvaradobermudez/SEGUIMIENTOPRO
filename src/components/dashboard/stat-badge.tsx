@@ -18,7 +18,7 @@ export function StatBadge({ variant }: { variant: BadgeVariant }) {
   const config = VARIANT_MAP[variant]
   const { Icon } = config
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[13px] font-medium ${config.bg} ${config.border} ${config.text}`}>
+    <span className={`inline-flex min-w-[104px] items-center justify-center gap-1.5 rounded-md border px-3 py-1.5 text-[13px] font-medium ${config.bg} ${config.border} ${config.text}`}>
       <Icon size={12} />
       {LABEL_MAP[variant]}
     </span>

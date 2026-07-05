@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
+import { getWhatsAppMessage } from '@/lib/whatsapp/get-message'
 import { SaleDetail } from './sale-detail'
 import type { Metadata } from 'next'
 
@@ -48,6 +49,21 @@ export default async function SaleDetailPage({
       .order('action_date', { ascending: false }),
   ])
 
+  const today = new Date().toISOString().split('T')[0]
+  let templateType = 'reminder_soft'
+  if (sale.due_date) {
+    if (sale.due_date < today || sale.status === 'overdue') templateType = 'reminder_overdue'
+    else if (sale.due_date === today) templateType = 'reminder_due_day'
+  }
+  const whatsAppMessage = await getWhatsAppMessage(templateType, {
+    clientName: client?.name ?? 'Cliente',
+    saleBalance: sale.total_amount - sale.paid_amount,
+    saleDueDate: sale.due_date ?? undefined,
+    saleNumber: String(sale.sale_number),
+    totalDebt: sale.total_amount - sale.paid_amount,
+    currency: business.currency,
+  })
+
   return (
     <SaleDetail
       sale={sale}
@@ -58,6 +74,7 @@ export default async function SaleDetailPage({
       collectionActions={collectionActions ?? []}
       currency={business.currency}
       businessName={business.name}
+      whatsAppMessage={whatsAppMessage}
     />
   )
 }
