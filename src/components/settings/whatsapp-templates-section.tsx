@@ -70,31 +70,35 @@ export function WhatsAppTemplatesSection() {
 
   if (loading) {
     return (
-      <div className="rounded-3xl border border-white/10 bg-[#121B2B] p-6">
-        <p className="text-sm text-slate-400">Cargando plantillas...</p>
+      <div className="sp-card">
+        <div className="sp-card-content">
+          <p className="text-sm text-slate-400">Cargando plantillas...</p>
+        </div>
       </div>
     )
   }
 
   if (templates.length === 0) {
     return (
-      <div className="rounded-3xl border border-white/10 bg-[#121B2B] p-6">
-        <p className="text-sm text-slate-400">No se encontraron plantillas. Esto no debería pasar — contacta soporte.</p>
+      <div className="sp-card">
+        <div className="sp-card-content">
+          <p className="text-sm text-slate-400">No se encontraron plantillas. Esto no debería pasar — contacta soporte.</p>
+        </div>
       </div>
     )
   }
 
   return (
     <>
-      <div className="rounded-3xl border border-white/10 bg-[#121B2B] p-6">
-        <div className="mb-5">
-          <h3 className="text-base font-semibold text-white">Plantillas de WhatsApp</h3>
-          <p className="mt-1 text-[13px] text-slate-400">
+      <div className="sp-card">
+        <div className="sp-card-header flex flex-col gap-1 !pb-4">
+          <h3 className="text-base font-bold text-white">Plantillas de WhatsApp</h3>
+          <p className="text-[13px] text-slate-400">
             Personaliza los mensajes que envías a tus clientes. Usa las variables entre llaves para datos dinámicos.
           </p>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="sp-card-content flex flex-col gap-3">
           {templates.map((template) => {
             const Icon = TYPE_ICONS[template.template_type] ?? Bell
             const typeConfig = WHATSAPP_TEMPLATE_TYPES[template.template_type as keyof typeof WHATSAPP_TEMPLATE_TYPES]
@@ -102,7 +106,7 @@ export function WhatsAppTemplatesSection() {
             return (
               <div
                 key={template.id}
-                className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4 transition-all hover:border-white/20"
+                className="flex items-start gap-5 rounded-2xl border border-white/[0.06] bg-white/[0.01] p-5 px-6 transition-all hover:border-white/16 hover:bg-white/[0.02] duration-150"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/20">
                   <Icon size={16} className="text-violet-300" />
@@ -126,14 +130,14 @@ export function WhatsAppTemplatesSection() {
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-[13px] text-slate-400 line-clamp-2">{template.message_body}</p>
+                  <p className="mt-1.5 text-[13px] text-slate-400 line-clamp-2">{template.message_body}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setEditingTemplate(template)}
-                    className="h-9"
+                    className="h-9 cursor-pointer"
                   >
                     <Edit size={14} className="mr-1" />
                     Editar
@@ -144,7 +148,7 @@ export function WhatsAppTemplatesSection() {
                       size="sm"
                       onClick={() => handleReset(template)}
                       disabled={resettingId === template.id}
-                      className="h-9"
+                      className="h-9 cursor-pointer"
                     >
                       <RotateCcw size={14} className="mr-1" />
                       Restaurar

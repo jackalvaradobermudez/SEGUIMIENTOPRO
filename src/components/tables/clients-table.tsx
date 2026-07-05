@@ -59,32 +59,36 @@ export function ClientsTable({ clients, currency }: { clients: ClientRow[]; curr
         />
       </div>
 
-      <Table className="data-table">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Teléfono</TableHead>
-            <TableHead className="text-right">Saldo pendiente</TableHead>
-            <TableHead>Última compra</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filtered.map((client) => (
-            <TableRow key={client.id} className="cursor-pointer">
-              <TableCell className="font-semibold text-white">
-                <Link href={`/dashboard/clients/${client.id}`} className="text-white hover:text-[var(--brand-500)] transition-colors">
-                  {client.name}
-                </Link>
-              </TableCell>
-              <TableCell className="text-[var(--text-secondary)]">{client.phone ?? '—'}</TableCell>
-              <TableCell className={client.pendingBalance > 0 ? 'text-right font-semibold text-[var(--warning-500)] tabular-nums' : 'text-right text-[var(--text-secondary)] tabular-nums'}>
-                {formatCurrency(client.pendingBalance, currency)}
-              </TableCell>
-              <TableCell className="text-[var(--text-secondary)] tabular-nums">{client.lastSaleDate ? formatDate(client.lastSaleDate) : '—'}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <div className="sp-card">
+        <div className="sp-card-content !p-0 overflow-x-auto">
+          <Table className="data-table">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Teléfono</TableHead>
+                <TableHead className="text-right">Saldo pendiente</TableHead>
+                <TableHead>Última compra</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filtered.map((client) => (
+                <TableRow key={client.id} className="cursor-pointer">
+                  <TableCell className="font-semibold text-white">
+                    <Link href={`/dashboard/clients/${client.id}`} className="text-white hover:text-[var(--brand-500)] transition-colors">
+                      {client.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-[var(--text-secondary)]">{client.phone ?? '—'}</TableCell>
+                  <TableCell className={client.pendingBalance > 0 ? 'text-right font-semibold text-[var(--warning-500)] tabular-nums' : 'text-right text-[var(--text-secondary)] tabular-nums'}>
+                    {formatCurrency(client.pendingBalance, currency)}
+                  </TableCell>
+                  <TableCell className="text-[var(--text-secondary)] tabular-nums">{client.lastSaleDate ? formatDate(client.lastSaleDate) : '—'}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
 
       {filtered.length === 0 && (
         <p className="text-sm text-[var(--text-muted)] mt-2">No se encontraron clientes con ese criterio de búsqueda.</p>

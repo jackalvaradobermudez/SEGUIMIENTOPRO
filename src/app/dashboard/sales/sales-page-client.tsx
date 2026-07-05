@@ -66,7 +66,7 @@ export default function SalesPageClient() {
       </div>
 
       {/* KPI Cards */}
-      <div className="mb-5 grid grid-cols-1 gap-5 xl:grid-cols-4">
+      <div className="sp-kpi-grid">
         <KpiCard
           label="Total vendido este mes"
           value="$ 12.480.000"
@@ -104,7 +104,7 @@ export default function SalesPageClient() {
       </div>
 
       {/* Filters */}
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-4">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-4 mt-2">
         <FilterPills options={STATUS_FILTERS} active={status} onChange={setStatus} />
         <FilterControls period="Este mes" />
       </div>
@@ -132,7 +132,7 @@ export default function SalesPageClient() {
       </div>
 
       {/* Bottom cards */}
-      <div className="mt-6 grid grid-cols-2 gap-5">
+      <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
         <RecentActivityCard />
         <UpcomingPaymentsCard />
       </div>

@@ -189,7 +189,7 @@ export default async function ReportsPage({
       </div>
 
       {/* KPI Cards */}
-      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="sp-kpi-grid">
         {KPI_DATA.map((kpi, idx) => {
           const Icon = kpi.icon
           const deltaColor = idx === 1 ? 'text-[var(--success-500)]' : idx === 2 ? 'text-[var(--warning-500)]' : 'text-[var(--danger-500)]'
@@ -215,38 +215,40 @@ export default async function ReportsPage({
           {topClients.length === 0 ? (
             <p className="text-sm text-[var(--text-muted)]">Sin ventas en el período.</p>
           ) : (
-            <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface overflow-hidden">
-              {topClients.map(([clientId, data], i) => {
-                const pct = totalSold > 0 ? (data.total / totalSold) * 100 : 0
-                return (
-                  <div
-                    key={clientId}
-                    className="flex items-center gap-4 p-5 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150"
-                  >
-                    <span className="text-[15px] font-bold text-[var(--text-muted)] w-6 text-center">
-                      {i + 1}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <Link
-                        href={`/dashboard/clients/${clientId}`}
-                        className="text-sm font-semibold text-white hover:text-[var(--brand-500)] transition-colors truncate block"
-                      >
-                        {data.name}
-                      </Link>
-                      <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
-                        <div
-                          className="h-full rounded-full transition-all duration-500 bg-[var(--brand-500)]"
-                          style={{ width: `${pct}%` }}
-                        />
+            <div className="sp-card">
+              <div className="sp-card-content !p-0">
+                {topClients.map(([clientId, data], i) => {
+                  const pct = totalSold > 0 ? (data.total / totalSold) * 100 : 0
+                  return (
+                    <div
+                      key={clientId}
+                      className="flex items-center gap-5 p-5 px-7 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150"
+                    >
+                      <span className="text-[15px] font-bold text-[var(--text-muted)] w-6 text-center">
+                        {i + 1}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <Link
+                          href={`/dashboard/clients/${clientId}`}
+                          className="text-sm font-semibold text-white hover:text-[var(--brand-500)] transition-colors truncate block"
+                        >
+                          {data.name}
+                        </Link>
+                        <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-500 bg-[var(--brand-500)]"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(data.total, business.currency)}</p>
+                        <p className="text-xs text-[var(--text-muted)] mt-0.5">{data.count} venta{data.count !== 1 ? 's' : ''}</p>
                       </div>
                     </div>
-                    <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(data.total, business.currency)}</p>
-                      <p className="text-xs text-[var(--text-muted)] mt-0.5">{data.count} venta{data.count !== 1 ? 's' : ''}</p>
-                    </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           )}
         </section>
@@ -257,33 +259,35 @@ export default async function ReportsPage({
             <BarChart3 size={18} className="text-[var(--brand-500)]" />
             <h2 id="aging-heading" className="text-lg font-bold text-white tracking-tight">Cartera por edades</h2>
           </div>
-          <div className="rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface overflow-hidden">
-            {Object.entries(AGING_BUCKETS).map(([key, bucket]) => {
-              const amount = agingBuckets[key] ?? 0
-              const pct = totalAging > 0 ? (amount / totalAging) * 100 : 0
-              return (
-                <div key={key} className="flex items-center gap-4 p-5 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150">
-                  <div className="w-24 flex-shrink-0">
-                    <span className="text-xs font-semibold text-[var(--text-secondary)]">{bucket.label}</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{
-                          width: `${pct}%`,
-                          background: key === 'current' ? 'var(--success-500)' : key === '1_30' ? 'var(--warning-500)' : 'var(--danger-500)',
-                        }}
-                      />
+          <div className="sp-card">
+            <div className="sp-card-content !p-0">
+              {Object.entries(AGING_BUCKETS).map(([key, bucket]) => {
+                const amount = agingBuckets[key] ?? 0
+                const pct = totalAging > 0 ? (amount / totalAging) * 100 : 0
+                return (
+                  <div key={key} className="flex items-center gap-5 p-5 px-7 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.01] transition-colors duration-150">
+                    <div className="w-24 flex-shrink-0">
+                      <span className="text-xs font-semibold text-[var(--text-secondary)]">{bucket.label}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{
+                            width: `${pct}%`,
+                            background: key === 'current' ? 'var(--success-500)' : key === '1_30' ? 'var(--warning-500)' : 'var(--danger-500)',
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex-shrink-0 text-right min-w-[100px]">
+                      <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(amount, business.currency)}</p>
+                      <p className="text-xs text-[var(--text-muted)] mt-0.5 tabular-nums">{pct.toFixed(1)}%</p>
                     </div>
                   </div>
-                  <div className="flex-shrink-0 text-right min-w-[100px]">
-                    <p className="text-sm font-bold text-white tabular-nums">{formatCurrency(amount, business.currency)}</p>
-                    <p className="text-xs text-[var(--text-muted)] mt-0.5 tabular-nums">{pct.toFixed(1)}%</p>
-                  </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
         </section>
       </div>
@@ -302,48 +306,50 @@ export default async function ReportsPage({
             <p>No hay ventas en el período seleccionado.</p>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="bg-white/[0.01]">
-                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">#Venta</th>
-                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Cliente</th>
-                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Fecha</th>
-                  <th className="text-right px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Total</th>
-                  <th className="text-right px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Saldo</th>
-                  <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeSales.slice(0, 20).map((sale) => (
-                  <tr key={sale.id} className="border-t border-white/[0.06] hover:bg-white/[0.02] transition-colors duration-150">
-                    <td className="px-5 py-4 text-sm font-semibold">
-                      <Link href={`/dashboard/sales/${sale.id}`} className="text-[var(--brand-500)] hover:underline">
-                        #{sale.sale_number}
-                      </Link>
-                    </td>
-                    <td className="px-5 py-4 text-sm text-white">{clientMap.get(sale.client_id) ?? '—'}</td>
-                    <td className="px-5 py-4 text-sm text-[var(--text-secondary)] tabular-nums">{sale.sale_date}</td>
-                    <td className="px-5 py-4 text-sm text-right font-semibold text-white tabular-nums">{formatCurrency(sale.total_amount, business.currency)}</td>
-                    <td className="px-5 py-4 text-sm text-right font-semibold tabular-nums" style={{ color: (sale.balance ?? 0) > 0 ? 'var(--warning-500)' : 'var(--success-500)' }}>
-                      {formatCurrency(sale.balance ?? 0, business.currency)}
-                    </td>
-                    <td className="px-5 py-4 text-sm">
-                      <span className={`${SALE_STATUS_BADGE_CLASS[sale.status as keyof typeof SALE_STATUS_BADGE_CLASS] ?? ''} rounded-full px-2.5 py-0.5 text-xs font-semibold`}>
-                        {SALE_STATUS_LABEL[sale.status as keyof typeof SALE_STATUS_LABEL] ?? sale.status}
-                      </span>
-                    </td>
+          <div className="sp-card">
+            <div className="sp-card-content !p-0 overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-white/[0.01]">
+                    <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">#Venta</th>
+                    <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Cliente</th>
+                    <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Fecha</th>
+                    <th className="text-right px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Total</th>
+                    <th className="text-right px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Saldo</th>
+                    <th className="text-left px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)]">Estado</th>
                   </tr>
-                ))}
-                {activeSales.length > 20 && (
-                  <tr>
-                    <td colSpan={6} className="px-5 py-4 text-center text-sm text-[var(--text-muted)] bg-white/[0.005]">
-                      Mostrando 20 de {activeSales.length}. Exporta CSV para ver todos.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {activeSales.slice(0, 20).map((sale) => (
+                    <tr key={sale.id} className="border-t border-white/[0.06] hover:bg-white/[0.02] transition-colors duration-150">
+                      <td className="px-5 py-4 text-sm font-semibold">
+                        <Link href={`/dashboard/sales/${sale.id}`} className="text-[var(--brand-500)] hover:underline">
+                          #{sale.sale_number}
+                        </Link>
+                      </td>
+                      <td className="px-5 py-4 text-sm text-white">{clientMap.get(sale.client_id) ?? '—'}</td>
+                      <td className="px-5 py-4 text-sm text-[var(--text-secondary)] tabular-nums">{sale.sale_date}</td>
+                      <td className="px-5 py-4 text-sm text-right font-semibold text-white tabular-nums">{formatCurrency(sale.total_amount, business.currency)}</td>
+                      <td className="px-5 py-4 text-sm text-right font-semibold tabular-nums" style={{ color: (sale.balance ?? 0) > 0 ? 'var(--warning-500)' : 'var(--success-500)' }}>
+                        {formatCurrency(sale.balance ?? 0, business.currency)}
+                      </td>
+                      <td className="px-5 py-4 text-sm">
+                        <span className={`${SALE_STATUS_BADGE_CLASS[sale.status as keyof typeof SALE_STATUS_BADGE_CLASS] ?? ''} rounded-full px-2.5 py-0.5 text-xs font-semibold`}>
+                          {SALE_STATUS_LABEL[sale.status as keyof typeof SALE_STATUS_LABEL] ?? sale.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  {activeSales.length > 20 && (
+                    <tr>
+                      <td colSpan={6} className="px-5 py-4 text-center text-sm text-[var(--text-muted)] bg-white/[0.005]">
+                        Mostrando 20 de {activeSales.length}. Exporta CSV para ver todos.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </section>

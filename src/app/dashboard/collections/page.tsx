@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import {
   AlertTriangle,
@@ -245,35 +244,33 @@ export default async function CollectionsPage() {
       <div className="section-header">
         <h2 className="section-title">Cobros de hoy</h2>
       </div>
-      <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <CalendarClock size={18} />
-              Vencen hoy
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+      <div className="mb-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="sp-card">
+          <div className="sp-card-header flex flex-row items-center gap-2 !pb-3">
+            <CalendarClock size={18} className="text-slate-400" />
+            <h3 className="text-base font-bold text-white">Vencen hoy</h3>
+          </div>
+          <div className="sp-card-content !pt-2">
             {dueToday.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Nada vence hoy.</p>
+              <p className="text-sm text-[var(--text-muted)]">Nada vence hoy.</p>
             ) : (
               <div className="flex flex-col gap-3">
                 {dueToday.map((sale) => (
                   <div
                     key={sale.id}
-                    className="flex items-center justify-between rounded-[var(--radius-sm)] border border-[var(--border)] p-3 text-sm"
+                    className="flex items-center justify-between rounded-2xl border border-white/[0.06] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
                   >
                     <div>
                       <Link
                         href={`/dashboard/sales/${sale.id}`}
-                        className="font-medium text-accent hover:underline"
+                        className="font-semibold text-[var(--brand-500)] hover:underline"
                       >
                         #{sale.sale_number}
                       </Link>
-                      <span className="ml-2">{sale.clientName}</span>
+                      <span className="ml-3 text-white font-medium">{sale.clientName}</span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-semibold text-[var(--warning)]">
+                    <div className="flex items-center gap-4">
+                      <span className="font-bold text-[var(--warning-500)] tabular-nums">
                         {formatCurrency(sale.balance, business.currency)}
                       </span>
                       {sale.clientPhone && (
@@ -292,7 +289,7 @@ export default async function CollectionsPage() {
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="quick-link text-xs"
+                          className="quick-link text-xs cursor-pointer"
                           aria-label="Contactar por WhatsApp"
                         >
                           <MessageCircle size={14} />
@@ -304,46 +301,44 @@ export default async function CollectionsPage() {
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <Clock size={18} />
-              Promesas pendientes
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+        <div className="sp-card">
+          <div className="sp-card-header flex flex-row items-center gap-2 !pb-3">
+            <Clock size={18} className="text-slate-400" />
+            <h3 className="text-base font-bold text-white">Promesas pendientes</h3>
+          </div>
+          <div className="sp-card-content !pt-2">
             {brokenList.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Sin promesas pendientes.</p>
+              <p className="text-sm text-[var(--text-muted)]">Sin promesas pendientes.</p>
             ) : (
               <div className="flex flex-col gap-3">
                 {brokenList.map((bp) => (
                   <div
                     key={bp.saleId}
-                    className="flex items-center justify-between rounded-[var(--radius-sm)] border border-[var(--border)] p-3 text-sm"
+                    className="flex items-center justify-between rounded-2xl border border-white/[0.06] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
                   >
                     <div>
                       <Link
                         href={`/dashboard/sales/${bp.saleId}`}
-                        className="font-medium text-accent hover:underline"
+                        className="font-semibold text-[var(--brand-500)] hover:underline"
                       >
                         #{bp.saleNumber}
                       </Link>
-                      <span className="ml-2">{bp.clientName}</span>
-                      <span className="ml-2 text-xs text-muted-foreground">
+                      <span className="ml-3 text-white font-medium">{bp.clientName}</span>
+                      <span className="ml-3 text-xs text-[var(--text-secondary)] font-medium">
                         Prometió {formatDate(bp.promisedDate)}
                         {bp.promisedAmount != null && (
                           <> · {formatCurrency(bp.promisedAmount, business.currency)}</>
                         )}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-semibold text-[var(--warning)]">
+                    <div className="flex items-center gap-4">
+                      <span className="font-bold text-[var(--warning-500)] tabular-nums">
                         {formatCurrency(bp.balance, business.currency)}
                       </span>
-                      <Link href={`/dashboard/sales/${bp.saleId}`} className="quick-link text-xs">
+                      <Link href={`/dashboard/sales/${bp.saleId}`} className="quick-link text-xs cursor-pointer">
                         Gestionar →
                       </Link>
                     </div>
@@ -351,34 +346,34 @@ export default async function CollectionsPage() {
                 ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
-      <div className="section-header">
+      <div className="section-header mt-10">
         <h2 className="section-title">Próximos 7 días</h2>
       </div>
-      <Card className="mb-8">
-        <CardContent className="pt-6">
+      <div className="sp-card mb-10">
+        <div className="sp-card-content !pt-6">
           {upcomingCollections.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No hay vencimientos en los próximos 7 días.</p>
+            <p className="text-sm text-[var(--text-muted)]">No hay vencimientos en los próximos 7 días.</p>
           ) : (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               {upcomingCollections.map((item) => {
                 const daysLeft = daysBetween(today, item.due_date ?? today)
                 return (
                   <div
                     key={item.sale_id}
-                    className="flex flex-wrap items-center justify-between gap-2 rounded-[var(--radius-sm)] border border-[var(--border)] p-3 text-sm"
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-4">
                       <Link
                         href={`/dashboard/sales/${item.sale_id}`}
-                        className="font-medium text-accent hover:underline"
+                        className="font-semibold text-[var(--brand-500)] hover:underline"
                       >
                         #{item.sale_number}
                       </Link>
-                      <span>{item.client_name}</span>
+                      <span className="text-white font-medium">{item.client_name}</span>
                       {item.client_phone && (
                         <a
                           href={buildWhatsAppUrl(
@@ -399,7 +394,7 @@ export default async function CollectionsPage() {
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="quick-link text-xs"
+                          className="quick-link text-xs cursor-pointer"
                           aria-label="Contactar por WhatsApp"
                         >
                           <MessageCircle size={14} />
@@ -407,12 +402,12 @@ export default async function CollectionsPage() {
                         </a>
                       )}
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Badge variant={daysLeft <= 2 ? 'destructive' : 'secondary'} className="text-xs">
+                    <div className="flex items-center gap-4">
+                      <Badge variant={daysLeft <= 2 ? 'destructive' : 'secondary'} className="text-xs font-semibold">
                         {daysLeft === 0 ? 'Hoy' : `${daysLeft} días`}
                       </Badge>
-                      <span className="font-semibold">{formatCurrency(item.balance ?? 0, business.currency)}</span>
-                      <Link href={`/dashboard/sales/${item.sale_id}`} className="quick-link text-xs">
+                      <span className="font-bold text-white tabular-nums">{formatCurrency(item.balance ?? 0, business.currency)}</span>
+                      <Link href={`/dashboard/sales/${item.sale_id}`} className="quick-link text-xs cursor-pointer">
                         Ver →
                       </Link>
                     </div>
@@ -421,38 +416,36 @@ export default async function CollectionsPage() {
               })}
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <div className="section-header">
+      <div className="section-header mt-10">
         <h2 className="section-title">Cartera crítica</h2>
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-base">
-            <DollarSign size={18} />
-            Top 10 deudores
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="sp-card">
+        <div className="sp-card-header flex flex-row items-center gap-2 !pb-3">
+          <DollarSign size={18} className="text-slate-400" />
+          <h3 className="text-base font-bold text-white">Top 10 deudores</h3>
+        </div>
+        <div className="sp-card-content !pt-2">
           {criticalList.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No tienes cartera en estado crítico.</p>
+            <p className="text-sm text-[var(--text-muted)]">No tienes cartera en estado crítico.</p>
           ) : (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               {criticalList.map((row) => (
                 <div
                   key={row.id}
-                  className="flex items-center justify-between rounded-[var(--radius-sm)] border border-[var(--border)] border-l-2 border-l-red-500 p-3 text-sm"
+                  className="flex items-center justify-between rounded-2xl border border-white/[0.06] border-l-2 border-l-[var(--danger-500)] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
                 >
-                  <div className="flex items-center gap-3">
-                    <Link href={`/dashboard/sales/${row.id}`} className="font-medium text-accent hover:underline">
+                  <div className="flex items-center gap-4">
+                    <Link href={`/dashboard/sales/${row.id}`} className="font-semibold text-[var(--brand-500)] hover:underline">
                       #{row.sale_number}
                     </Link>
-                    <span>{row.clientName}</span>
+                    <span className="text-white font-medium">{row.clientName}</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="font-semibold text-red-400">{formatCurrency(row.balance, business.currency)}</span>
-                    <Link href={`/dashboard/sales/${row.id}`} className="quick-link text-xs">
+                  <div className="flex items-center gap-4">
+                    <span className="font-bold text-[var(--danger-500)] tabular-nums">{formatCurrency(row.balance, business.currency)}</span>
+                    <Link href={`/dashboard/sales/${row.id}`} className="quick-link text-xs cursor-pointer">
                       Gestionar →
                     </Link>
                   </div>
@@ -460,12 +453,12 @@ export default async function CollectionsPage() {
               ))}
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {!hasData && (
-        <div className="empty-placeholder mt-8">
-          <CreditCard size={32} color="var(--text-subtle)" />
+        <div className="empty-placeholder mt-10">
+          <CreditCard size={32} className="text-[var(--text-muted)]" />
           <p>Hoy no tienes cobros pendientes. ¡Excelente!</p>
         </div>
       )}

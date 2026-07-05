@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Mail, Bell, CheckCircle2, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
@@ -51,17 +50,17 @@ export function NotificationsSettingsCard() {
   }
 
   return (
-    <Card className="bg-[#091221] border border-white/10 text-white rounded-xl shadow-xl overflow-hidden">
-      <CardHeader className="border-b border-white/5 py-4 px-6 flex flex-row items-center gap-3">
+    <div className="sp-card">
+      <div className="sp-card-header flex flex-row items-center gap-3 !pb-3">
         <div className="h-8 w-8 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400">
           <Bell size={18} />
         </div>
         <div>
-          <CardTitle className="text-base font-bold text-white">Preferencias de Alertas</CardTitle>
+          <h3 className="text-base font-bold text-white">Preferencias de Alertas</h3>
           <p className="text-xs text-slate-400">Configura cómo deseas recibir avisos de cobro y resúmenes operativos.</p>
         </div>
-      </CardHeader>
-      <CardContent className="p-6 space-y-6">
+      </div>
+      <div className="sp-card-content space-y-6">
         {/* Sección: Notificaciones de Navegador */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-6">
           <div className="space-y-1">
@@ -147,7 +146,7 @@ export function NotificationsSettingsCard() {
             Guardar preferencias de correo
           </Button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }
