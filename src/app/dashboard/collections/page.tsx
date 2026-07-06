@@ -248,7 +248,7 @@ export default async function CollectionsPage() {
         <div className="sp-card">
           <div className="sp-card-header flex flex-row items-center gap-2 !pb-3">
             <CalendarClock size={18} className="text-slate-400" />
-            <h3 className="text-base font-bold text-white">Vencen hoy</h3>
+            <h3 className="text-base font-bold text-[var(--text-primary)]">Vencen hoy</h3>
           </div>
           <div className="sp-card-content !pt-2">
             {dueToday.length === 0 ? (
@@ -258,7 +258,7 @@ export default async function CollectionsPage() {
                 {dueToday.map((sale) => (
                   <div
                     key={sale.id}
-                    className="flex items-center justify-between rounded-2xl border border-white/[0.06] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
+                    className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-4 px-5 text-sm hover:bg-slate-50 transition-all duration-150"
                   >
                     <div>
                       <Link
@@ -267,7 +267,7 @@ export default async function CollectionsPage() {
                       >
                         #{sale.sale_number}
                       </Link>
-                      <span className="ml-3 text-white font-medium">{sale.clientName}</span>
+                      <span className="ml-3 text-[var(--text-primary)] font-medium">{sale.clientName}</span>
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="font-bold text-[var(--warning-500)] tabular-nums">
@@ -307,7 +307,7 @@ export default async function CollectionsPage() {
         <div className="sp-card">
           <div className="sp-card-header flex flex-row items-center gap-2 !pb-3">
             <Clock size={18} className="text-slate-400" />
-            <h3 className="text-base font-bold text-white">Promesas pendientes</h3>
+            <h3 className="text-base font-bold text-[var(--text-primary)]">Promesas pendientes</h3>
           </div>
           <div className="sp-card-content !pt-2">
             {brokenList.length === 0 ? (
@@ -317,7 +317,7 @@ export default async function CollectionsPage() {
                 {brokenList.map((bp) => (
                   <div
                     key={bp.saleId}
-                    className="flex items-center justify-between rounded-2xl border border-white/[0.06] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
+                    className="flex items-center justify-between rounded-2xl border border-slate-100 bg-slate-50/50 p-4 px-5 text-sm hover:bg-slate-50 transition-all duration-150"
                   >
                     <div>
                       <Link
@@ -326,7 +326,7 @@ export default async function CollectionsPage() {
                       >
                         #{bp.saleNumber}
                       </Link>
-                      <span className="ml-3 text-white font-medium">{bp.clientName}</span>
+                      <span className="ml-3 text-[var(--text-primary)] font-medium">{bp.clientName}</span>
                       <span className="ml-3 text-xs text-[var(--text-secondary)] font-medium">
                         Prometió {formatDate(bp.promisedDate)}
                         {bp.promisedAmount != null && (
@@ -364,7 +364,7 @@ export default async function CollectionsPage() {
                 return (
                   <div
                     key={item.sale_id}
-                    className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
+                    className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-100 bg-slate-50/50 p-4 px-5 text-sm hover:bg-slate-50 transition-all duration-150"
                   >
                     <div className="flex items-center gap-4">
                       <Link
@@ -373,7 +373,7 @@ export default async function CollectionsPage() {
                       >
                         #{item.sale_number}
                       </Link>
-                      <span className="text-white font-medium">{item.client_name}</span>
+                      <span className="text-[var(--text-primary)] font-medium">{item.client_name}</span>
                       {item.client_phone && (
                         <a
                           href={buildWhatsAppUrl(
@@ -406,7 +406,7 @@ export default async function CollectionsPage() {
                       <Badge variant={daysLeft <= 2 ? 'destructive' : 'secondary'} className="text-xs font-semibold">
                         {daysLeft === 0 ? 'Hoy' : `${daysLeft} días`}
                       </Badge>
-                      <span className="font-bold text-white tabular-nums">{formatCurrency(item.balance ?? 0, business.currency)}</span>
+                      <span className="font-bold text-[var(--text-primary)] tabular-nums">{formatCurrency(item.balance ?? 0, business.currency)}</span>
                       <Link href={`/dashboard/sales/${item.sale_id}`} className="quick-link text-xs cursor-pointer">
                         Ver →
                       </Link>
@@ -425,7 +425,7 @@ export default async function CollectionsPage() {
       <div className="sp-card">
         <div className="sp-card-header flex flex-row items-center gap-2 !pb-3">
           <DollarSign size={18} className="text-slate-400" />
-          <h3 className="text-base font-bold text-white">Top 10 deudores</h3>
+          <h3 className="text-base font-bold text-[var(--text-primary)]">Top 10 deudores</h3>
         </div>
         <div className="sp-card-content !pt-2">
           {criticalList.length === 0 ? (
@@ -435,13 +435,13 @@ export default async function CollectionsPage() {
               {criticalList.map((row) => (
                 <div
                   key={row.id}
-                  className="flex items-center justify-between rounded-2xl border border-white/[0.06] border-l-2 border-l-[var(--danger-500)] bg-white/[0.01] p-4 px-5 text-sm hover:bg-white/[0.02] transition-all duration-150"
+                  className="flex items-center justify-between rounded-2xl border border-slate-100 border-l-2 border-l-[var(--danger-500)] bg-slate-50/50 p-4 px-5 text-sm hover:bg-slate-50 transition-all duration-150"
                 >
                   <div className="flex items-center gap-4">
                     <Link href={`/dashboard/sales/${row.id}`} className="font-semibold text-[var(--brand-500)] hover:underline">
                       #{row.sale_number}
                     </Link>
-                    <span className="text-white font-medium">{row.clientName}</span>
+                    <span className="text-[var(--text-primary)] font-medium">{row.clientName}</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="font-bold text-[var(--danger-500)] tabular-nums">{formatCurrency(row.balance, business.currency)}</span>

@@ -83,14 +83,14 @@ export function NotificationsDropdown() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "relative p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/[0.05] transition-all cursor-pointer focus:outline-none",
-          isOpen && "text-white bg-white/[0.05]"
+          "relative p-2 text-[var(--text-secondary)] hover:text-[var(--brand-700)] rounded-full hover:bg-slate-100 transition-all cursor-pointer focus:outline-none",
+          isOpen && "text-[var(--brand-700)] bg-slate-100"
         )}
         aria-label="Ver notificaciones"
       >
         <Bell size={20} className={cn("transition-transform", isOpen && "scale-110")} />
         {pendingCount > 0 && (
-          <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-violet-600 text-[10px] font-bold text-white ring-2 ring-[#091221] animate-pulse">
+          <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-violet-600 text-[10px] font-bold text-white ring-2 ring-white animate-pulse">
             {pendingCount}
           </span>
         )}
@@ -98,12 +98,12 @@ export function NotificationsDropdown() {
 
       {/* Menú Desplegable Dropdown */}
       {isOpen && (
-        <div className="absolute right-0 mt-2.5 w-80 rounded-xl border border-white/10 bg-[#0d1627]/95 backdrop-blur-md shadow-2xl z-50 overflow-hidden animate-fade-in origin-top-right">
+        <div className="absolute right-0 mt-2.5 w-80 rounded-xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl z-50 overflow-hidden animate-fade-in origin-top-right">
           {/* Header */}
-          <div className="px-4 py-3 border-b border-white/5 flex items-center justify-between">
-            <span className="text-xs font-bold text-white">Recordatorios Pendientes</span>
+          <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+            <span className="text-xs font-bold text-[var(--text-primary)]">Recordatorios Pendientes</span>
             {pendingCount > 0 && (
-              <span className="text-[10px] bg-violet-500/20 text-violet-300 font-semibold px-2 py-0.5 rounded-full">
+              <span className="text-[10px] bg-[var(--brand-soft)] text-[var(--brand-700)] font-semibold px-2 py-0.5 rounded-full">
                 {pendingCount} hoy
               </span>
             )}
@@ -113,38 +113,38 @@ export function NotificationsDropdown() {
           <div className="max-h-64 overflow-y-auto pr-0.5">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-8 gap-2 text-slate-500 text-xs">
-                <Loader2 className="h-4 w-4 animate-spin text-violet-400" />
+                <Loader2 className="h-4 w-4 animate-spin text-violet-500" />
                 Cargando alertas...
               </div>
             ) : reminders.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-10 px-4 text-center gap-1.5">
-                <div className="h-10 w-10 rounded-full bg-violet-500/10 flex items-center justify-center text-violet-400 mb-1">
-                  <Bell size={18} className="text-violet-400/80" />
+                <div className="h-10 w-10 rounded-full bg-[var(--brand-soft)] flex items-center justify-center text-[var(--brand-600)] mb-1">
+                  <Bell size={18} className="text-[var(--brand-600)]" />
                 </div>
-                <p className="text-xs font-bold text-slate-200">¡Todo al día!</p>
+                <p className="text-xs font-bold text-[var(--text-primary)]">¡Todo al día!</p>
                 <p className="text-[10px] text-slate-500 max-w-[200px]">No tienes cobros ni tareas programadas pendientes de gestión.</p>
               </div>
             ) : (
-              <div className="divide-y divide-white/5">
+              <div className="divide-y divide-slate-100">
                 {reminders.map((reminder) => (
                   <div
                     key={reminder.id}
-                    className="p-3.5 hover:bg-white/[0.02] flex items-start justify-between gap-3 group transition-colors"
+                    className="p-3.5 hover:bg-slate-50 flex items-start justify-between gap-3 group transition-colors"
                   >
                     <div className="flex items-start gap-2.5">
-                      <div className="mt-0.5 h-7 w-7 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                      <div className="mt-0.5 h-7 w-7 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                         {getIcon(reminder.reminder_type)}
                       </div>
                       <div className="space-y-0.5">
-                        <p className="text-xs font-bold text-white leading-tight">
+                        <p className="text-xs font-bold text-[var(--text-primary)] leading-tight">
                           {reminder.title}
                         </p>
                         {reminder.description && (
-                          <p className="text-[10px] text-slate-400 line-clamp-2">
+                          <p className="text-[10px] text-slate-500 line-clamp-2">
                             {reminder.description}
                           </p>
                         )}
-                        <p className="text-[9px] text-slate-500">
+                        <p className="text-[9px] text-slate-400">
                           {new Date(reminder.remind_at).toLocaleDateString('es-CO', {
                             month: 'short',
                             day: 'numeric',
@@ -158,7 +158,7 @@ export function NotificationsDropdown() {
                     {/* Botón Completar (Check) */}
                     <button
                       onClick={() => handleComplete(reminder.id)}
-                      className="opacity-0 group-hover:opacity-100 flex-shrink-0 h-6 w-6 rounded-full bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-white flex items-center justify-center transition-all cursor-pointer border border-emerald-500/20"
+                      className="opacity-0 group-hover:opacity-100 flex-shrink-0 h-6 w-6 rounded-full bg-[var(--success-soft)] hover:bg-[var(--success-500)] text-[var(--success-500)] hover:text-white flex items-center justify-center transition-all cursor-pointer border border-[var(--success-border)]"
                       title="Marcar como completado"
                     >
                       <Check size={12} />

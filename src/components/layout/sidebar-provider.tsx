@@ -5,12 +5,16 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 type SidebarContextType = {
   isCollapsed: boolean
   toggleSidebar: () => void
+  isMobileOpen: boolean
+  toggleMobileSidebar: () => void
+  closeMobileSidebar: () => void
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   // Persistir en localStorage
@@ -31,6 +35,9 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
+  const toggleMobileSidebar = () => setIsMobileOpen((prev) => !prev)
+  const closeMobileSidebar = () => setIsMobileOpen(false)
+
   // Evitar saltos de renderizado en el cliente antes de montar
   const sidebarWidth = mounted && isCollapsed ? '88px' : '280px'
 
@@ -39,7 +46,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   } as React.CSSProperties
 
   return (
-    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar }}>
+    <SidebarContext.Provider value={{ isCollapsed, toggleSidebar, isMobileOpen, toggleMobileSidebar, closeMobileSidebar }}>
       <div className="dashboard-root" style={rootStyle}>
         {children}
       </div>

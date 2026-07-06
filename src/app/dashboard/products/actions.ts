@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { productSchema } from '@/lib/validations/product'
+import { checkProductLimit } from '@/lib/plan-limits'
 
 function toNullable(value: string) {
   return value.trim() === '' ? null : value.trim()
@@ -28,6 +29,9 @@ function parseProductForm(formData: FormData) {
 export async function createProductAction(formData: FormData) {
   const business = await getActiveBusiness()
   const supabase = await createClient()
+
+  const limitError = await checkProductLimit(supabase, business)
+  if (limitError) return limitError
 
   const parsed = parseProductForm(formData)
   if (!parsed.success) {

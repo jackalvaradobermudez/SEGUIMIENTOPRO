@@ -63,7 +63,7 @@ export function PaymentsTable({
         {payments.map((payment) => (
           <TableRow key={payment.id}>
             <TableCell className="text-[var(--text-secondary)] tabular-nums">{formatDate(payment.payment_date)}</TableCell>
-            <TableCell className="text-right font-semibold text-white tabular-nums">{formatCurrency(payment.amount, currency)}</TableCell>
+            <TableCell className="text-right font-semibold text-[var(--text-primary)] tabular-nums">{formatCurrency(payment.amount, currency)}</TableCell>
             <TableCell className="text-[var(--text-secondary)]">{getPaymentMethodLabel(payment.payment_method)}</TableCell>
             <TableCell className="text-[var(--text-secondary)]">{payment.receipt_number ?? '—'}</TableCell>
             <TableCell className="text-center">

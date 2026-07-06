@@ -282,42 +282,42 @@ export function ImportCsvModal() {
 
   return (
     <Dialog open={open} onOpenChange={(val) => { setOpen(val); if (!val) resetState() }}>
-      <DialogTrigger className="inline-flex h-9 items-center justify-center rounded-md border border-white/10 bg-transparent px-3 text-xs font-semibold text-slate-300 hover:bg-white/[0.05] hover:text-white transition-all cursor-pointer gap-1.5">
+      <DialogTrigger className="inline-flex h-9 items-center justify-center rounded-md border border-slate-200 bg-white px-3 text-xs font-semibold text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] transition-all cursor-pointer gap-1.5">
         <Upload size={14} />
         Importar CSV
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col p-6 bg-[#091221] border border-white/10 text-white rounded-xl shadow-2xl overflow-hidden">
+      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col p-6 bg-white border border-slate-200 text-[var(--text-primary)] rounded-xl shadow-2xl overflow-hidden">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-xl font-bold flex items-center gap-2">
             <FileText className="text-violet-400" />
             Importación Masiva de Clientes
           </DialogTitle>
-          <DialogDescription className="text-slate-400 text-sm">
+          <DialogDescription className="text-slate-500 text-sm">
             Carga y mapea tu archivo CSV de clientes en solo 3 pasos.
           </DialogDescription>
         </DialogHeader>
 
         {/* Barra de Pasos */}
-        <div className="mb-6 flex items-center justify-between border-b border-white/5 pb-4">
+        <div className="mb-6 flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-2">
             <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
-              step >= 1 ? 'bg-violet-600 text-white' : 'bg-white/10 text-slate-400'
+              step >= 1 ? 'bg-violet-600 text-white' : 'bg-slate-100 text-slate-400'
             }`}>1</span>
-            <span className={`text-xs font-semibold ${step >= 1 ? 'text-white' : 'text-slate-500'}`}>Cargar archivo</span>
+            <span className={`text-xs font-semibold ${step >= 1 ? 'text-[var(--text-primary)]' : 'text-slate-400'}`}>Cargar archivo</span>
           </div>
           <ArrowRight size={14} className="text-slate-600" />
           <div className="flex items-center gap-2">
             <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
-              step >= 2 ? 'bg-violet-600 text-white' : 'bg-white/10 text-slate-400'
+              step >= 2 ? 'bg-violet-600 text-white' : 'bg-slate-100 text-slate-400'
             }`}>2</span>
-            <span className={`text-xs font-semibold ${step >= 2 ? 'text-white' : 'text-slate-500'}`}>Mapear columnas</span>
+            <span className={`text-xs font-semibold ${step >= 2 ? 'text-[var(--text-primary)]' : 'text-slate-400'}`}>Mapear columnas</span>
           </div>
           <ArrowRight size={14} className="text-slate-600" />
           <div className="flex items-center gap-2">
             <span className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
-              step >= 3 ? 'bg-violet-600 text-white' : 'bg-white/10 text-slate-400'
+              step >= 3 ? 'bg-violet-600 text-white' : 'bg-slate-100 text-slate-400'
             }`}>3</span>
-            <span className={`text-xs font-semibold ${step >= 3 ? 'text-white' : 'text-slate-500'}`}>Corregir y Guardar</span>
+            <span className={`text-xs font-semibold ${step >= 3 ? 'text-[var(--text-primary)]' : 'text-slate-400'}`}>Corregir y Guardar</span>
           </div>
         </div>
 
@@ -326,7 +326,7 @@ export function ImportCsvModal() {
           {step === 1 && (
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-violet-500/50 rounded-xl p-10 bg-white/[0.02] hover:bg-white/[0.04] transition-all cursor-pointer group"
+              className="flex flex-col items-center justify-center border-2 border-dashed border-slate-200 hover:border-violet-400 rounded-xl p-10 bg-slate-50 hover:bg-slate-100 transition-all cursor-pointer group"
             >
               <input
                 type="file"
@@ -338,7 +338,7 @@ export function ImportCsvModal() {
               <div className="h-14 w-14 rounded-full bg-violet-500/10 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform shadow-[0_0_24px_rgba(124,92,255,0.1)] mb-4">
                 <Upload size={24} />
               </div>
-              <p className="text-sm font-bold text-white mb-1.5">Arrastra y suelta tu archivo aquí</p>
+              <p className="text-sm font-bold text-[var(--text-primary)] mb-1.5">Arrastra y suelta tu archivo aquí</p>
               <p className="text-xs text-slate-400">Solo se admiten archivos .csv estructurados con delimitador coma o punto y coma.</p>
               <Button size="sm" className="mt-4 bg-violet-600 hover:bg-violet-500 font-semibold cursor-pointer">
                 Seleccionar archivo
@@ -348,16 +348,16 @@ export function ImportCsvModal() {
 
           {step === 2 && (
             <div className="space-y-4 animate-fade-in">
-              <div className="bg-white/[0.03] border border-white/5 rounded-lg p-4 flex items-center gap-3">
+              <div className="bg-slate-50 border border-slate-100 rounded-lg p-4 flex items-center gap-3">
                 <FileText size={20} className="text-violet-400" />
                 <div>
                   <p className="text-xs text-slate-400">Archivo seleccionado</p>
-                  <p className="text-sm font-bold text-white">{fileName}</p>
+                  <p className="text-sm font-bold text-[var(--text-primary)]">{fileName}</p>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-white/5 bg-white/[0.01] p-5">
-                <h3 className="text-sm font-bold mb-4 text-slate-200">Asociar columnas del CSV</h3>
+              <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-5">
+                <h3 className="text-sm font-bold mb-4 text-[var(--text-primary)]">Asociar columnas del CSV</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     { key: 'name', label: 'Nombre Completo *', required: true },
@@ -376,7 +376,7 @@ export function ImportCsvModal() {
                       <select
                         value={mapping[field.key]}
                         onChange={(e) => handleMappingChange(field.key, Number(e.target.value))}
-                        className="w-full bg-[#0d1829] border border-white/10 rounded-lg text-sm text-slate-200 px-3 py-2 focus:border-violet-500 focus:outline-none transition-colors"
+                        className="w-full bg-white border border-slate-200 rounded-lg text-sm text-[var(--text-primary)] px-3 py-2 focus:border-violet-500 focus:outline-none transition-colors"
                       >
                         <option value={-1}>
                           {field.required ? '— Selecciona una columna (Requerido) —' : '— Omitir campo —'}
@@ -397,7 +397,7 @@ export function ImportCsvModal() {
           {step === 3 && (
             <div className="space-y-4 animate-fade-in flex flex-col h-full">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-400">
+                <span className="text-xs font-bold text-[var(--text-primary)]">
                   Vista previa de {parsedItems.length} registros cargados
                 </span>
                 <span className="text-xs text-slate-500">
@@ -405,10 +405,10 @@ export function ImportCsvModal() {
                 </span>
               </div>
 
-              <div className="border border-white/10 rounded-xl overflow-hidden bg-white/[0.01] max-h-[350px] overflow-y-auto">
+              <div className="border border-slate-200 rounded-xl overflow-hidden bg-white max-h-[350px] overflow-y-auto">
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
-                    <tr className="bg-white/[0.04] border-b border-white/10">
+                    <tr className="bg-slate-50 border-b border-slate-200">
                       <th className="p-3 font-semibold text-slate-400 text-center w-8">#</th>
                       <th className="p-3 font-semibold text-slate-400">Nombre *</th>
                       <th className="p-3 font-semibold text-slate-400">Teléfono</th>
@@ -421,15 +421,15 @@ export function ImportCsvModal() {
                   </thead>
                   <tbody>
                     {parsedItems.map((item, rowIdx) => (
-                      <tr key={rowIdx} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      <tr key={rowIdx} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                         <td className="p-3 text-slate-500 text-center">{rowIdx + 1}</td>
                         <td className="p-1">
                           <input
                             type="text"
                             value={item.name}
                             onChange={(e) => updateItemCell(rowIdx, 'name', e.target.value)}
-                            className={`w-full bg-transparent border-0 px-2 py-1.5 focus:bg-[#0d1829] rounded transition-colors ${
-                              item.errors.name ? 'border border-red-500 bg-red-500/10 text-red-200' : 'text-white'
+                            className={`w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors ${
+                              item.errors.name ? 'border border-red-500 bg-red-50 text-red-600' : 'text-[var(--text-primary)]'
                             }`}
                             title={item.errors.name}
                           />
@@ -439,7 +439,7 @@ export function ImportCsvModal() {
                             type="text"
                             value={item.phone}
                             onChange={(e) => updateItemCell(rowIdx, 'phone', e.target.value)}
-                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-[#0d1829] rounded transition-colors text-slate-200"
+                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors text-[var(--text-primary)]"
                           />
                         </td>
                         <td className="p-1">
@@ -447,8 +447,8 @@ export function ImportCsvModal() {
                             type="text"
                             value={item.email}
                             onChange={(e) => updateItemCell(rowIdx, 'email', e.target.value)}
-                            className={`w-full bg-transparent border-0 px-2 py-1.5 focus:bg-[#0d1829] rounded transition-colors ${
-                              item.errors.email ? 'border border-red-500 bg-red-500/10 text-red-200' : 'text-slate-200'
+                            className={`w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors ${
+                              item.errors.email ? 'border border-red-500 bg-red-50 text-red-600' : 'text-[var(--text-primary)]'
                             }`}
                             title={item.errors.email}
                           />
@@ -458,7 +458,7 @@ export function ImportCsvModal() {
                             type="text"
                             value={item.id_number}
                             onChange={(e) => updateItemCell(rowIdx, 'id_number', e.target.value)}
-                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-[#0d1829] rounded transition-colors text-slate-200"
+                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors text-[var(--text-primary)]"
                           />
                         </td>
                         <td className="p-1">
@@ -466,7 +466,7 @@ export function ImportCsvModal() {
                             type="text"
                             value={item.company}
                             onChange={(e) => updateItemCell(rowIdx, 'company', e.target.value)}
-                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-[#0d1829] rounded transition-colors text-slate-200"
+                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors text-[var(--text-primary)]"
                           />
                         </td>
                         <td className="p-1">
@@ -474,7 +474,7 @@ export function ImportCsvModal() {
                             type="text"
                             value={item.address}
                             onChange={(e) => updateItemCell(rowIdx, 'address', e.target.value)}
-                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-[#0d1829] rounded transition-colors text-slate-200"
+                            className="w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors text-[var(--text-primary)]"
                           />
                         </td>
                         <td className="p-1 text-center">
@@ -493,7 +493,7 @@ export function ImportCsvModal() {
               </div>
 
               {parsedItems.some(item => Object.keys(item.errors).length > 0) && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-300 text-xs rounded-lg p-3.5 flex items-start gap-2.5">
+                <div className="bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg p-3.5 flex items-start gap-2.5">
                   <AlertTriangle size={16} className="text-red-400 flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-bold">Se encontraron errores de validación</p>
@@ -506,13 +506,13 @@ export function ImportCsvModal() {
         </div>
 
         {/* Botones de Navegación de Pasos */}
-        <div className="flex items-center justify-between border-t border-white/5 pt-4 bg-transparent mt-auto">
+        <div className="flex items-center justify-between border-t border-slate-100 pt-4 bg-transparent mt-auto">
           {step > 1 ? (
             <Button
               variant="outline"
               onClick={() => setStep(prev => (prev - 1) as 1 | 2)}
               disabled={uploading}
-              className="border-white/10 text-slate-300 hover:bg-white/[0.05] hover:text-white cursor-pointer"
+              className="border-slate-200 text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] cursor-pointer"
             >
               Atrás
             </Button>
@@ -526,7 +526,7 @@ export function ImportCsvModal() {
                 <span>Guardando en base de datos...</span>
                 <span>{progress}%</span>
               </div>
-              <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+              <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-violet-500 to-violet-400 rounded-full transition-all duration-150"
                   style={{ width: `${progress}%` }}

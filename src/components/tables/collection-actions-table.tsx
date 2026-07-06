@@ -76,7 +76,7 @@ export function CollectionActionsTable({
             <TableRow key={action.id}>
               <TableCell className="text-[var(--text-secondary)] tabular-nums">{formatDate(action.action_date)}</TableCell>
               <TableCell>
-                <span className="inline-flex items-center gap-1.5 text-white">
+                <span className="inline-flex items-center gap-1.5 text-[var(--text-primary)]">
                   <Icon className="size-4 text-[var(--text-secondary)]" />
                   <span className="capitalize text-[var(--text-secondary)] text-sm">{action.action_type}</span>
                 </span>
@@ -89,7 +89,7 @@ export function CollectionActionsTable({
                   <span>
                     {formatDate(action.promised_date)}
                     {action.promised_amount != null && (
-                      <> &middot; <span className="font-semibold text-white">{formatCurrency(action.promised_amount, currency)}</span></>
+                      <> &middot; <span className="font-semibold text-[var(--text-primary)]">{formatCurrency(action.promised_amount, currency)}</span></>
                     )}
                   </span>
                 ) : (

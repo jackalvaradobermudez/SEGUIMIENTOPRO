@@ -112,9 +112,9 @@ export function ProductsTable({ products, currency }: { products: ProductRow[]; 
 
                 return (
                   <TableRow key={product.id}>
-                    <TableCell className="font-semibold text-white">{product.name}</TableCell>
+                    <TableCell className="font-semibold text-[var(--text-primary)]">{product.name}</TableCell>
                     <TableCell className="text-[var(--text-secondary)]">{product.category ?? '—'}</TableCell>
-                    <TableCell className="text-right font-medium text-white tabular-nums">{formatCurrency(product.default_price, currency)}</TableCell>
+                    <TableCell className="text-right font-medium text-[var(--text-primary)] tabular-nums">{formatCurrency(product.default_price, currency)}</TableCell>
                     <TableCell className="text-right text-[var(--text-secondary)] tabular-nums">
                       {product.cost_price != null ? formatCurrency(product.cost_price, currency) : '—'}
                     </TableCell>

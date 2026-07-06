@@ -12,9 +12,9 @@ export function LandingFooter() {
         </div>
         <p className="text-sm text-slate-400">&copy; {new Date().getFullYear()} SeguimientoPro. Gestión de cobros para emprendedores.</p>
         <div className="flex gap-6 text-sm">
-          <Link href="#" className="text-slate-400 transition-colors hover:text-slate-600">Términos</Link>
-          <Link href="#" className="text-slate-400 transition-colors hover:text-slate-600">Privacidad</Link>
-          <Link href="#" className="text-slate-400 transition-colors hover:text-slate-600">Contacto</Link>
+          <Link href="/terminos" className="text-slate-400 transition-colors hover:text-slate-600">Términos</Link>
+          <Link href="/privacidad" className="text-slate-400 transition-colors hover:text-slate-600">Privacidad</Link>
+          <Link href="/contacto" className="text-slate-400 transition-colors hover:text-slate-600">Contacto</Link>
         </div>
       </div>
     </footer>

@@ -23,7 +23,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b [&_tr]:border-white/[0.06] bg-white/[0.01]", className)}
+      className={cn("[&_tr]:border-b [&_tr]:border-slate-100 bg-slate-50", className)}
       {...props}
     />
   )
@@ -44,7 +44,7 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
     <tfoot
       data-slot="table-footer"
       className={cn(
-        "border-t border-white/[0.06] bg-white/[0.005] font-medium [&>tr]:last:border-b-0",
+        "border-t border-slate-100 bg-slate-50/50 font-medium [&>tr]:last:border-b-0",
         className
       )}
       {...props}
@@ -57,7 +57,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "border-b border-white/[0.06] transition-colors hover:bg-white/[0.02] data-[state=selected]:bg-white/[0.04]",
+        "border-b border-slate-100 transition-colors hover:bg-slate-50/60 data-[state=selected]:bg-slate-100",
         className
       )}
       {...props}
@@ -70,7 +70,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "h-14 px-5 align-middle font-semibold text-xs uppercase tracking-[0.08em] text-[var(--text-muted)] whitespace-nowrap",
+        "h-14 px-5 align-middle font-semibold text-xs uppercase tracking-[0.08em] text-[var(--text-primary)] whitespace-nowrap",
         className
       )}
       {...props}
@@ -83,7 +83,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "px-5 py-4 align-middle whitespace-nowrap text-sm text-white",
+        "px-5 py-4 align-middle whitespace-nowrap text-sm text-[var(--text-primary)]",
         className
       )}
       {...props}

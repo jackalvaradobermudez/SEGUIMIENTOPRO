@@ -5,6 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Crown, LogOut, ChevronLeft, ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useSidebar } from '@/components/layout/sidebar-provider'
+import { formatDate } from '@/lib/utils'
 
 const NAV = [
   { href: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
@@ -17,11 +18,17 @@ const NAV = [
   { href: '/dashboard/settings', label: 'Configuración', icon: 'Settings' },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({
+  plan,
+  planExpiresAt,
+}: {
+  plan: string
+  planExpiresAt: string | null
+}) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
-  const { isCollapsed, toggleSidebar } = useSidebar()
+  const { isCollapsed, toggleSidebar, isMobileOpen, closeMobileSidebar } = useSidebar()
 
   function isActive(href: string) {
     if (href === '/dashboard') return pathname === '/dashboard'
@@ -35,12 +42,23 @@ export default function Sidebar() {
   }
 
   return (
-    <aside
-      style={{ width: isCollapsed ? '88px' : '280px' }}
-      className={`fixed left-0 top-0 z-50 flex h-screen flex-col justify-between border-r border-white/5 bg-[#0B121D]/95 py-8 sidebar-transition shadow-[inset_-1px_0_0_rgba(255,255,255,0.06)] ${
-        !isCollapsed ? 'px-6' : 'px-3'
-      }`}
-    >
+    <>
+      {/* Backdrop móvil */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          onClick={closeMobileSidebar}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        style={{ width: isCollapsed ? '88px' : '280px' }}
+        className={`fixed left-0 top-0 z-50 flex h-screen flex-col justify-between border-r border-white/5 bg-[#0B121D]/95 py-8 sidebar-transition shadow-[inset_-1px_0_0_rgba(255,255,255,0.06)] transition-transform duration-200 md:translate-x-0 ${
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+        } ${
+          !isCollapsed ? 'px-6' : 'px-3'
+        }`}
+      >
       {/* Botón Toggle Flotante */}
       <button
         onClick={toggleSidebar}
@@ -73,6 +91,7 @@ export default function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={closeMobileSidebar}
                 className={`group relative flex h-14 items-center rounded-2xl transition-all duration-200 ${
                   !isCollapsed ? 'gap-4 px-5 w-full' : 'justify-center px-0 w-full'
                 } ${
@@ -116,31 +135,28 @@ export default function Sidebar() {
       <div className="flex flex-col gap-4 w-full">
         {/* Plan card */}
         {!isCollapsed && (
-          <div className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition-all duration-200">
+          <Link
+            href="/dashboard/settings"
+            onClick={closeMobileSidebar}
+            className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition-all duration-200 hover:border-[var(--brand-border)]"
+          >
             <div className="p-5">
-              <div className="mb-3 flex items-center gap-3">
+              <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-soft)] border border-[var(--brand-border)]">
                   <Crown size={16} className="text-violet-300" />
                 </div>
                 <div>
-                  <p className="text-[15px] font-semibold text-white">Plan Profesional</p>
+                  <p className="text-[15px] font-semibold text-white">{plan === 'pro' ? 'Plan PRO' : 'Plan Gratis'}</p>
                   <p className="flex items-center gap-1.5 text-[13px] text-[var(--text-secondary)] mt-0.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    Tu plan está activo
+                    <span className={`h-1.5 w-1.5 rounded-full ${plan === 'pro' ? 'bg-emerald-400' : 'bg-slate-400'}`} />
+                    {plan === 'pro' && planExpiresAt
+                      ? `Activo hasta ${formatDate(planExpiresAt)}`
+                      : 'Actualiza a PRO'}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="border-t border-white/[0.06] p-5">
-              <div className="mb-2.5 flex items-center justify-between text-[13px]">
-                <span className="text-[var(--text-muted)]">Usuarios</span>
-                <span className="font-medium text-white">8 / 15</span>
-              </div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
-                <div className="h-full w-[53%] rounded-full bg-gradient-to-r from-violet-500 to-violet-400" />
-              </div>
-            </div>
-          </div>
+          </Link>
         )}
 
         {/* Logout */}
@@ -160,5 +176,6 @@ export default function Sidebar() {
         </button>
       </div>
     </aside>
+    </>
   )
 }

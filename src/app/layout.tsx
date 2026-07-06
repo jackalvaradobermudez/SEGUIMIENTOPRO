@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { RegisterSW } from '@/components/pwa/register-sw'
+import { GoogleAnalytics } from '@/components/analytics/google-analytics'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -83,6 +84,7 @@ export default function RootLayout({
           {children}
           <RegisterSW />
         </TooltipProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   )

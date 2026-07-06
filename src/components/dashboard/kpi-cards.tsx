@@ -29,8 +29,7 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       label: 'Cartera pendiente',
       value: formatCurrency(data.pendingBalance, currency),
       icon: Clock,
-      iconColor: 'var(--warning)',
-      iconBg: 'var(--warning-bg)',
+      iconBg: 'bg-[var(--warning-500)]',
       href: '/dashboard/collections',
       description: (
         <>
@@ -43,8 +42,7 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       label: 'Cartera vencida',
       value: formatCurrency(data.overdueBalance, currency),
       icon: AlertTriangle,
-      iconColor: 'var(--danger)',
-      iconBg: 'var(--danger-bg)',
+      iconBg: 'bg-[var(--danger-500)]',
       href: '/dashboard/collections/aging',
       description: `Cobro promedio: ${data.avgCollectionDays} días`,
     },
@@ -53,8 +51,7 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       label: 'Ventas del mes',
       value: formatCurrency(data.monthTotal, currency),
       icon: ArrowUpRight,
-      iconColor: 'var(--accent)',
-      iconBg: 'var(--accent-light)',
+      iconBg: 'bg-[var(--brand-500)]',
       href: '/dashboard/sales',
       description: (
         <span className="inline-flex items-center gap-1">
@@ -73,8 +70,7 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
       label: 'Recaudado el mes',
       value: formatCurrency(data.monthCollected, currency),
       icon: CheckCircle2,
-      iconColor: 'var(--success)',
-      iconBg: 'var(--success-bg)',
+      iconBg: 'bg-[var(--success-500)]',
       href: '/dashboard/collections',
       description: (
         <span className="inline-flex items-center gap-1">
@@ -103,13 +99,13 @@ export function KpiCards({ data, currency }: { data: KpiData; currency: string }
             aria-label={`${kpi.label}: ${kpi.value}`}
           >
             <div className="flex items-start justify-between gap-3">
-              <span className="text-[13px] font-semibold text-[var(--text-secondary)]">{kpi.label}</span>
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.03] text-slate-400 group-hover:text-white transition-colors">
+              <span className="text-[13px] font-semibold text-[var(--text-primary)]">{kpi.label}</span>
+              <div className={`flex h-9 w-9 items-center justify-center rounded-xl text-white shadow-sm transition-transform group-hover:scale-105 ${kpi.iconBg}`}>
                 <Icon size={16} strokeWidth={2} />
               </div>
             </div>
-            <div className="text-[28px] lg:text-[30px] leading-none font-bold tracking-tight text-white tabular-nums">{kpi.value}</div>
-            <div className="text-[12px] leading-4 text-[var(--text-muted)] flex items-center gap-1.5">{kpi.description}</div>
+            <div className="text-[28px] lg:text-[30px] leading-none font-bold tracking-tight text-[var(--text-primary)] tabular-nums">{kpi.value}</div>
+            <div className="text-[12px] leading-4 text-[var(--text-primary)] flex items-center gap-1.5">{kpi.description}</div>
             <div className="absolute bottom-5 right-5 text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">
               <ArrowUpRight size={14} />
             </div>

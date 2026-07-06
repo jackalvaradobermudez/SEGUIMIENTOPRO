@@ -19,9 +19,10 @@ export function KpiCard({
   value,
   subtitle,
   icon,
+  iconBg = 'bg-[var(--brand-500)]',
   deltaText,
   deltaClassName = 'text-[var(--success-500)]',
-  subtitleClassName = 'text-[var(--text-muted)]',
+  subtitleClassName = 'text-[var(--text-primary)]',
   href,
   className,
 }: KpiCardProps) {
@@ -37,17 +38,17 @@ export function KpiCard({
       )}
     >
       <div className="flex items-start justify-between gap-3">
-        <span className="text-[13px] font-semibold text-[var(--text-secondary)] truncate">{label}</span>
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.03] text-slate-400 group-hover:text-white transition-colors flex-shrink-0">
+        <span className="text-[13px] font-semibold text-[var(--text-primary)] truncate">{label}</span>
+        <div className={cn('flex h-9 w-9 items-center justify-center rounded-xl text-white shadow-sm transition-transform group-hover:scale-105 flex-shrink-0', iconBg)}>
           {icon}
         </div>
       </div>
       <div className="flex flex-col gap-1.5 mt-0.5">
-        <div className="text-[28px] leading-none font-bold tracking-tight text-white tabular-nums truncate">{value}</div>
-        
+        <div className="text-[28px] leading-none font-bold tracking-tight text-[var(--text-primary)] tabular-nums truncate">{value}</div>
+
         {/* Info secundaria/Delta */}
         {deltaText && (
-          <div className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">
+          <div className="flex items-center gap-1.5 text-xs text-[var(--text-primary)]">
             <span className={cn('font-semibold tabular-nums', deltaClassName)}>{deltaText}</span>
             <span>vs mes anterior</span>
           </div>

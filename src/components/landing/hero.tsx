@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, Play, ShieldCheck, TrendingUp, AlertTriangle, Users, Clock } from 'lucide-react'
+import { ArrowRight, Play, ShieldCheck, TrendingUp, AlertTriangle, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function HeroSection() {

@@ -21,9 +21,9 @@ export function SalesTableRow({ sale }: { sale: SaleRow }) {
   const balanceColor = sale.status === 'paid' ? 'text-[var(--success-500)]' : sale.status === 'overdue' ? 'text-[var(--danger-500)]' : 'text-[var(--warning-500)]'
 
   return (
-    <tr className="border-t border-white/[0.06] transition-colors duration-200 hover:bg-white/[0.02]">
+    <tr className="border-t border-slate-100 transition-colors duration-200 hover:bg-slate-50/60">
       <td className="px-5 py-4">
-        <span className="inline-flex rounded-lg bg-violet-500/10 border border-violet-500/20 px-3 py-1.5 text-xs font-semibold text-violet-300">
+        <span className="inline-flex rounded-lg bg-[var(--brand-soft)] border border-[var(--brand-border)] px-3 py-1.5 text-xs font-semibold text-[var(--brand-700)]">
           {sale.id}
         </span>
       </td>
@@ -33,25 +33,25 @@ export function SalesTableRow({ sale }: { sale: SaleRow }) {
             {sale.client.initials}
           </div>
           <div>
-            <p className="text-[14px] font-semibold leading-5 text-white">{sale.client.name}</p>
-            <p className="text-[13px] leading-4 text-[var(--text-muted)]">{sale.client.email}</p>
+            <p className="text-[14px] font-semibold leading-5 text-[var(--text-primary)]">{sale.client.name}</p>
+            <p className="text-[13px] leading-4 text-[var(--text-secondary)]">{sale.client.email}</p>
           </div>
         </div>
       </td>
       <td className="px-5 py-4 text-sm text-[var(--text-secondary)] tabular-nums">{sale.date}</td>
-      <td className="px-5 py-4 text-right text-sm font-semibold text-white tabular-nums">{formatAmount(sale.total)}</td>
-      <td className="px-5 py-4 text-right text-sm font-semibold text-white tabular-nums">{formatAmount(sale.paid)}</td>
+      <td className="px-5 py-4 text-right text-sm font-semibold text-[var(--text-primary)] tabular-nums">{formatAmount(sale.total)}</td>
+      <td className="px-5 py-4 text-right text-sm font-semibold text-[var(--text-primary)] tabular-nums">{formatAmount(sale.paid)}</td>
       <td className={cn('px-5 py-4 text-right text-sm font-bold tabular-nums', balanceColor)}>{formatAmount(sale.balance)}</td>
       <td className="px-5 py-4"><StatBadge variant={sale.status} /></td>
       <td className="px-5 py-4">
         <div className="flex items-center gap-1.5">
-          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border-subtle)] bg-white/[0.03] text-[var(--text-secondary)] transition-colors duration-200 hover:bg-white/[0.06] hover:text-white cursor-pointer" aria-label="Ver detalle">
+          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[var(--text-secondary)] transition-colors duration-200 hover:bg-slate-100 hover:text-[var(--brand-700)] cursor-pointer" aria-label="Ver detalle">
             <Eye size={15} />
           </button>
-          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border-subtle)] bg-white/[0.03] text-[var(--text-secondary)] transition-colors duration-200 hover:bg-white/[0.06] hover:text-white cursor-pointer" aria-label="Descargar recibo">
+          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[var(--text-secondary)] transition-colors duration-200 hover:bg-slate-100 hover:text-[var(--brand-700)] cursor-pointer" aria-label="Descargar recibo">
             <FileDown size={15} />
           </button>
-          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border-subtle)] bg-white/[0.03] text-[var(--text-secondary)] transition-colors duration-200 hover:bg-white/[0.06] hover:text-white cursor-pointer" aria-label="Más opciones">
+          <button className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[var(--text-secondary)] transition-colors duration-200 hover:bg-slate-100 hover:text-[var(--brand-700)] cursor-pointer" aria-label="Más opciones">
             <MoreHorizontal size={15} />
           </button>
         </div>

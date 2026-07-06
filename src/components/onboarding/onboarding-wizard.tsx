@@ -13,6 +13,7 @@ import { StepSale } from './step-sale'
 import { createClientAction } from '@/app/dashboard/clients/actions'
 import { createProductAction } from '@/app/dashboard/products/actions'
 import { createSaleAction } from '@/app/dashboard/sales/actions'
+import { trackEvent } from '@/lib/analytics/gtag'
 
 type Step = 'welcome' | 'client' | 'product' | 'sale' | 'complete'
 
@@ -125,19 +126,22 @@ export function OnboardingWizard({
       return
     }
     toast.success('¡Venta registrada!')
+    // Evento de primer valor (ver README): el usuario registra su primera venta
+    // a crédito y ve el saldo pendiente actualizado en el dashboard.
+    trackEvent('primer_valor', { sale_type: 'credit' })
     nextStep('complete')
   }
 
   if (skipped) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#09090b]/90 backdrop-blur-sm p-4">
-      <div className="w-full max-w-lg rounded-2xl border border-white/[0.08] bg-[#111113] p-6 sm:p-8 shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+      <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-2xl">
         {step !== 'complete' && (
           <>
             <div className="mb-6">
               <Progress value={progress} className="h-1.5" />
-              <p className="mt-2 text-center text-xs text-zinc-500">
+              <p className="mt-2 text-center text-xs text-slate-400">
                 Paso {stepIndex + 1} de {totalSteps}
               </p>
             </div>
@@ -194,8 +198,8 @@ export function OnboardingWizard({
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/20">
               <CheckCircle2 size={40} className="text-emerald-400" />
             </div>
-            <h2 className="font-display text-2xl font-bold text-white">¡Listo! Tu negocio está en marcha.</h2>
-            <p className="mt-3 text-sm text-zinc-400">
+            <h2 className="font-display text-2xl font-bold text-[var(--text-primary)]">¡Listo! Tu negocio está en marcha.</h2>
+            <p className="mt-3 text-sm text-slate-500">
               Ya tienes tu primer cliente, producto y venta registrados. Ahora cada mañana abre tu dashboard para saber exactamente qué cobrar.
             </p>
             <Button

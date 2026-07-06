@@ -23,6 +23,8 @@ export type Database = {
           id: string
           logo_url: string | null
           name: string
+          plan: string
+          plan_expires_at: string | null
           timezone: string
           updated_at: string
           user_id: string
@@ -35,6 +37,8 @@ export type Database = {
           id?: string
           logo_url?: string | null
           name: string
+          plan?: string
+          plan_expires_at?: string | null
           timezone?: string
           updated_at?: string
           user_id: string
@@ -47,6 +51,8 @@ export type Database = {
           id?: string
           logo_url?: string | null
           name?: string
+          plan?: string
+          plan_expires_at?: string | null
           timezone?: string
           updated_at?: string
           user_id?: string
@@ -231,6 +237,53 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "goals_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payment_transactions: {
+        Row: {
+          amount_in_cents: number
+          business_id: string
+          created_at: string
+          currency: string
+          id: string
+          plan: string
+          reference: string
+          status: string
+          updated_at: string
+          wompi_transaction_id: string | null
+        }
+        Insert: {
+          amount_in_cents: number
+          business_id: string
+          created_at?: string
+          currency?: string
+          id?: string
+          plan?: string
+          reference: string
+          status?: string
+          updated_at?: string
+          wompi_transaction_id?: string | null
+        }
+        Update: {
+          amount_in_cents?: number
+          business_id?: string
+          created_at?: string
+          currency?: string
+          id?: string
+          plan?: string
+          reference?: string
+          status?: string
+          updated_at?: string
+          wompi_transaction_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payment_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses"
@@ -792,6 +845,53 @@ export type Database = {
           },
         ]
       }
+      whatsapp_templates: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          deleted_at: string | null
+          id: string
+          is_active: boolean | null
+          is_default: boolean | null
+          message_body: string
+          name: string
+          template_type: Database["public"]["Enums"]["whatsapp_template_type"]
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          deleted_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          message_body: string
+          name: string
+          template_type: Database["public"]["Enums"]["whatsapp_template_type"]
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          deleted_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          message_body?: string
+          name?: string
+          template_type?: Database["public"]["Enums"]["whatsapp_template_type"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "whatsapp_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       count_clients_with_recent_action: {
@@ -818,6 +918,12 @@ export type Database = {
         | "custom"
       sale_status: "paid" | "partial" | "pending" | "overdue" | "cancelled"
       sale_type: "cash" | "credit"
+      whatsapp_template_type:
+        | "reminder_soft"
+        | "reminder_due_day"
+        | "reminder_overdue"
+        | "payment_thanks"
+        | "account_statement"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -974,6 +1080,13 @@ export const Constants = {
       ],
       sale_status: ["paid", "partial", "pending", "overdue", "cancelled"],
       sale_type: ["cash", "credit"],
+      whatsapp_template_type: [
+        "reminder_soft",
+        "reminder_due_day",
+        "reminder_overdue",
+        "payment_thanks",
+        "account_statement",
+      ],
     },
   },
 } as const

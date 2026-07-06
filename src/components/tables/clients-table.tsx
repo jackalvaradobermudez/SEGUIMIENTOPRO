@@ -54,7 +54,7 @@ export function ClientsTable({ clients, currency }: { clients: ClientRow[]; curr
           placeholder="Buscar por nombre o teléfono..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-10 h-12 rounded-2xl border border-[var(--border-subtle)] bg-white/[0.03] text-sm text-white placeholder:text-[var(--text-muted)] focus:border-[var(--brand-border)] focus:bg-white/[0.04] transition-colors focus-visible:ring-0"
+          className="pl-10 h-12 rounded-2xl border border-slate-200 bg-white text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:border-[var(--brand-border)] focus:bg-slate-50 transition-colors focus-visible:ring-0"
           aria-label="Buscar clientes"
         />
       </div>
@@ -73,8 +73,8 @@ export function ClientsTable({ clients, currency }: { clients: ClientRow[]; curr
             <TableBody>
               {filtered.map((client) => (
                 <TableRow key={client.id} className="cursor-pointer">
-                  <TableCell className="font-semibold text-white">
-                    <Link href={`/dashboard/clients/${client.id}`} className="text-white hover:text-[var(--brand-500)] transition-colors">
+                  <TableCell className="font-semibold text-[var(--text-primary)]">
+                    <Link href={`/dashboard/clients/${client.id}`} className="text-[var(--text-primary)] hover:text-[var(--brand-500)] transition-colors">
                       {client.name}
                     </Link>
                   </TableCell>

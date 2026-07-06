@@ -16,7 +16,7 @@ const PLANS = [
     name: 'PRO',
     price: '$29.900 /mes',
     cta: 'Probar PRO',
-    href: '#',
+    href: '/register',
     popular: true,
     desc: 'Para negocios que venden a crédito con frecuencia y necesitan control completo.',
     features: ['Clientes ilimitados', 'Productos ilimitados', 'Ventas ilimitadas', 'Gestión completa de cobros', 'Cartera por edades', 'Estados de cuenta PDF', 'Reportes exportables', 'Soporte prioritario', 'Calendario completo', 'Mejor control operativo'],
@@ -34,11 +34,18 @@ export function PricingSection() {
           Sin contratos. Sin instalación. Sin tarjeta de crédito para comenzar.
         </p>
 
-        <div className="mt-16 grid gap-8 sm:grid-cols-2">
+        <div className="mt-16 grid gap-8 sm:grid-cols-2 sm:items-center">
           {PLANS.map((plan) => (
-            <div key={plan.name} className={`relative rounded-3xl border p-8 ${plan.popular ? 'border-indigo-200 bg-indigo-50/30 shadow-sm' : 'border-slate-200 bg-white'}`}>
+            <div
+              key={plan.name}
+              className={
+                plan.popular
+                  ? 'relative rounded-3xl border border-indigo-200 bg-white p-9 shadow-[0_30px_70px_rgba(79,70,229,0.18)] sm:scale-[1.04]'
+                  : 'relative rounded-3xl border border-slate-200 bg-white p-8'
+              }
+            >
               {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-4 py-1 text-xs font-semibold text-white shadow-sm">Recomendado</span>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-4 py-1 text-xs font-semibold text-white shadow-[0_4px_14px_rgba(99,102,241,0.4)]">Recomendado</span>
               )}
               <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
               <p className="mt-2 font-outfit text-[44px] font-extrabold text-slate-900">{plan.price}</p>

@@ -56,7 +56,7 @@ export function NotificationsSettingsCard() {
           <Bell size={18} />
         </div>
         <div>
-          <h3 className="text-base font-bold text-white">Preferencias de Alertas</h3>
+          <h3 className="text-base font-bold text-[var(--text-primary)]">Preferencias de Alertas</h3>
           <p className="text-xs text-slate-400">Configura cómo deseas recibir avisos de cobro y resúmenes operativos.</p>
         </div>
       </div>
@@ -65,7 +65,7 @@ export function NotificationsSettingsCard() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-6">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-white">Notificaciones de Escritorio (Push)</span>
+              <span className="text-sm font-bold text-[var(--text-primary)]">Notificaciones de Escritorio (Push)</span>
               {pushPermission === 'granted' && (
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/20">
                   <CheckCircle2 size={10} /> Activo
@@ -116,10 +116,10 @@ export function NotificationsSettingsCard() {
                 type="checkbox"
                 checked={emailAlerts}
                 onChange={(e) => setEmailAlerts(e.target.checked)}
-                className="mt-1 rounded bg-[#0d1829] border border-white/10 text-violet-600 focus:ring-violet-500 cursor-pointer"
+                className="mt-1 rounded bg-white border border-slate-300 text-violet-600 focus:ring-violet-500 cursor-pointer"
               />
               <div>
-                <p className="text-xs font-bold text-white group-hover:text-violet-300 transition-colors">Enviar alertas automáticas a clientes</p>
+                <p className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--brand-600)] transition-colors">Enviar alertas automáticas a clientes</p>
                 <p className="text-[10px] text-slate-400">Notificar al cliente vía correo electrónico 3 días antes del vencimiento y al vencerse un cobro.</p>
               </div>
             </label>
@@ -129,10 +129,10 @@ export function NotificationsSettingsCard() {
                 type="checkbox"
                 checked={emailSummary}
                 onChange={(e) => setEmailSummary(e.target.checked)}
-                className="mt-1 rounded bg-[#0d1829] border border-white/10 text-violet-600 focus:ring-violet-500 cursor-pointer"
+                className="mt-1 rounded bg-white border border-slate-300 text-violet-600 focus:ring-violet-500 cursor-pointer"
               />
               <div>
-                <p className="text-xs font-bold text-white group-hover:text-violet-300 transition-colors">Recibir resumen semanal de cartera</p>
+                <p className="text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--brand-600)] transition-colors">Recibir resumen semanal de cartera</p>
                 <p className="text-[10px] text-slate-400">Te enviaremos un informe los lunes por la mañana con el total a recaudar de la semana.</p>
               </div>
             </label>
@@ -141,7 +141,7 @@ export function NotificationsSettingsCard() {
           <Button
             size="sm"
             onClick={handleSaveEmailSettings}
-            className="bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold cursor-pointer mt-2"
+            className="bg-slate-100 border border-slate-200 hover:bg-slate-200 text-[var(--text-primary)] font-semibold cursor-pointer mt-2"
           >
             Guardar preferencias de correo
           </Button>

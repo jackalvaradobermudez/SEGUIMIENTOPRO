@@ -45,7 +45,7 @@ export function MonthlyProgress({ data: initialData, currency }: { data: GoalDat
         </CardTitle>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="p-1.5 text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+          className="p-1.5 text-slate-400 hover:text-[var(--brand-700)] hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
           title="Editar metas"
         >
           <Edit2 size={13} />
@@ -70,7 +70,7 @@ export function MonthlyProgress({ data: initialData, currency }: { data: GoalDat
             <div>
               <div className="mb-1.5 flex items-center justify-between text-xs">
                 <span className="text-slate-400 font-medium">Meta de Ventas</span>
-                <span className="font-bold text-white">
+                <span className="font-bold text-[var(--text-primary)]">
                   {formatCurrency(currentSales, currency)} / {formatCurrency(currentSalesTarget, currency)}
                 </span>
               </div>
@@ -84,7 +84,7 @@ export function MonthlyProgress({ data: initialData, currency }: { data: GoalDat
             <div>
               <div className="mb-1.5 flex items-center justify-between text-xs">
                 <span className="text-slate-400 font-medium">Meta de Recaudo (Cobros)</span>
-                <span className="font-bold text-white">
+                <span className="font-bold text-[var(--text-primary)]">
                   {formatCurrency(currentCollected, currency)} / {formatCurrency(currentCollectionTarget, currency)}
                 </span>
               </div>

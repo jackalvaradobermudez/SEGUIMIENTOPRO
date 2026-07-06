@@ -61,13 +61,13 @@ export function QuickGoalModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(val) => { if (!val) onClose() }}>
-      <DialogContent className="max-w-md p-6 bg-[#091221] border border-white/10 text-white rounded-xl shadow-2xl overflow-hidden animate-fade-in">
+      <DialogContent className="max-w-md p-6 bg-white border border-slate-200 text-[var(--text-primary)] rounded-xl shadow-2xl overflow-hidden animate-fade-in">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-lg font-bold flex items-center gap-2">
             <Target className="text-violet-400" />
             Configurar Metas de {monthName} {yearName}
           </DialogTitle>
-          <DialogDescription className="text-slate-400 text-xs">
+          <DialogDescription className="text-slate-500 text-xs">
             Modifica los objetivos de ventas y cobros del mes actual. Se actualizará en tu panel.
           </DialogDescription>
         </DialogHeader>
@@ -75,8 +75,8 @@ export function QuickGoalModal({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-3.5">
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                <TrendingUp size={14} className="text-violet-400" />
+              <label className="text-xs font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
+                <TrendingUp size={14} className="text-violet-500" />
                 Meta de Ventas del Mes
               </label>
               <Input
@@ -86,13 +86,13 @@ export function QuickGoalModal({
                 placeholder="0.00"
                 value={salesTarget}
                 onChange={(e) => setSalesTarget(e.target.value)}
-                className="bg-[#0d1829] border-white/10 text-white focus:border-violet-500 rounded-lg"
+                className="focus:border-violet-500 rounded-lg"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-                <CreditCard size={14} className="text-emerald-400" />
+              <label className="text-xs font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
+                <CreditCard size={14} className="text-emerald-500" />
                 Meta de Recaudo del Mes
               </label>
               <Input
@@ -102,18 +102,18 @@ export function QuickGoalModal({
                 placeholder="0.00"
                 value={collectionTarget}
                 onChange={(e) => setCollectionTarget(e.target.value)}
-                className="bg-[#0d1829] border-white/10 text-white focus:border-violet-500 rounded-lg"
+                className="focus:border-violet-500 rounded-lg"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-end gap-2.5 border-t border-white/5 pt-4 mt-6">
+          <div className="flex items-center justify-end gap-2.5 border-t border-slate-100 pt-4 mt-6">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
               disabled={submitting}
-              className="border-white/10 text-slate-300 hover:bg-white/[0.05] hover:text-white rounded-lg cursor-pointer"
+              className="border-slate-200 text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] rounded-lg cursor-pointer"
             >
               Cancelar
             </Button>

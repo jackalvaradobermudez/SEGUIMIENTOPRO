@@ -4,7 +4,7 @@
   "description": "Gestión de cobros y ventas a crédito para emprendedores",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#09090b",
+  "background_color": "#F8FAFC",
   "theme_color": "#6366f1",
   "orientation": "portrait-primary",
   "lang": "es",

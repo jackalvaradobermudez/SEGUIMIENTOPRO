@@ -5,6 +5,7 @@ import { SocialProofBar } from '@/components/landing/social-proof'
 import { ProblemSection } from '@/components/landing/problem-section'
 import { SolutionSection } from '@/components/landing/solution-section'
 import { HowItWorks } from '@/components/landing/how-it-works'
+import { FeatureShowcase } from '@/components/landing/feature-showcase'
 import { ComparisonSection } from '@/components/landing/comparison-section'
 import { TestimonialsSection } from '@/components/landing/testimonials-section'
 import { PricingSection } from '@/components/landing/pricing-section'
@@ -39,6 +40,7 @@ export default function LandingPage() {
         <ProblemSection />
         <SolutionSection />
         <HowItWorks />
+        <FeatureShowcase />
         <ComparisonSection />
         <TestimonialsSection />
         <PricingSection />

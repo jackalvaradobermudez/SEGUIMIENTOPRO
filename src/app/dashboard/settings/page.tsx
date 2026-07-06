@@ -5,6 +5,8 @@ import { GoalForm } from '@/components/forms/goal-form'
 import { WhatsAppTemplatesSection } from '@/components/settings/whatsapp-templates-section'
 import { NotificationsSettingsCard } from '@/components/settings/notifications-settings-card'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { UpgradeToProButton } from '@/components/billing/upgrade-to-pro-button'
+import { formatDate } from '@/lib/utils'
 import { LogoutButton } from './logout-button'
 import type { Metadata } from 'next'
 
@@ -61,6 +63,27 @@ export default async function SettingsPage() {
                   : null
               }
             />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Plan</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-[var(--text-primary)]">
+                  {business.plan === 'pro' ? 'Plan PRO' : 'Plan Gratis'}
+                </p>
+                <p className="mt-1 text-sm text-[var(--text-secondary)]">
+                  {business.plan === 'pro' && business.plan_expires_at
+                    ? `Activo hasta ${formatDate(business.plan_expires_at)}`
+                    : 'Clientes, productos y ventas ilimitados con PRO.'}
+                </p>
+              </div>
+              {business.plan !== 'pro' && <UpgradeToProButton />}
+            </div>
           </CardContent>
         </Card>
 

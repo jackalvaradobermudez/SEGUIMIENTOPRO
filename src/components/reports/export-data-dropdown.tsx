@@ -132,7 +132,7 @@ export function ExportDataDropdown({ data, currency, filename = 'reporte-ventas'
         size="sm"
         disabled={data.length === 0}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 border-white/10 text-slate-300 hover:bg-white/[0.05] hover:text-white rounded-lg cursor-pointer"
+        className="flex items-center gap-1.5 border-slate-200 bg-white text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] rounded-lg cursor-pointer"
       >
         <Download size={15} />
         <span>Exportar Datos</span>
@@ -140,19 +140,19 @@ export function ExportDataDropdown({ data, currency, filename = 'reporte-ventas'
       </Button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-1.5 w-48 origin-top-right rounded-xl border border-white/10 bg-[#091221]/95 p-1 shadow-2xl backdrop-blur-md z-40 animate-fade-in">
+        <div className="absolute right-0 mt-1.5 w-48 origin-top-right rounded-xl border border-slate-200 bg-white/95 p-1 shadow-2xl backdrop-blur-md z-40 animate-fade-in">
           <button
             onClick={handleExportExcel}
-            className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs text-slate-300 hover:bg-white/[0.05] hover:text-white transition-colors cursor-pointer text-left font-medium"
+            className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] transition-colors cursor-pointer text-left font-medium"
           >
-            <FileSpreadsheet size={14} className="text-emerald-400" />
+            <FileSpreadsheet size={14} className="text-emerald-500" />
             <span>Descargar Excel (.xls)</span>
           </button>
           <button
             onClick={handleExportCSV}
-            className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs text-slate-300 hover:bg-white/[0.05] hover:text-white transition-colors cursor-pointer text-left font-medium"
+            className="w-full flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] transition-colors cursor-pointer text-left font-medium"
           >
-            <FileText size={14} className="text-blue-400" />
+            <FileText size={14} className="text-blue-500" />
             <span>Descargar CSV (.csv)</span>
           </button>
         </div>

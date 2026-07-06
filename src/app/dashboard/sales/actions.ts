@@ -5,10 +5,14 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { saleSchema } from '@/lib/validations/sale'
+import { checkMonthlySalesLimit } from '@/lib/plan-limits'
 
 export async function createSaleAction(input: unknown) {
   const business = await getActiveBusiness()
   const supabase = await createClient()
+
+  const limitError = await checkMonthlySalesLimit(supabase, business)
+  if (limitError) return limitError
 
   const parsed = saleSchema.safeParse(input)
   if (!parsed.success) {

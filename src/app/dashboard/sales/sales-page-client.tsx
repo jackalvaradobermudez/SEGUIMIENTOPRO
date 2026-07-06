@@ -19,9 +19,9 @@ import type { BadgeVariant } from '@/components/dashboard/stat-badge'
 
 const STATUS_FILTERS = [
   { key: 'all', label: 'Todas' },
-  { key: 'pending', label: 'Pendientes', count: 12, countClass: 'bg-cyan-500/20 text-cyan-300' },
-  { key: 'overdue', label: 'Vencidas', count: 8, countClass: 'bg-amber-500/20 text-amber-300' },
-  { key: 'paid', label: 'Pagadas', count: 24, countClass: 'bg-emerald-500/20 text-emerald-300' },
+  { key: 'pending', label: 'Pendientes', count: 12, countClass: 'bg-[var(--info-soft)] text-[var(--info-500)]' },
+  { key: 'overdue', label: 'Vencidas', count: 8, countClass: 'bg-[var(--warning-soft)] text-[var(--warning-500)]' },
+  { key: 'paid', label: 'Pagadas', count: 24, countClass: 'bg-[var(--success-soft)] text-[var(--success-500)]' },
 ]
 
 const DEMO_SALES: Array<{
@@ -51,16 +51,16 @@ export default function SalesPageClient() {
       {/* Page Header */}
       <div className="mb-6 flex items-start justify-between gap-6">
         <div>
-          <h1 className="text-[31px] font-semibold leading-none tracking-normal text-white">Ventas</h1>
-          <p className="mt-2 text-[16px] leading-6 text-slate-400">Gestiona y consulta el historial de ventas de tu negocio.</p>
+          <h1 className="text-[31px] font-semibold leading-none tracking-normal text-[var(--brand-700)]">Ventas</h1>
+          <p className="mt-2 text-[16px] leading-6 text-[var(--text-primary)]">Gestiona y consulta el historial de ventas de tu negocio.</p>
         </div>
-        <button className="inline-flex h-11 items-center overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] text-sm font-semibold text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition-all hover:border-white/20 hover:bg-white/[0.06]">
+        <button className="inline-flex h-11 items-center overflow-hidden rounded-lg border border-slate-200 bg-white text-sm font-semibold text-[var(--text-primary)] shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50">
           <span className="inline-flex h-full items-center gap-2 px-4">
-            <Download size={16} className="text-slate-300" />
+            <Download size={16} className="text-[var(--brand-500)]" />
             Exportar
           </span>
-          <span className="inline-flex h-full w-10 items-center justify-center border-l border-white/10">
-            <ChevronDown size={15} className="text-slate-400" />
+          <span className="inline-flex h-full w-10 items-center justify-center border-l border-slate-200">
+            <ChevronDown size={15} className="text-[var(--text-secondary)]" />
           </span>
         </button>
       </div>
@@ -71,34 +71,34 @@ export default function SalesPageClient() {
           label="Total vendido este mes"
           value="$ 12.480.000"
           deltaText="18.6%"
-          icon={<BarChart3 size={22} className="text-violet-200" />}
-          iconBg="bg-violet-500/25 shadow-[0_0_32px_rgba(124,92,255,0.28)]"
+          icon={<BarChart3 size={22} className="text-white" />}
+          iconBg="bg-[var(--brand-500)]"
           sparklineColor="#7C5CFF"
         />
         <KpiCard
           label="Total cobrado este mes"
           value="$ 9.230.000"
           deltaText="22.4%"
-          icon={<CreditCard size={22} className="text-cyan-200" />}
-          iconBg="bg-cyan-500/20 shadow-[0_0_32px_rgba(38,198,255,0.22)]"
+          icon={<CreditCard size={22} className="text-white" />}
+          iconBg="bg-[var(--info-500)]"
           sparklineColor="#26C6FF"
         />
         <KpiCard
           label="Saldo pendiente"
           value="$ 3.250.000"
           deltaText="8.7%"
-          deltaClassName="text-amber-400"
-          icon={<Clock size={22} className="text-amber-200" />}
-          iconBg="bg-amber-500/25 shadow-[0_0_32px_rgba(244,178,77,0.24)]"
+          deltaClassName="text-[var(--warning-500)]"
+          icon={<Clock size={22} className="text-white" />}
+          iconBg="bg-[var(--warning-500)]"
           sparklineColor="#F4B24D"
         />
         <KpiCard
           label="Facturas vencidas"
           value="8"
           subtitle="$ 1.250.000"
-          subtitleClassName="text-rose-400"
-          icon={<CircleAlert size={22} className="text-rose-200" />}
-          iconBg="bg-rose-500/25 shadow-[0_0_32px_rgba(240,93,108,0.22)]"
+          subtitleClassName="text-[var(--danger-500)]"
+          icon={<CircleAlert size={22} className="text-white" />}
+          iconBg="bg-[var(--danger-500)]"
           sparklineColor="#F05D6C"
         />
       </div>
@@ -113,11 +113,11 @@ export default function SalesPageClient() {
       <div className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] shadow-surface">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-white/[0.01]">
+            <tr className="bg-slate-50">
               {['Venta','Cliente','Fecha','Total','Pagado','Saldo','Estado','Acciones'].map(h => {
                 const isRight = ['Total', 'Pagado', 'Saldo'].includes(h)
                 return (
-                  <th key={h} className={`px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-muted)] ${isRight ? 'text-right' : 'text-left'}`}>{h}</th>
+                  <th key={h} className={`px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--brand-500)] ${isRight ? 'text-right' : 'text-left'}`}>{h}</th>
                 )
               })}
             </tr>
@@ -126,7 +126,7 @@ export default function SalesPageClient() {
             {filtered.map(sale => <SalesTableRow key={sale.id} sale={sale} />)}
           </tbody>
         </table>
-        <div className="border-t border-white/[0.06] bg-white/[0.01]">
+        <div className="border-t border-slate-100 bg-slate-50/50">
           <Pagination current={page} total={44} pageSize={5} onChange={setPage} />
         </div>
       </div>

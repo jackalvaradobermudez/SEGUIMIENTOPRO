@@ -92,7 +92,7 @@ export function WhatsAppTemplatesSection() {
     <>
       <div className="sp-card">
         <div className="sp-card-header flex flex-col gap-1 !pb-4">
-          <h3 className="text-base font-bold text-white">Plantillas de WhatsApp</h3>
+          <h3 className="text-base font-bold text-[var(--text-primary)]">Plantillas de WhatsApp</h3>
           <p className="text-[13px] text-slate-400">
             Personaliza los mensajes que envías a tus clientes. Usa las variables entre llaves para datos dinámicos.
           </p>
@@ -106,14 +106,14 @@ export function WhatsAppTemplatesSection() {
             return (
               <div
                 key={template.id}
-                className="flex items-start gap-5 rounded-2xl border border-white/[0.06] bg-white/[0.01] p-5 px-6 transition-all hover:border-white/16 hover:bg-white/[0.02] duration-150"
+                className="flex items-start gap-5 rounded-2xl border border-slate-100 bg-slate-50/50 p-5 px-6 transition-all hover:border-slate-200 hover:bg-slate-50 duration-150"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/20">
                   <Icon size={16} className="text-violet-300" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-white">{template.name}</p>
+                    <p className="text-sm font-semibold text-[var(--text-primary)]">{template.name}</p>
                     {typeConfig && (
                       <span className="rounded-full bg-violet-500/10 px-2 py-0.5 text-[10px] font-medium text-violet-300">
                         {typeConfig.label}

@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { clientSchema } from '@/lib/validations/client'
+import { checkClientLimit, FREE_PLAN_LIMITS } from '@/lib/plan-limits'
 
 function toNullable(value: string) {
   return value.trim() === '' ? null : value.trim()
@@ -13,6 +14,9 @@ function toNullable(value: string) {
 export async function createClientAction(formData: FormData) {
   const business = await getActiveBusiness()
   const supabase = await createClient()
+
+  const limitError = await checkClientLimit(supabase, business)
+  if (limitError) return limitError
 
   const parsed = clientSchema.safeParse({
     name: formData.get('name'),
@@ -129,6 +133,21 @@ export async function bulkCreateClientsAction(clients: Array<{
 }>) {
   const business = await getActiveBusiness()
   const supabase = await createClient()
+
+  if (business.plan !== 'pro') {
+    const { count } = await supabase
+      .from('clients')
+      .select('id', { count: 'exact', head: true })
+      .eq('business_id', business.id)
+      .is('deleted_at', null)
+
+    if ((count ?? 0) + clients.length > FREE_PLAN_LIMITS.clients) {
+      const remaining = Math.max(FREE_PLAN_LIMITS.clients - (count ?? 0), 0)
+      return {
+        error: `El plan Gratis permite hasta ${FREE_PLAN_LIMITS.clients} clientes. Te quedan ${remaining} disponibles — actualiza a PRO en Configuración → Plan para importar sin límite.`,
+      }
+    }
+  }
 
   // Mapeamos los clientes para insertarlos en Supabase
   const rows = clients.map((client) => ({

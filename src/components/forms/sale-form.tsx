@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { Check, ChevronsUpDown, Plus, CalendarIcon } from "lucide-react";
 import { saleSchema, type SaleFormData } from "@/lib/validations/sale";
 import { createSaleAction } from "@/app/dashboard/sales/actions";
+import { trackEvent } from "@/lib/analytics/gtag";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -120,6 +121,7 @@ export function SaleForm({
     }
 
     toast.success("Venta registrada");
+    trackEvent("sale_created", { sale_type: values.sale_type });
   }
 
   return (

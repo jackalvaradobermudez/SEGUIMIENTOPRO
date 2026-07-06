@@ -17,13 +17,13 @@ export function StepWelcome({
 }) {
   return (
     <div className="py-4 text-center">
-      <h2 className="font-display text-2xl font-bold text-white">¡Bienvenido a SeguimientoPro!</h2>
-      <p className="mt-3 text-sm text-zinc-400">
+      <h2 className="font-display text-2xl font-bold text-[var(--text-primary)]">¡Bienvenido a SeguimientoPro!</h2>
+      <p className="mt-3 text-sm text-slate-500">
         En 3 minutos vas a tener tu primera venta registrada. Vamos paso a paso.
       </p>
 
       <div className="mt-8 text-left">
-        <label className="mb-2 block text-sm font-medium text-zinc-300">
+        <label className="mb-2 block text-sm font-medium text-[var(--text-primary)]">
           Nombre de tu negocio
         </label>
         <Input
@@ -45,7 +45,7 @@ export function StepWelcome({
         <Button
           variant="ghost"
           onClick={onSkip}
-          className="h-12 text-sm text-zinc-500"
+          className="h-12 text-sm text-slate-500"
         >
           Saltar setup
         </Button>
