@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 
 export function CtaSection() {
   return (
-    <section className="bg-white px-6 py-24 sm:py-32">
+    <section className="bg-white px-6 py-32 sm:py-40">
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="font-outfit text-[40px] font-bold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[56px]">
           Cada día que no sabes qué cobrar, tu dinero pierde velocidad.

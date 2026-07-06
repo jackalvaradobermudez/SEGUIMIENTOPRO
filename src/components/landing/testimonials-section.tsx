@@ -23,7 +23,7 @@ const TESTIMONIALS = [
 
 export function TestimonialsSection() {
   return (
-    <section id="testimonials" className="bg-[#F8FAFC] px-6 py-24 sm:py-32">
+    <section id="testimonials" className="bg-[#F8FAFC] px-6 py-32 sm:py-40">
       <div className="mx-auto max-w-7xl">
         <h2 className="text-center font-outfit text-[40px] font-bold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[48px]">
           Negocios que ya dejaron de cobrar a ciegas

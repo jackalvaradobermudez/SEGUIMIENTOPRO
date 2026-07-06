@@ -12,7 +12,7 @@ const ROWS = [
 
 export function ComparisonSection() {
   return (
-    <section className="bg-white px-6 py-24 sm:py-32">
+    <section className="bg-white px-6 py-32 sm:py-40">
       <div className="mx-auto max-w-4xl">
         <h2 className="text-center font-outfit text-[40px] font-bold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[48px]">
           Seguir cobrando con libreta o Excel sale más caro de lo que parece.

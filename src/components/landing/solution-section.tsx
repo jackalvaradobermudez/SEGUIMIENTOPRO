@@ -10,7 +10,7 @@ const BENEFITS = [
 
 export function SolutionSection() {
   return (
-    <section className="bg-[#F8FAFC] px-6 py-24 sm:py-32">
+    <section className="bg-[#F8FAFC] px-6 py-32 sm:py-40">
       <div className="mx-auto max-w-7xl">
         <h2 className="max-w-3xl font-outfit text-[40px] font-bold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[48px]">
           SeguimientoPro organiza tus ventas, tus clientes y tus cobros alrededor de una sola pregunta: qué debo cobrar hoy.
