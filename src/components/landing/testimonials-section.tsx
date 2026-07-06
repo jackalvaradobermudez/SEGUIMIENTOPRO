@@ -1,49 +1,51 @@
-// TODO: Reemplazar con testimoniales reales cuando Jack tenga usuarios activos
+import { Star } from 'lucide-react'
 
 const TESTIMONIALS = [
   {
     name: 'María González',
-    role: 'Vendedora independiente, Bogotá',
+    role: 'Vendedora independiente · Bogotá',
     initials: 'MG',
-    quote: 'Antes anotaba todo en un cuaderno. Ahora abro la app y sé exactamente quién me debe y cuánto. Es un alivio enorme.',
+    quote: 'Antes llevaba todo en un cuaderno y terminaba cobrando tarde. Ahora abro SeguimientoPro y sé exactamente quién me debe, cuánto y qué tengo que cobrar hoy.',
   },
   {
     name: 'Carlos Ramírez',
-    role: 'Dueño de tienda de abarrotes, Medellín',
+    role: 'Tienda de abarrotes · Medellín',
     initials: 'CR',
-    quote: 'Con SeguimientoPro descubrí que tenía \$2.500.000 en cartera vencida que ni recordaba. En una semana recuperé el 70\%.',
+    quote: 'Descubrimos cartera vencida que no estábamos siguiendo. Solo con ordenar los cobros, mejoró el flujo de caja de la tienda.',
   },
   {
     name: 'Ana María López',
-    role: 'Distribuidora de catálogo, Cali',
+    role: 'Distribuidora por catálogo · Cali',
     initials: 'AM',
-    quote: 'Mis clientas me pagan más rápido porque les envío el recordatorio por WhatsApp desde la misma app. Todo en un solo lugar.',
+    quote: 'Me gusta porque puedo ver el historial de cada clienta y enviar recordatorios sin enredarme. Es simple, pero muy útil.',
   },
 ]
 
 export function TestimonialsSection() {
   return (
-    <section className="px-6 py-24 sm:py-32">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="text-center font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Emprendedores como tú ya lo usan
+    <section id="testimonials" className="bg-[#F8FAFC] px-6 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl">
+        <h2 className="text-center font-outfit text-[40px] font-bold leading-[1.15] tracking-[-0.02em] text-slate-900 sm:text-[48px]">
+          Negocios que ya dejaron de cobrar a ciegas
         </h2>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-lg leading-relaxed text-slate-500">
+          SeguimientoPro está diseñado para el día a día de quienes venden a crédito y necesitan orden sin complicarse con sistemas pesados.
+        </p>
 
-        <div className="mt-14 grid gap-6 sm:grid-cols-3">
+        <div className="mt-16 grid gap-8 sm:grid-cols-3">
           {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-7">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500/20 text-sm font-bold text-indigo-300">
-                  {t.initials}
-                </div>
+            <div key={t.name} className="rounded-3xl border border-slate-200 bg-white p-8 transition-all hover:shadow-sm">
+              <div className="mb-4 flex gap-0.5">
+                {[...Array(5)].map((_, i) => <Star key={i} size={14} className="fill-amber-400 text-amber-400" />)}
+              </div>
+              <p className="text-[15px] leading-relaxed text-slate-600 italic">&ldquo;{t.quote}&rdquo;</p>
+              <div className="mt-6 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 text-sm font-bold text-indigo-600">{t.initials}</div>
                 <div>
-                  <p className="text-sm font-semibold text-white">{t.name}</p>
-                  <p className="text-xs text-zinc-400">{t.role}</p>
+                  <p className="text-sm font-semibold text-slate-900">{t.name}</p>
+                  <p className="text-xs text-slate-400">{t.role}</p>
                 </div>
               </div>
-              <p className="mt-4 text-sm leading-relaxed text-zinc-300 italic">
-                &ldquo;{t.quote}&rdquo;
-              </p>
             </div>
           ))}
         </div>

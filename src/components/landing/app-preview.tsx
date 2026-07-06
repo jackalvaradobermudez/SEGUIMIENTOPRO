@@ -2,55 +2,55 @@ export function AppPreviewSection() {
   return (
     <section className="px-6 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-center font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h2 className="text-center font-display text-4xl font-extrabold tracking-tight text-slate-800 sm:text-5xl">
           Así se ve tu negocio en SeguimientoPro
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-center text-zinc-400">
+        <p className="mx-auto mt-6 max-w-xl text-center text-lg text-slate-500 font-medium">
           Un dashboard limpio, rápido y pensado para que tomes decisiones cada mañana.
         </p>
 
-        <div className="mt-12 overflow-hidden rounded-2xl border border-white/[0.08] shadow-[0_0_60px_rgba(99,102,241,0.08)]">
-          <div className="bg-[#0a0a0f] p-4 sm:p-6">
+        <div className="mt-14 overflow-hidden rounded-3xl border border-slate-200 shadow-[0_20px_60px_rgba(124,92,255,0.15)] bg-white/50 p-4 sm:p-8 backdrop-blur-xl">
+          <div className="bg-slate-50 rounded-2xl shadow-inner border border-slate-200 overflow-hidden">
             {/* Dashboard mockup */}
-            <div className="rounded-xl border border-white/[0.06] bg-[#111113] p-4 sm:p-6">
-              <div className="mb-4 flex items-center justify-between">
+            <div className="p-4 sm:p-6">
+              <div className="mb-6 flex items-center justify-between">
                 <div>
-                  <div className="h-3 w-24 rounded bg-white/10" />
-                  <div className="mt-2 h-2 w-40 rounded bg-white/5" />
+                  <div className="h-4 w-32 rounded-md bg-slate-300" />
+                  <div className="mt-2 h-3 w-48 rounded-md bg-slate-200" />
                 </div>
-                <div className="flex gap-2">
-                  <div className="h-8 w-20 rounded-lg bg-white/5" />
-                  <div className="h-8 w-8 rounded-lg bg-white/5" />
+                <div className="flex gap-3">
+                  <div className="h-10 w-24 rounded-xl clay-card bg-white" />
+                  <div className="h-10 w-10 rounded-xl clay-card bg-[var(--brand-500)]" />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {['indigo', 'emerald', 'amber', 'rose'].map((color) => (
-                  <div key={color} className="rounded-xl border border-white/[0.06] bg-[#18181b] p-4">
-                    <div className={`h-8 w-8 rounded-lg bg-${color}-500/20`} />
-                    <div className="mt-3 h-3 w-16 rounded bg-white/10" />
-                    <div className="mt-2 h-6 w-24 rounded bg-white/15" />
-                    <div className="mt-2 h-2 w-20 rounded bg-white/5" />
+                  <div key={color} className="rounded-2xl clay-card p-5 bg-white">
+                    <div className={`h-10 w-10 rounded-xl bg-${color}-100 flex items-center justify-center`} />
+                    <div className="mt-4 h-3 w-20 rounded-md bg-slate-200" />
+                    <div className="mt-3 h-8 w-28 rounded-md bg-slate-800" />
+                    <div className="mt-2 h-2 w-24 rounded-md bg-slate-100" />
                   </div>
                 ))}
               </div>
-              <div className="mt-4 overflow-hidden rounded-xl border border-white/[0.06]">
-                <div className="flex gap-4 border-b border-white/[0.06] bg-[#18181b] px-4 py-3">
+              <div className="mt-6 overflow-hidden rounded-2xl clay-card bg-white">
+                <div className="flex gap-4 border-b border-slate-100 px-5 py-4 bg-slate-50">
                   {['Todas', 'Pendientes', 'Vencidas', 'Pagadas'].map((t, i) => (
-                    <div key={t} className={`h-3 w-16 rounded-full ${i === 0 ? 'bg-indigo-500/30' : 'bg-white/5'}`} />
+                    <div key={t} className={`h-4 w-20 rounded-full ${i === 0 ? 'bg-[var(--brand-500)]/20' : 'bg-slate-200'}`} />
                   ))}
                 </div>
-                <div className="bg-[#111113]">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i} className="flex items-center gap-4 border-b border-white/[0.04] px-4 py-3">
-                      <div className="h-4 w-16 rounded bg-indigo-500/20" />
+                <div className="bg-white">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="flex items-center gap-4 border-b border-slate-50 px-5 py-4 hover:bg-slate-50 transition-colors">
+                      <div className="h-5 w-20 rounded-md bg-indigo-100" />
                       <div className="flex-1">
-                        <div className="h-3 w-24 rounded bg-white/10" />
-                        <div className="mt-1 h-2 w-20 rounded bg-white/5" />
+                        <div className="h-4 w-32 rounded-md bg-slate-300" />
+                        <div className="mt-2 h-3 w-24 rounded-md bg-slate-200" />
                       </div>
-                      <div className="h-3 w-16 rounded bg-white/5" />
-                      <div className="h-3 w-16 rounded bg-white/5" />
-                      <div className="h-3 w-16 rounded bg-amber-500/20" />
-                      <div className="h-3 w-16 rounded bg-cyan-500/20" />
+                      <div className="h-4 w-20 rounded-md bg-slate-200" />
+                      <div className="h-4 w-20 rounded-md bg-slate-200" />
+                      <div className="h-4 w-20 rounded-md bg-amber-100" />
+                      <div className="h-4 w-20 rounded-md bg-cyan-100" />
                     </div>
                   ))}
                 </div>

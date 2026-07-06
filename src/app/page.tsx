@@ -1,18 +1,21 @@
 import type { Metadata } from 'next'
 import { LandingNavbar } from '@/components/landing/navbar'
 import { HeroSection } from '@/components/landing/hero'
+import { SocialProofBar } from '@/components/landing/social-proof'
 import { ProblemSection } from '@/components/landing/problem-section'
-import { FeaturesSection } from '@/components/landing/features-section'
-import { AppPreviewSection } from '@/components/landing/app-preview'
-import { PricingSection } from '@/components/landing/pricing-section'
+import { SolutionSection } from '@/components/landing/solution-section'
+import { HowItWorks } from '@/components/landing/how-it-works'
+import { ComparisonSection } from '@/components/landing/comparison-section'
 import { TestimonialsSection } from '@/components/landing/testimonials-section'
+import { PricingSection } from '@/components/landing/pricing-section'
+import { FaqSection } from '@/components/landing/faq-section'
 import { CtaSection } from '@/components/landing/cta-section'
 import { LandingFooter } from '@/components/landing/footer'
 
 export const metadata: Metadata = {
-  title: 'SeguimientoPro — Gestión de cobros para emprendedores',
+  title: 'SeguimientoPro — Deja de cobrar de memoria',
   description:
-    'Registra ventas, cobra a tiempo y no pierdas dinero. El sistema de gestión de cobros y ventas a crédito para emprendedores latinoamericanos.',
+    'Controla quién te debe, cuánto te debe y qué debes cobrar hoy. El sistema de gestión de cobros para emprendedores que venden a crédito.',
 }
 
 const jsonLd = {
@@ -21,30 +24,25 @@ const jsonLd = {
   name: 'SeguimientoPro',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'COP',
-  },
-  description:
-    'Sistema de gestión de cobros y ventas a crédito para emprendedores latinoamericanos.',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'COP' },
+  description: 'Sistema de gestión de cobros y ventas a crédito para emprendedores latinoamericanos.',
 }
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#09090b]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+    <div className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <LandingNavbar />
       <main>
         <HeroSection />
+        <SocialProofBar />
         <ProblemSection />
-        <FeaturesSection />
-        <AppPreviewSection />
-        <PricingSection />
+        <SolutionSection />
+        <HowItWorks />
+        <ComparisonSection />
         <TestimonialsSection />
+        <PricingSection />
+        <FaqSection />
         <CtaSection />
       </main>
       <LandingFooter />

@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -59,7 +58,6 @@ export default function RegisterPage() {
       return
     }
 
-    // Crear negocio automáticamente si el usuario se registró
     if (data.user) {
       await supabase.from('businesses').insert({
         user_id: data.user.id,
@@ -75,7 +73,6 @@ export default function RegisterPage() {
     setSuccess(true)
     setLoading(false)
 
-    // Si confirmación de email no requerida, redirigir
     if (data.session) {
       router.push('/dashboard')
       router.refresh()
@@ -84,99 +81,50 @@ export default function RegisterPage() {
 
   if (success && !loading) {
     return (
-      <div className="auth-container">
-        <div className="auth-glow" aria-hidden="true" />
-        <div className="auth-card animate-scale-in" style={{ textAlign: 'center' }}>
-          <div className="success-icon">
+      <div className="min-h-screen flex items-center justify-center p-6 relative bg-slate-50">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[var(--brand-500)]/10 blur-3xl rounded-full pointer-events-none" aria-hidden="true" />
+        <div className="clay-card bg-white p-10 w-full max-w-md text-center relative z-10 animate-scale-in">
+          <div className="w-16 h-16 bg-[var(--success-500)]/10 border border-[var(--success-500)]/30 rounded-full flex items-center justify-center text-[var(--success-500)] mx-auto">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
               <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <h1 style={{ marginTop: 'var(--space-4)' }}>¡Cuenta creada!</h1>
-          <p style={{ marginTop: 'var(--space-2)' }}>
+          <h1 className="mt-6 text-2xl font-bold text-slate-800">¡Cuenta creada!</h1>
+          <p className="mt-2 text-slate-600 font-medium">
             Revisa tu email para confirmar tu cuenta y luego ingresa.
           </p>
-          <Link href="/login" id="go-to-login" style={{ display: 'block', marginTop: 'var(--space-6)' }}>
-            <Button className="auth-submit" style={{ width: '100%' }}>
+          <Link href="/login" id="go-to-login" className="block mt-8">
+            <button className="clay-btn clay-btn-primary h-14 rounded-2xl w-full text-lg">
               Ir al login
-            </Button>
+            </button>
           </Link>
         </div>
-
-        <style jsx>{`
-          .auth-container {
-            min-height: 100dvh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--space-6);
-            position: relative;
-          }
-          .auth-glow {
-            position: absolute;
-            top: -200px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
-            pointer-events: none;
-          }
-          .auth-card {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 400px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
-            padding: var(--space-10) var(--space-8);
-            box-shadow: var(--shadow-xl);
-          }
-          .success-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--success-bg);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--success);
-            margin: 0 auto;
-          }
-          .auth-submit {
-            background: var(--accent) !important;
-            color: white !important;
-          }
-        `}</style>
       </div>
     )
   }
 
   return (
-    <div className="auth-container">
-      <div className="auth-glow" aria-hidden="true" />
+    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-slate-50">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[var(--brand-500)]/10 blur-3xl rounded-full pointer-events-none" aria-hidden="true" />
 
-      <div className="auth-card animate-fade-in">
-        <div className="auth-logo">
-          <div className="auth-logo-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" 
-                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <div className="clay-card bg-white p-10 w-full max-w-md relative z-10 animate-fade-in">
+        <div className="flex items-center gap-3 mb-10">
+          <div className="w-12 h-12 flex items-center justify-center rounded-2xl clay-card-inset bg-slate-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
           </div>
-          <span className="auth-logo-text">SeguimientoPro</span>
+          <span className="font-display text-xl font-bold text-slate-800">Seguimiento<span className="text-[var(--brand-500)]">PRO</span></span>
         </div>
 
-        <div className="auth-header">
-          <h1>Crea tu cuenta</h1>
-          <p>Gratis para siempre en el plan básico</p>
+        <div className="mb-8">
+          <h1 className="text-3xl font-extrabold text-slate-800 mb-2">Crea tu cuenta</h1>
+          <p className="text-slate-500 font-medium">Gratis para siempre en el plan básico</p>
         </div>
 
-        <form onSubmit={handleRegister} className="auth-form" id="register-form">
-          <div className="form-group">
-            <Label htmlFor="businessName">Nombre de tu negocio</Label>
+        <form onSubmit={handleRegister} className="flex flex-col gap-5" id="register-form">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="businessName" className="text-slate-700 font-semibold">Nombre de tu negocio</Label>
             <Input
               id="businessName"
               name="businessName"
@@ -186,11 +134,12 @@ export default function RegisterPage() {
               onChange={handleChange}
               required
               disabled={loading}
+              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus-visible:ring-[var(--brand-500)]"
             />
           </div>
 
-          <div className="form-group">
-            <Label htmlFor="email">Email</Label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email" className="text-slate-700 font-semibold">Email</Label>
             <Input
               id="email"
               name="email"
@@ -201,11 +150,12 @@ export default function RegisterPage() {
               required
               autoComplete="email"
               disabled={loading}
+              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus-visible:ring-[var(--brand-500)]"
             />
           </div>
 
-          <div className="form-group">
-            <Label htmlFor="password">Contraseña</Label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="password" className="text-slate-700 font-semibold">Contraseña</Label>
             <Input
               id="password"
               name="password"
@@ -216,11 +166,12 @@ export default function RegisterPage() {
               required
               autoComplete="new-password"
               disabled={loading}
+              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus-visible:ring-[var(--brand-500)]"
             />
           </div>
 
-          <div className="form-group">
-            <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="confirmPassword" className="text-slate-700 font-semibold">Confirmar contraseña</Label>
             <Input
               id="confirmPassword"
               name="confirmPassword"
@@ -230,11 +181,12 @@ export default function RegisterPage() {
               onChange={handleChange}
               required
               disabled={loading}
+              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus-visible:ring-[var(--brand-500)]"
             />
           </div>
 
           {error && (
-            <div className="auth-error" role="alert">
+            <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium" role="alert">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
                 <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" strokeWidth="2"/>
@@ -244,110 +196,21 @@ export default function RegisterPage() {
             </div>
           )}
 
-          <Button
+          <button
             type="submit"
             id="register-submit"
             disabled={loading}
-            className="auth-submit"
+            className="clay-btn clay-btn-primary h-14 mt-2 rounded-2xl w-full text-lg flex items-center justify-center"
           >
             {loading ? 'Creando cuenta...' : 'Crear cuenta gratis'}
-          </Button>
+          </button>
         </form>
 
-        <p className="auth-footer">
+        <p className="mt-8 text-center text-sm font-medium text-slate-500">
           ¿Ya tienes cuenta?{' '}
-          <Link href="/login" id="go-to-login">Ingresar</Link>
+          <Link href="/login" id="go-to-login" className="text-[var(--brand-500)] font-bold hover:underline">Ingresar</Link>
         </p>
       </div>
-
-      <style jsx>{`
-        .auth-container {
-          min-height: 100dvh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: var(--space-6);
-          position: relative;
-          overflow: hidden;
-        }
-        .auth-glow {
-          position: absolute;
-          top: -200px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
-          pointer-events: none;
-        }
-        .auth-card {
-          position: relative;
-          z-index: 1;
-          width: 100%;
-          max-width: 420px;
-          background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-xl);
-          padding: var(--space-10) var(--space-8);
-          box-shadow: var(--shadow-xl);
-        }
-        .auth-logo {
-          display: flex;
-          align-items: center;
-          gap: var(--space-3);
-          margin-bottom: var(--space-8);
-        }
-        .auth-logo-icon {
-          width: 40px;
-          height: 40px;
-          background: var(--accent-light);
-          border: 1px solid var(--accent-ring);
-          border-radius: var(--radius-md);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent);
-        }
-        .auth-logo-text {
-          font-family: var(--font-display);
-          font-size: var(--text-lg);
-          font-weight: 700;
-          color: var(--text);
-        }
-        .auth-header { margin-bottom: var(--space-8); }
-        .auth-header h1 { font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-2); }
-        .auth-header p { color: var(--text-muted); font-size: var(--text-sm); }
-        .auth-form { display: flex; flex-direction: column; gap: var(--space-4); }
-        .form-group { display: flex; flex-direction: column; gap: var(--space-2); }
-        .auth-error {
-          display: flex;
-          align-items: center;
-          gap: var(--space-2);
-          padding: var(--space-3) var(--space-4);
-          background: var(--danger-bg);
-          border: 1px solid rgba(239, 68, 68, 0.25);
-          border-radius: var(--radius-md);
-          color: var(--danger);
-          font-size: var(--text-sm);
-        }
-        .auth-submit {
-          width: 100%;
-          height: 44px;
-          background: var(--accent) !important;
-          color: white !important;
-          font-weight: 600;
-          font-size: var(--text-sm);
-          margin-top: var(--space-2);
-          border-radius: var(--radius-md);
-        }
-        .auth-footer {
-          margin-top: var(--space-6);
-          text-align: center;
-          font-size: var(--text-sm);
-          color: var(--text-muted);
-        }
-        .auth-footer a { color: var(--text-accent); font-weight: 500; }
-      `}</style>
     </div>
   )
 }

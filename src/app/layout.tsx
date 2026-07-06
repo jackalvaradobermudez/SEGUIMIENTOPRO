@@ -78,7 +78,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="SeguimientoPro" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
       </head>
-      <body>
+      <body className="bg-slate-50 text-slate-900">
         <TooltipProvider>
           {children}
           <RegisterSW />

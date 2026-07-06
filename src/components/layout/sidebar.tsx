@@ -36,8 +36,9 @@ export default function Sidebar() {
 
   return (
     <aside
+      style={{ width: isCollapsed ? '88px' : '280px' }}
       className={`fixed left-0 top-0 z-50 flex h-screen flex-col justify-between border-r border-white/5 bg-[#0B121D]/95 py-8 sidebar-transition shadow-[inset_-1px_0_0_rgba(255,255,255,0.06)] ${
-        !isCollapsed ? 'w-[280px] px-6' : 'w-[88px] px-4'
+        !isCollapsed ? 'px-6' : 'px-3'
       }`}
     >
       {/* Botón Toggle Flotante */}

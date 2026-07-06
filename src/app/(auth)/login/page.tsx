@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
@@ -38,30 +37,29 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-container">
+    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden bg-slate-50">
       {/* Background glow */}
-      <div className="auth-glow" aria-hidden="true" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[var(--brand-500)]/10 blur-3xl rounded-full pointer-events-none" aria-hidden="true" />
 
-      <div className="auth-card animate-fade-in">
+      <div className="clay-card bg-white p-10 w-full max-w-md relative z-10 animate-fade-in">
         {/* Logo */}
-        <div className="auth-logo">
-          <div className="auth-logo-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" 
-                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <div className="flex items-center gap-3 mb-10">
+          <div className="w-12 h-12 flex items-center justify-center rounded-2xl clay-card-inset bg-slate-50">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
           </div>
-          <span className="auth-logo-text">SeguimientoPro</span>
+          <span className="font-display text-xl font-bold text-slate-800">Seguimiento<span className="text-[var(--brand-500)]">PRO</span></span>
         </div>
 
-        <div className="auth-header">
-          <h1>Bienvenido de vuelta</h1>
-          <p>Ingresa tus credenciales para continuar</p>
+        <div className="mb-8">
+          <h1 className="text-3xl font-extrabold text-slate-800 mb-2">Bienvenido de vuelta</h1>
+          <p className="text-slate-500 font-medium">Ingresa tus credenciales para continuar</p>
         </div>
 
-        <form onSubmit={handleLogin} className="auth-form" id="login-form">
-          <div className="form-group">
-            <Label htmlFor="email">Email</Label>
+        <form onSubmit={handleLogin} className="flex flex-col gap-5" id="login-form">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="email" className="text-slate-700 font-semibold">Email</Label>
             <Input
               id="email"
               type="email"
@@ -71,11 +69,12 @@ export default function LoginPage() {
               required
               autoComplete="email"
               disabled={loading}
+              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus-visible:ring-[var(--brand-500)]"
             />
           </div>
 
-          <div className="form-group">
-            <Label htmlFor="password">Contraseña</Label>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="password" className="text-slate-700 font-semibold">Contraseña</Label>
             <Input
               id="password"
               type="password"
@@ -85,11 +84,12 @@ export default function LoginPage() {
               required
               autoComplete="current-password"
               disabled={loading}
+              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus-visible:ring-[var(--brand-500)]"
             />
           </div>
 
           {error && (
-            <div className="auth-error" role="alert">
+            <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-sm font-medium" role="alert">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
                 <line x1="15" y1="9" x2="9" y2="15" stroke="currentColor" strokeWidth="2"/>
@@ -99,178 +99,29 @@ export default function LoginPage() {
             </div>
           )}
 
-          <Button
+          <button
             type="submit"
             id="login-submit"
             disabled={loading}
-            className="auth-submit"
+            className="clay-btn clay-btn-primary h-14 mt-2 rounded-2xl w-full text-lg flex items-center justify-center"
           >
             {loading ? (
-              <span className="loading-dots">
-                <span /><span /><span />
+              <span className="flex gap-1 items-center">
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" />
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
               </span>
             ) : 'Ingresar'}
-          </Button>
+          </button>
         </form>
 
-        <p className="auth-footer">
+        <p className="mt-8 text-center text-sm font-medium text-slate-500">
           ¿No tienes cuenta?{' '}
-          <Link href="/register" id="go-to-register">Crear cuenta gratis</Link>
+          <Link href="/register" id="go-to-register" className="text-[var(--brand-500)] font-bold hover:underline">
+            Crear cuenta gratis
+          </Link>
         </p>
       </div>
-
-      <style jsx>{`
-        .auth-container {
-          min-height: 100dvh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: var(--space-6);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .auth-glow {
-          position: absolute;
-          top: -200px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        .auth-card {
-          position: relative;
-          z-index: 1;
-          width: 100%;
-          max-width: 400px;
-          background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-xl);
-          padding: var(--space-10) var(--space-8);
-          box-shadow: var(--shadow-xl);
-        }
-
-        .auth-logo {
-          display: flex;
-          align-items: center;
-          gap: var(--space-3);
-          margin-bottom: var(--space-8);
-        }
-
-        .auth-logo-icon {
-          width: 40px;
-          height: 40px;
-          background: var(--accent-light);
-          border: 1px solid var(--accent-ring);
-          border-radius: var(--radius-md);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent);
-        }
-
-        .auth-logo-text {
-          font-family: var(--font-display);
-          font-size: var(--text-lg);
-          font-weight: 700;
-          color: var(--text);
-        }
-
-        .auth-header {
-          margin-bottom: var(--space-8);
-        }
-
-        .auth-header h1 {
-          font-size: var(--text-2xl);
-          font-weight: 700;
-          margin-bottom: var(--space-2);
-        }
-
-        .auth-header p {
-          color: var(--text-muted);
-          font-size: var(--text-sm);
-        }
-
-        .auth-form {
-          display: flex;
-          flex-direction: column;
-          gap: var(--space-5);
-        }
-
-        .form-group {
-          display: flex;
-          flex-direction: column;
-          gap: var(--space-2);
-        }
-
-        .auth-error {
-          display: flex;
-          align-items: center;
-          gap: var(--space-2);
-          padding: var(--space-3) var(--space-4);
-          background: var(--danger-bg);
-          border: 1px solid rgba(239, 68, 68, 0.25);
-          border-radius: var(--radius-md);
-          color: var(--danger);
-          font-size: var(--text-sm);
-        }
-
-        .auth-submit {
-          width: 100%;
-          height: 44px;
-          background: var(--accent) !important;
-          color: white !important;
-          font-weight: 600;
-          font-size: var(--text-sm);
-          border-radius: var(--radius-md);
-          transition: background var(--transition-fast), transform var(--transition-fast);
-          margin-top: var(--space-2);
-        }
-
-        .auth-submit:hover:not(:disabled) {
-          background: var(--accent-hover) !important;
-          transform: translateY(-1px);
-        }
-
-        .auth-submit:active:not(:disabled) {
-          transform: translateY(0);
-        }
-
-        .loading-dots {
-          display: flex;
-          gap: 4px;
-          align-items: center;
-        }
-
-        .loading-dots span {
-          width: 6px;
-          height: 6px;
-          background: white;
-          border-radius: 50%;
-          animation: pulse-subtle 1.2s ease-in-out infinite;
-        }
-
-        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-        .auth-footer {
-          margin-top: var(--space-6);
-          text-align: center;
-          font-size: var(--text-sm);
-          color: var(--text-muted);
-        }
-
-        .auth-footer a {
-          color: var(--text-accent);
-          font-weight: 500;
-        }
-
-        .auth-footer a:hover { color: var(--accent); }
-      `}</style>
     </div>
   )
 }
