@@ -9,16 +9,57 @@ import { PortfolioHealth } from '@/components/dashboard/portfolio-health'
 import { MonthlyProgress } from '@/components/dashboard/monthly-progress'
 import { UpcomingCollections } from '@/components/dashboard/upcoming-collections'
 import { RecentSales, type RecentSale } from '@/components/dashboard/recent-sales'
+import { OnboardingWizard } from '@/components/onboarding/onboarding-wizard'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Dashboard — SeguimientoPro',
   description: 'Resumen de tu cartera, ventas y cobros',
+  robots: { index: false },
 }
 
 export default async function DashboardPage() {
   const business = await getActiveBusiness()
   const supabase = await createClient()
+
+  const [{ count: clientCount }, { count: productCount }, { count: saleCount }] =
+    await Promise.all([
+      supabase
+        .from('clients')
+        .select('id', { count: 'exact', head: true })
+        .eq('business_id', business.id)
+        .is('deleted_at', null),
+      supabase
+        .from('products')
+        .select('id', { count: 'exact', head: true })
+        .eq('business_id', business.id)
+        .is('deleted_at', null),
+      supabase
+        .from('sales')
+        .select('id', { count: 'exact', head: true })
+        .eq('business_id', business.id)
+        .is('deleted_at', null),
+    ])
+
+  const isFirstUse =
+    (clientCount ?? 0) === 0 && (productCount ?? 0) === 0 && (saleCount ?? 0) === 0
+
+  if (isFirstUse) {
+    return (
+      <div className="animate-fade-in">
+        <div className="page-header">
+          <div>
+            <h1 className="page-title">Dashboard</h1>
+            <p className="page-subtitle">Resumen de tu cartera, ventas y cobros</p>
+          </div>
+        </div>
+        <OnboardingWizard
+          businessName={business.name}
+          currency={business.currency}
+        />
+      </div>
+    )
+  }
 
   const now = new Date()
   const todayISO = now.toISOString().split('T')[0]
