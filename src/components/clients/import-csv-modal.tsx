@@ -34,6 +34,7 @@ export function ImportCsvModal() {
   const [fileName, setFileName] = useState('')
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [importError, setImportError] = useState('')
 
   // Mappings state
   const [mapping, setMapping] = useState<Record<string, number>>({
@@ -70,6 +71,7 @@ export function ImportCsvModal() {
     })
     setProgress(0)
     setUploading(false)
+    setImportError('')
   }
 
   // Parser CSV robusto
@@ -243,20 +245,20 @@ export function ImportCsvModal() {
   async function submitImport() {
     const hasErrors = parsedItems.some(item => Object.keys(item.errors).length > 0)
     if (hasErrors) {
-      toast.error('Corrige las celdas marcadas en rojo antes de continuar.')
+      setImportError('Corrige las celdas marcadas en rojo antes de continuar.')
       return
     }
 
     if (parsedItems.length === 0) {
-      toast.error('No hay clientes válidos para importar.')
+      setImportError('No hay clientes válidos para importar.')
       return
     }
 
+    setImportError('')
     setUploading(true)
     setProgress(10)
 
     try {
-      // Simular progresión en lotes
       const interval = setInterval(() => {
         setProgress(p => Math.min(p + 15, 90))
       }, 150)
@@ -265,7 +267,7 @@ export function ImportCsvModal() {
       clearInterval(interval)
 
       if (result.error) {
-        toast.error(result.error)
+        setImportError(result.error)
       } else {
         setProgress(100)
         toast.success(`Se importaron ${result.count} clientes exitosamente.`)
@@ -274,7 +276,7 @@ export function ImportCsvModal() {
       }
     } catch (err) {
       console.error(err)
-      toast.error('Ocurrió un error inesperado al importar los clientes.')
+      setImportError('Ocurrió un error inesperado al importar los clientes.')
     } finally {
       setUploading(false)
     }
@@ -504,6 +506,16 @@ export function ImportCsvModal() {
             </div>
           )}
         </div>
+
+        {importError && (
+          <div className="bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-lg p-4 flex items-start gap-3">
+            <AlertTriangle size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="font-semibold">No se pudo importar</p>
+              <p className="mt-1 text-xs">{importError}</p>
+            </div>
+          </div>
+        )}
 
         {/* Botones de Navegación de Pasos */}
         <div className="flex items-center justify-between border-t border-slate-100 pt-4 bg-transparent mt-auto">
