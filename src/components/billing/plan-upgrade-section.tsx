@@ -7,8 +7,11 @@ const COMPARISON = [
   { feature: 'Clientes', free: 'Hasta 20', pro: 'Ilimitados' },
   { feature: 'Productos', free: 'Hasta 15', pro: 'Ilimitados' },
   { feature: 'Ventas al mes', free: 'Hasta 30', pro: 'Ilimitadas' },
-  { feature: 'Importación CSV masiva', free: false, pro: true },
-  { feature: 'Reportes exportables', free: false, pro: true },
+  { feature: 'WhatsApp con plantillas', free: true, pro: true },
+  { feature: 'Calendario de vencimientos', free: true, pro: true },
+  { feature: 'Cartera por edades', free: true, pro: true },
+  { feature: 'Recibos y estados de cuenta PDF', free: true, pro: true },
+  { feature: 'Importación CSV masiva', free: true, pro: true },
   { feature: 'Soporte prioritario', free: false, pro: true },
 ]
 
