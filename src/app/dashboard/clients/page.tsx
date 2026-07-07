@@ -16,7 +16,7 @@ export default async function ClientsPage() {
 
   const { data: clients } = await supabase
     .from('clients')
-    .select('id, name, phone')
+    .select('id, name, phone, email, company')
     .eq('business_id', business.id)
     .is('deleted_at', null)
     .order('name', { ascending: true })
@@ -40,6 +40,8 @@ export default async function ClientsPage() {
       id: client.id,
       name: client.name,
       phone: client.phone,
+      email: client.email,
+      company: client.company,
       pendingBalance,
       lastSaleDate,
     }
