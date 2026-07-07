@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import { Search, Users, Filter, X } from 'lucide-react'
+import { Search, Users, Filter, X, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,12 +26,16 @@ export type ClientRow = {
 }
 
 type BalanceFilter = 'all' | 'with_balance' | 'no_balance'
+type SortField = 'pendingBalance' | 'lastSaleDate' | null
+type SortDir = 'asc' | 'desc'
 
 export function ClientsTable({ clients, currency }: { clients: ClientRow[]; currency: string }) {
   const [search, setSearch] = useState('')
   const [companyFilter, setCompanyFilter] = useState('')
   const [balanceFilter, setBalanceFilter] = useState<BalanceFilter>('all')
   const [showFilters, setShowFilters] = useState(false)
+  const [sortField, setSortField] = useState<SortField>(null)
+  const [sortDir, setSortDir] = useState<SortDir>('desc')
 
   const companies = useMemo(() => {
     const set = new Set<string>()
@@ -67,6 +71,34 @@ export function ClientsTable({ clients, currency }: { clients: ClientRow[]; curr
 
     return result
   }, [clients, search, companyFilter, balanceFilter])
+
+  const sorted = useMemo(() => {
+    if (!sortField) return filtered
+    return [...filtered].sort((a, b) => {
+      if (sortField === 'pendingBalance') {
+        return sortDir === 'asc' ? a.pendingBalance - b.pendingBalance : b.pendingBalance - a.pendingBalance
+      }
+      const dateA = a.lastSaleDate ?? ''
+      const dateB = b.lastSaleDate ?? ''
+      return sortDir === 'asc' ? dateA.localeCompare(dateB) : dateB.localeCompare(dateA)
+    })
+  }, [filtered, sortField, sortDir])
+
+  function toggleSort(field: SortField) {
+    if (sortField === field) {
+      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setSortField(field)
+      setSortDir('desc')
+    }
+  }
+
+  function sortIcon(field: SortField) {
+    if (sortField !== field) return <ArrowUpDown size={12} className="ml-1 opacity-40" />
+    return sortDir === 'asc'
+      ? <ArrowUp size={12} className="ml-1 text-indigo-600" />
+      : <ArrowDown size={12} className="ml-1 text-indigo-600" />
+  }
 
   function clearFilters() {
     setCompanyFilter('')
@@ -166,12 +198,20 @@ export function ClientsTable({ clients, currency }: { clients: ClientRow[]; curr
                 <TableHead>Teléfono</TableHead>
                 <TableHead>Empresa</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead className="text-right">Saldo pendiente</TableHead>
-                <TableHead>Última compra</TableHead>
+                <TableHead className="text-right">
+                  <button onClick={() => toggleSort('pendingBalance')} className="inline-flex items-center cursor-pointer hover:text-indigo-600 transition-colors">
+                    Saldo pendiente {sortIcon('pendingBalance')}
+                  </button>
+                </TableHead>
+                <TableHead>
+                  <button onClick={() => toggleSort('lastSaleDate')} className="inline-flex items-center cursor-pointer hover:text-indigo-600 transition-colors">
+                    Última compra {sortIcon('lastSaleDate')}
+                  </button>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map((client) => (
+              {sorted.map((client) => (
                 <TableRow key={client.id} className="cursor-pointer">
                   <TableCell className="font-semibold text-[var(--text-primary)]">
                     <Link href={`/dashboard/clients/${client.id}`} className="text-[var(--text-primary)] hover:text-[var(--brand-500)] transition-colors">
