@@ -7,7 +7,7 @@ import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { saleSchema } from '@/lib/validations/sale'
 import { checkMonthlySalesLimit } from '@/lib/plan-limits'
 
-export async function createSaleAction(input: unknown) {
+export async function createSaleAction(input: unknown, options?: { skipRedirect?: boolean }) {
   const business = await getActiveBusiness()
   const supabase = await createClient()
 
@@ -81,6 +81,11 @@ export async function createSaleAction(input: unknown) {
 
   revalidatePath('/dashboard/sales')
   revalidatePath('/dashboard')
+
+  if (options?.skipRedirect) {
+    return { success: true, id: sale.id }
+  }
+
   redirect(`/dashboard/sales/${sale.id}`)
 }
 

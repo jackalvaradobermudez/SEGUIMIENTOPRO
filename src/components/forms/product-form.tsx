@@ -77,7 +77,7 @@ export function ProductForm({ productId, defaultValues }: ProductFormProps) {
       ? await updateProductAction(productId!, formData)
       : await createProductAction(formData)
 
-    if (result?.error) {
+    if (result && 'error' in result) {
       toast.error(result.error)
       setSubmitting(false)
       return

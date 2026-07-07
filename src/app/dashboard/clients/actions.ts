@@ -11,7 +11,7 @@ function toNullable(value: string) {
   return value.trim() === '' ? null : value.trim()
 }
 
-export async function createClientAction(formData: FormData) {
+export async function createClientAction(formData: FormData, options?: { skipRedirect?: boolean }) {
   const business = await getActiveBusiness()
   const supabase = await createClient()
 
@@ -35,25 +35,34 @@ export async function createClientAction(formData: FormData) {
 
   const { data } = parsed
 
-  const { error } = await supabase.from('clients').insert({
-    business_id: business.id,
-    name: data.name,
-    phone: toNullable(data.phone ?? ''),
-    email: toNullable(data.email ?? ''),
-    address: toNullable(data.address ?? ''),
-    company: toNullable(data.company ?? ''),
-    id_number: toNullable(data.id_number ?? ''),
-    birthday: toNullable(data.birthday ?? ''),
-    notes: toNullable(data.notes ?? ''),
-    tags: null,
-    deleted_at: null,
-  })
+  const { data: client, error } = await supabase
+    .from('clients')
+    .insert({
+      business_id: business.id,
+      name: data.name,
+      phone: toNullable(data.phone ?? ''),
+      email: toNullable(data.email ?? ''),
+      address: toNullable(data.address ?? ''),
+      company: toNullable(data.company ?? ''),
+      id_number: toNullable(data.id_number ?? ''),
+      birthday: toNullable(data.birthday ?? ''),
+      notes: toNullable(data.notes ?? ''),
+      tags: null,
+      deleted_at: null,
+    })
+    .select('id')
+    .single()
 
-  if (error) {
+  if (error || !client) {
     return { error: 'No se pudo crear el cliente. Intenta de nuevo.' }
   }
 
   revalidatePath('/dashboard/clients')
+
+  if (options?.skipRedirect) {
+    return { success: true, id: client.id }
+  }
+
   redirect('/dashboard/clients')
 }
 

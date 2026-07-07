@@ -52,7 +52,7 @@ export function ClientForm({ clientId, defaultValues }: ClientFormProps) {
       ? await updateClientAction(clientId!, formData)
       : await createClientAction(formData)
 
-    if (result?.error) {
+    if (result && 'error' in result) {
       toast.error(result.error)
       setSubmitting(false)
       return

@@ -114,7 +114,7 @@ export function SaleForm({
     setSubmitting(true);
     const result = await createSaleAction(values);
 
-    if (result?.error) {
+    if (result && 'error' in result) {
       toast.error(result.error);
       setSubmitting(false);
       return;

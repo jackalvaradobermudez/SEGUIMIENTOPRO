@@ -26,7 +26,7 @@ function parseProductForm(formData: FormData) {
   })
 }
 
-export async function createProductAction(formData: FormData) {
+export async function createProductAction(formData: FormData, options?: { skipRedirect?: boolean }) {
   const business = await getActiveBusiness()
   const supabase = await createClient()
 
@@ -40,27 +40,36 @@ export async function createProductAction(formData: FormData) {
 
   const { data } = parsed
 
-  const { error } = await supabase.from('products').insert({
-    business_id: business.id,
-    name: data.name,
-    description: toNullable(data.description ?? ''),
-    category: toNullable(data.category ?? ''),
-    sku: toNullable(data.sku ?? ''),
-    default_price: data.default_price,
-    cost_price: data.cost_price ?? null,
-    unit: data.unit,
-    track_stock: data.track_stock,
-    stock: data.stock,
-    stock_minimum: data.stock_minimum,
-    is_active: true,
-    deleted_at: null,
-  })
+  const { data: product, error } = await supabase
+    .from('products')
+    .insert({
+      business_id: business.id,
+      name: data.name,
+      description: toNullable(data.description ?? ''),
+      category: toNullable(data.category ?? ''),
+      sku: toNullable(data.sku ?? ''),
+      default_price: data.default_price,
+      cost_price: data.cost_price ?? null,
+      unit: data.unit,
+      track_stock: data.track_stock,
+      stock: data.stock,
+      stock_minimum: data.stock_minimum,
+      is_active: true,
+      deleted_at: null,
+    })
+    .select('id')
+    .single()
 
-  if (error) {
+  if (error || !product) {
     return { error: 'No se pudo crear el producto. Intenta de nuevo.' }
   }
 
   revalidatePath('/dashboard/products')
+
+  if (options?.skipRedirect) {
+    return { success: true, id: product.id }
+  }
+
   redirect('/dashboard/products')
 }
 

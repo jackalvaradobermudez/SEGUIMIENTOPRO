@@ -70,15 +70,13 @@ export function OnboardingWizard({
     const formData = new FormData()
     formData.set('name', data.clientName)
     formData.set('phone', data.clientPhone)
-    const result = await createClientAction(formData)
-    if (result?.error) {
+    const result = await createClientAction(formData, { skipRedirect: true })
+    if ('error' in result) {
       toast.error(result.error)
       return
     }
+    update({ clientId: result.id })
     toast.success('Cliente creado')
-    // We need to find the ID. Redirect approach means the page will reload.
-    // For simplicity, we'll advance to next step and the client will be available
-    // through the allClients list passed as prop.
     nextStep('product')
   }
 
@@ -90,38 +88,40 @@ export function OnboardingWizard({
     formData.set('track_stock', 'false')
     formData.set('stock', '0')
     formData.set('stock_minimum', '0')
-    const result = await createProductAction(formData)
-    if (result?.error) {
+    const result = await createProductAction(formData, { skipRedirect: true })
+    if ('error' in result) {
       toast.error(result.error)
       return
     }
+    update({ productId: result.id })
     toast.success('Producto creado')
     nextStep('sale')
   }
 
   async function handleCreateSale() {
-    // Buscar el cliente y producto recién creados por nombre
-    // (se acaban de crear, así que son los más recientes)
-    const { productName, productPrice } = data
-    const result = await createSaleAction({
-      client_id: '',
-      sale_type: 'credit',
-      sale_date: new Date().toISOString().split('T')[0],
-      due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      installments: 1,
-      discount: 0,
-      payment_method: 'cash',
-      notes: '',
-      items: [
-        {
-          product_id: '',
-          description: productName,
-          quantity: 1,
-          unit_price: Number(productPrice) || 0,
-        },
-      ],
-    })
-    if (result?.error) {
+    const { productName, productPrice, clientId, productId } = data
+    const result = await createSaleAction(
+      {
+        client_id: clientId,
+        sale_type: 'credit',
+        sale_date: new Date().toISOString().split('T')[0],
+        due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        installments: 1,
+        discount: 0,
+        payment_method: 'cash',
+        notes: '',
+        items: [
+          {
+            product_id: productId,
+            description: productName,
+            quantity: 1,
+            unit_price: Number(productPrice) || 0,
+          },
+        ],
+      },
+      { skipRedirect: true }
+    )
+    if ('error' in result) {
       toast.error(result.error)
       return
     }
