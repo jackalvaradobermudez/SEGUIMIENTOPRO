@@ -197,30 +197,29 @@ export function ImportCsvModal() {
       return
     }
 
-    const items: ClientImportRow[] = csvDataRows.map((csvRow) => {
-      const getVal = (fieldIndex: number) => {
-        if (fieldIndex === -1 || fieldIndex >= csvRow.length) return ''
-        return csvRow[fieldIndex].trim().replace(/^"|"$/g, '')
-      }
+    const items: ClientImportRow[] = csvDataRows
+      .map((csvRow) => {
+        const getVal = (fieldIndex: number) => {
+          if (fieldIndex === -1 || fieldIndex >= csvRow.length) return ''
+          return csvRow[fieldIndex].trim().replace(/^"|"$/g, '')
+        }
 
-      const rawRow = {
-        name: getVal(mapping.name),
-        phone: getVal(mapping.phone),
-        email: getVal(mapping.email),
-        address: getVal(mapping.address),
-        company: getVal(mapping.company),
-        id_number: getVal(mapping.id_number),
-        birthday: getVal(mapping.birthday),
-        notes: getVal(mapping.notes),
-      }
+        const rawRow = {
+          name: getVal(mapping.name),
+          phone: getVal(mapping.phone),
+          email: getVal(mapping.email),
+          address: getVal(mapping.address),
+          company: getVal(mapping.company),
+          id_number: getVal(mapping.id_number),
+          birthday: getVal(mapping.birthday),
+          notes: getVal(mapping.notes),
+        }
 
-      const errors = validateRow(rawRow)
+        const errors = validateRow(rawRow)
 
-      return {
-        ...rawRow,
-        errors,
-      }
-    })
+        return { ...rawRow, errors }
+      })
+      .filter((row) => row.name.trim() !== '' || row.phone.trim() !== '' || row.email.trim() !== '')
 
     setParsedItems(items)
     setStep(3)
@@ -423,7 +422,7 @@ export function ImportCsvModal() {
                   </thead>
                   <tbody>
                     {parsedItems.map((item, rowIdx) => (
-                      <tr key={rowIdx} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                      <tr key={rowIdx} className={`border-b border-slate-100 hover:bg-slate-50 transition-colors ${Object.keys(item.errors).length > 0 ? 'bg-red-50/50' : ''}`}>
                         <td className="p-3 text-slate-500 text-center">{rowIdx + 1}</td>
                         <td className="p-1">
                           <input
@@ -431,7 +430,7 @@ export function ImportCsvModal() {
                             value={item.name}
                             onChange={(e) => updateItemCell(rowIdx, 'name', e.target.value)}
                             className={`w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors ${
-                              item.errors.name ? 'border border-red-500 bg-red-50 text-red-600' : 'text-[var(--text-primary)]'
+                              item.errors.name ? 'ring-2 ring-red-400 bg-red-50 text-red-600' : 'text-[var(--text-primary)]'
                             }`}
                             title={item.errors.name}
                           />
@@ -450,7 +449,7 @@ export function ImportCsvModal() {
                             value={item.email}
                             onChange={(e) => updateItemCell(rowIdx, 'email', e.target.value)}
                             className={`w-full bg-transparent border-0 px-2 py-1.5 focus:bg-slate-100 rounded transition-colors ${
-                              item.errors.email ? 'border border-red-500 bg-red-50 text-red-600' : 'text-[var(--text-primary)]'
+                              item.errors.email ? 'ring-2 ring-red-400 bg-red-50 text-red-600' : 'text-[var(--text-primary)]'
                             }`}
                             title={item.errors.email}
                           />
