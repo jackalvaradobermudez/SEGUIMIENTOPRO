@@ -83,12 +83,12 @@ export function NotificationsDropdown() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "relative p-2 text-[var(--text-secondary)] hover:text-[var(--brand-700)] rounded-full hover:bg-slate-100 transition-all cursor-pointer focus:outline-none",
-          isOpen && "text-[var(--brand-700)] bg-slate-100"
+          "relative flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all cursor-pointer focus:outline-none",
+          isOpen && "text-white bg-white/10"
         )}
         aria-label="Ver notificaciones"
       >
-        <Bell size={20} className={cn("transition-transform", isOpen && "scale-110")} />
+        <Bell size={18} className={cn("transition-transform", isOpen && "scale-110")} />
         {pendingCount > 0 && (
           <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-violet-600 text-[10px] font-bold text-white ring-2 ring-white animate-pulse">
             {pendingCount}

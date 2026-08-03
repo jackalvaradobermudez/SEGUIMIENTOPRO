@@ -34,50 +34,50 @@ export default function Header({ user }: HeaderProps) {
   }, [])
 
   return (
-    <header className="dashboard-header flex h-[88px] items-center justify-between px-9">
+    <header className="dashboard-header flex h-[88px] items-center justify-between px-9 bg-[#0B1120] border-b border-white/5">
       {/* Left: Menú móvil + Avatar + Name + Enlaces Rápidos (Iconos) */}
       <div className="flex items-center gap-4">
         <button
           onClick={toggleMobileSidebar}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[var(--text-secondary)] hover:bg-slate-100 md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 md:hidden"
           aria-label="Abrir menú"
         >
           <Menu size={18} />
         </button>
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 shadow-sm flex-shrink-0">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sm font-bold text-white shadow-sm flex-shrink-0">
           {initials}
         </div>
         <div className="flex flex-col">
-          <span className="text-[15px] font-semibold leading-5 text-slate-900 tracking-tight">{userName}</span>
-          <span className="text-xs leading-5 text-slate-500">Seguimiento financiero y ventas</span>
+          <span className="text-[15px] font-semibold leading-5 text-white tracking-tight">{userName}</span>
+          <span className="text-xs leading-5 text-slate-400">Seguimiento financiero y ventas</span>
         </div>
 
         {/* Enlaces de acceso rápido con iconos estilizados */}
-        <div className="hidden xl:flex items-center gap-1 ml-6 pl-6 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-6 before:w-px before:bg-slate-200">
+        <div className="hidden xl:flex items-center gap-1 ml-6 pl-6 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-6 before:w-px before:bg-white/10">
           <Link
             href="/dashboard"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition-all"
             title="Dashboard"
           >
             <LayoutDashboard size={18} />
           </Link>
           <Link
             href="/dashboard/clients"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition-all"
             title="Clientes"
           >
             <Users size={18} />
           </Link>
           <Link
             href="/dashboard/sales"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 hover:bg-white/10 hover:text-white transition-all"
             title="Ventas"
           >
             <ShoppingCart size={18} />
           </Link>
           <Link
             href="/dashboard/collections"
-            className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-[var(--brand-600)] transition-all"
+            className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--brand-500)] text-white shadow-sm transition-all hover:bg-[var(--brand-600)]"
             title="Cobros (Core)"
           >
             <CreditCard size={18} />
@@ -86,14 +86,14 @@ export default function Header({ user }: HeaderProps) {
       </div>
 
       {/* Center: Search */}
-      <div className="hidden md:flex h-10 w-[320px] lg:w-[360px] items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/50 px-3 transition-all duration-200 focus-within:border-[var(--brand-500)] focus-within:bg-white focus-within:ring-4 focus-within:ring-[var(--brand-500)]/10 shadow-sm">
+      <div className="hidden md:flex h-10 w-[320px] lg:w-[360px] items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 transition-all duration-200 focus-within:border-white/20 focus-within:bg-white/10 shadow-none">
         <Search size={16} className="text-slate-400" />
         <input
           type="text"
           placeholder="Buscar clientes, ventas, cobros..."
-          className="flex-1 bg-transparent text-sm text-slate-900 placeholder:text-slate-400 outline-none border-none shadow-none ring-0 focus:outline-none"
+          className="flex-1 bg-transparent text-sm text-white placeholder:text-slate-500 outline-none border-none shadow-none ring-0 focus:outline-none"
         />
-        <div className="flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-400 shadow-sm">
+        <div className="flex items-center gap-1 rounded-md border border-white/10 bg-black/20 px-1.5 py-0.5 text-[10px] font-medium text-slate-400 shadow-none">
           <span>⌘</span>
           <span>K</span>
         </div>
@@ -156,7 +156,7 @@ export default function Header({ user }: HeaderProps) {
         {/* Configuración Rápida */}
         <Link
           href="/dashboard/settings"
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
+          className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition-all duration-200 hover:bg-white/10 hover:text-white"
           title="Configuración"
         >
           <Settings size={18} />
@@ -166,7 +166,7 @@ export default function Header({ user }: HeaderProps) {
         <NotificationsDropdown />
 
         {/* Avatar y Perfil */}
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 border border-slate-200/60 text-[11px] font-bold tracking-wider text-slate-600 shadow-sm ml-1">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 border border-white/10 text-[11px] font-bold tracking-wider text-white shadow-sm ml-1">
           {initials}
         </div>
       </div>
