@@ -44,57 +44,56 @@ export default function Header({ user }: HeaderProps) {
         >
           <Menu size={18} />
         </button>
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#2563FF]/40 bg-gradient-to-br from-[#2563FF]/45 to-slate-900 text-sm font-bold text-white shadow-[0_0_22px_rgba(37,99,255,0.22)] flex-shrink-0">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-sm font-bold text-slate-700 shadow-sm flex-shrink-0">
           {initials}
         </div>
         <div className="flex flex-col">
-          <span className="text-[16px] font-semibold leading-5 text-[var(--text-primary)]">{userName}</span>
-          <span className="text-[13px] leading-5 text-slate-400">Seguimiento financiero y ventas</span>
+          <span className="text-[15px] font-semibold leading-5 text-slate-900 tracking-tight">{userName}</span>
+          <span className="text-xs leading-5 text-slate-500">Seguimiento financiero y ventas</span>
         </div>
 
         {/* Enlaces de acceso rápido con iconos estilizados */}
-        <div className="hidden xl:flex items-center gap-2 ml-6 border-l border-white/10 pl-6">
+        <div className="hidden xl:flex items-center gap-1 ml-6 pl-6 relative before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-6 before:w-px before:bg-slate-200">
           <Link
             href="/dashboard"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-[var(--text-secondary)] hover:bg-slate-100 hover:text-[var(--brand-700)] transition-all"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all"
             title="Dashboard"
           >
             <LayoutDashboard size={18} />
           </Link>
           <Link
             href="/dashboard/clients"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-[var(--text-secondary)] hover:bg-slate-100 hover:text-[var(--brand-700)] transition-all"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all"
             title="Clientes"
           >
             <Users size={18} />
           </Link>
           <Link
             href="/dashboard/sales"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-[var(--text-secondary)] hover:bg-slate-100 hover:text-[var(--brand-700)] transition-all"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all"
             title="Ventas"
           >
             <ShoppingCart size={18} />
           </Link>
           <Link
             href="/dashboard/collections"
-            className="relative flex h-10 w-10 items-center justify-center rounded-full border border-[var(--brand-border)] bg-[var(--brand-soft)] text-[var(--brand-600)] hover:bg-[var(--brand-500)] hover:text-white transition-all"
+            className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50 text-[var(--brand-600)] transition-all"
             title="Cobros (Core)"
           >
             <CreditCard size={18} />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#2563FF] text-[8px] font-bold text-white shadow-sm">C</span>
           </Link>
         </div>
       </div>
 
       {/* Center: Search */}
-      <div className="hidden md:flex h-12 w-[320px] lg:w-[388px] items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 transition-colors duration-200 focus-within:border-[var(--brand-border)] focus-within:bg-white">
-        <Search size={18} className="text-slate-400" />
+      <div className="hidden md:flex h-10 w-[320px] lg:w-[360px] items-center gap-2 rounded-xl border border-slate-200 bg-slate-50/50 px-3 transition-all duration-200 focus-within:border-[var(--brand-500)] focus-within:bg-white focus-within:ring-4 focus-within:ring-[var(--brand-500)]/10 shadow-sm">
+        <Search size={16} className="text-slate-400" />
         <input
           type="text"
           placeholder="Buscar clientes, ventas, cobros..."
-          className="flex-1 bg-transparent text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] outline-none border-none shadow-none ring-0 focus:outline-none"
+          className="flex-1 bg-transparent text-sm text-slate-900 placeholder:text-slate-400 outline-none border-none shadow-none ring-0 focus:outline-none"
         />
-        <div className="flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-0.5 text-[11px] text-slate-400">
+        <div className="flex items-center gap-1 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-400 shadow-sm">
           <span>⌘</span>
           <span>K</span>
         </div>
@@ -106,11 +105,11 @@ export default function Header({ user }: HeaderProps) {
         <div className="relative" ref={quickMenuRef}>
           <button
             onClick={() => setIsQuickMenuOpen(!isQuickMenuOpen)}
-            className="inline-flex h-12 items-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-700)] pl-6 pr-5 text-sm font-semibold text-white shadow-brand transition-all duration-200 hover:brightness-105 cursor-pointer"
+            className="inline-flex h-10 items-center gap-2 rounded-xl bg-[var(--brand-500)] px-4 text-sm font-medium text-white shadow-sm transition-all hover:bg-[var(--brand-600)] cursor-pointer"
           >
-            <Plus size={17} />
+            <Plus size={16} />
             <span>Crear</span>
-            <ChevronDown size={14} className={`opacity-80 transition-transform duration-200 ${isQuickMenuOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown size={14} className={`opacity-70 transition-transform duration-200 ${isQuickMenuOpen ? 'rotate-180' : ''}`} />
           </button>
 
           {isQuickMenuOpen && (
@@ -157,17 +156,17 @@ export default function Header({ user }: HeaderProps) {
         {/* Configuración Rápida */}
         <Link
           href="/dashboard/settings"
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-[var(--text-secondary)] transition-all duration-200 hover:bg-slate-100 hover:text-[var(--brand-700)]"
+          className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-all duration-200 hover:bg-slate-100 hover:text-slate-900"
           title="Configuración"
         >
-          <Settings size={17} />
+          <Settings size={18} />
         </Link>
 
         {/* Notificaciones */}
         <NotificationsDropdown />
 
         {/* Avatar y Perfil */}
-        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#2563FF] to-[#1E4CAF] text-sm font-bold text-white shadow-[0_0_24px_rgba(37,99,255,0.3)]">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 border border-slate-200/60 text-[11px] font-bold tracking-wider text-slate-600 shadow-sm ml-1">
           {initials}
         </div>
       </div>
