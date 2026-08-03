@@ -10,7 +10,7 @@ const SCENE_DURATIONS = [8, 12, 15, 20, 20, 20, 15]
 const TOTAL_DURATION = SCENE_DURATIONS.reduce((a, b) => a + b, 0)
 
 export default function CommercialPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const [currentScene, setCurrentScene] = useState(0)
   const timerRef = useRef<NodeJS.Timeout | null>(null)
