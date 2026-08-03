@@ -226,7 +226,7 @@ export default function CommercialPlayer() {
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-50">
             <div 
               className="h-full bg-blue-500 transition-all duration-100 ease-linear"
-              style={{ width: \`\${(currentTime / TOTAL_DURATION) * 100}%\` }}
+              style={{ width: ((currentTime / TOTAL_DURATION) * 100) + '%' }}
             />
           </div>
         </div>
