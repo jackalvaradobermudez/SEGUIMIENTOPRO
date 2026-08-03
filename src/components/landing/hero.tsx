@@ -11,14 +11,14 @@ export function HeroSection() {
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Left — Copy */}
           <div className="flex flex-col justify-center lg:pr-4">
-            <span className="mb-6 inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-indigo-600">
+            <span className="mb-6 inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-[var(--brand-600)]">
               Gestión de cobros para emprendedores
             </span>
 
             <h1 className="font-outfit text-[54px] font-extrabold leading-[1.06] tracking-[-0.03em] text-slate-900 sm:text-[64px] xl:text-[72px]">
               Deja de cobrar de memoria.
               <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--brand-600)] via-[var(--brand-500)] to-[var(--brand-500)] bg-clip-text text-transparent">
                 Controla quién te debe
               </span>
               , cuánto te debe y qué cobrar hoy.
@@ -30,13 +30,13 @@ export function HeroSection() {
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link href="/register">
-                <Button className="h-[54px] rounded-2xl bg-indigo-600 px-8 text-[15px] font-semibold text-white shadow-[0_8px_30px_rgba(99,102,241,0.22)] transition-all hover:bg-indigo-500 hover:shadow-[0_16px_45px_rgba(99,102,241,0.32)] hover:-translate-y-0.5">
+                <Button className="h-[54px] rounded-2xl bg-[var(--brand-600)] px-8 text-[15px] font-semibold text-white shadow-[0_8px_30px_rgba(37,99,255,0.22)] transition-all hover:bg-[var(--brand-500)] hover:shadow-[0_16px_45px_rgba(37,99,255,0.32)] hover:-translate-y-0.5">
                   Crear cuenta gratis
                   <ArrowRight size={18} className="ml-2" />
                 </Button>
               </Link>
               <button className="inline-flex h-[54px] items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-6 text-[15px] font-medium text-slate-600 transition-all hover:border-slate-300 hover:text-slate-900 hover:shadow-sm">
-                <Play size={16} className="text-indigo-500" />
+                <Play size={16} className="text-[var(--brand-500)]" />
                 Ver demo de 2 minutos
               </button>
             </div>
@@ -62,7 +62,7 @@ export function HeroSection() {
                 {/* App topbar */}
                 <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3.5">
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-[10px] bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center">
+                    <div className="h-8 w-8 rounded-[10px] bg-gradient-to-br from-[var(--brand-500)] to-[var(--brand-600)] flex items-center justify-center">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                       </svg>
@@ -73,7 +73,7 @@ export function HeroSection() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <div className="h-8 w-24 rounded-[10px] bg-indigo-600" />
+                    <div className="h-8 w-24 rounded-[10px] bg-[var(--brand-600)]" />
                     <div className="h-8 w-8 rounded-[10px] bg-slate-100" />
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export function HeroSection() {
                       <Clock size={13} className="text-slate-400" />
                       <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">Cobros del día</span>
                     </div>
-                    <span className="text-[10px] font-medium text-indigo-500">Ver todos →</span>
+                    <span className="text-[10px] font-medium text-[var(--brand-500)]">Ver todos →</span>
                   </div>
 
                   {/* Client list */}

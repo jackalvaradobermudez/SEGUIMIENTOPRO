@@ -37,13 +37,14 @@ export function LandingNavbar() {
       )}
     >
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6">
-        <Link href="/" className="flex items-center gap-2.5 font-outfit text-lg font-bold text-slate-900">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500/15">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        <Link href="/" className="flex items-center gap-2 font-display text-lg font-bold text-slate-900 tracking-tight">
+          <div className="flex h-8 w-8 items-center justify-center flex-shrink-0">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="9" stroke="var(--brand-500)" strokeWidth="2.5" fill="white"/>
+              <path d="M8.5 12L11 14.5L16 9" stroke="var(--brand-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          Seguimiento<span className="text-indigo-500">PRO</span>
+          SEGUIMIENTO <span className="text-[var(--brand-500)] ml-1">PRO</span>
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
@@ -57,7 +58,7 @@ export function LandingNavbar() {
         <div className="hidden items-center gap-4 md:flex">
           <Link href="/login" className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Entrar</Link>
           <Link href="/register">
-            <Button className="h-10 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-none hover:bg-indigo-500 transition-colors">
+            <Button className="h-10 rounded-xl bg-[var(--brand-500)] px-5 text-sm font-semibold text-white shadow-none hover:bg-[var(--brand-600)] transition-colors">
               Empieza gratis
             </Button>
           </Link>
@@ -74,7 +75,7 @@ export function LandingNavbar() {
               ))}
               <hr className="border-slate-200" />
               <Link href="/login" className="text-sm font-medium text-slate-600">Entrar</Link>
-              <Link href="/register"><Button className="w-full rounded-xl bg-indigo-600 text-sm font-semibold text-white">Empieza gratis</Button></Link>
+              <Link href="/register"><Button className="w-full rounded-xl bg-[var(--brand-500)] hover:bg-[var(--brand-600)] text-sm font-semibold text-white">Empieza gratis</Button></Link>
             </div>
           </SheetContent>
         </Sheet>

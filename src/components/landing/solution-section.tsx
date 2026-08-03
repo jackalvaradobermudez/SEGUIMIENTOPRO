@@ -23,9 +23,9 @@ export function SolutionSection() {
           {BENEFITS.map((b) => {
             const Icon = b.icon
             return (
-              <div key={b.title} className="group rounded-3xl border border-slate-200 bg-white p-8 transition-all hover:border-indigo-200 hover:shadow-sm">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 transition-colors group-hover:bg-indigo-100">
-                  <Icon size={22} className="text-indigo-500" />
+              <div key={b.title} className="group rounded-3xl border border-slate-200 bg-white p-8 transition-all hover:border-blue-200 hover:shadow-sm">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 transition-colors group-hover:bg-blue-100">
+                  <Icon size={22} className="text-[var(--brand-500)]" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">{b.title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-slate-500">{b.desc}</p>

@@ -40,12 +40,12 @@ export function PricingSection() {
               key={plan.name}
               className={
                 plan.popular
-                  ? 'relative rounded-3xl border border-indigo-200 bg-white p-9 shadow-[0_30px_70px_rgba(79,70,229,0.18)] sm:scale-[1.04]'
+                  ? 'relative rounded-3xl border border-blue-200 bg-white p-9 shadow-[0_30px_70px_rgba(37,99,255,0.18)] sm:scale-[1.04]'
                   : 'relative rounded-3xl border border-slate-200 bg-white p-8'
               }
             >
               {plan.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-indigo-600 px-4 py-1 text-xs font-semibold text-white shadow-[0_4px_14px_rgba(99,102,241,0.4)]">Recomendado</span>
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[var(--brand-600)] px-4 py-1 text-xs font-semibold text-white shadow-[0_4px_14px_rgba(37,99,255,0.4)]">Recomendado</span>
               )}
               <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
               <p className="mt-2 font-outfit text-[44px] font-extrabold text-slate-900">{plan.price}</p>
@@ -61,7 +61,7 @@ export function PricingSection() {
 
               <Link href={plan.href} className="mt-8 block">
                 <Button
-                  className={`h-12 w-full rounded-2xl text-sm font-semibold ${plan.popular ? 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-[0_8px_25px_rgba(99,102,241,0.25)]' : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'}`}
+                  className={`h-12 w-full rounded-2xl text-sm font-semibold ${plan.popular ? 'bg-[var(--brand-600)] text-white hover:bg-[var(--brand-500)] shadow-[0_8px_25px_rgba(37,99,255,0.25)]' : 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50'}`}
                 >
                   {plan.cta}
                   {plan.name === 'Gratis' && <ArrowRight size={16} className="ml-2" />}

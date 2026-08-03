@@ -40,7 +40,7 @@ export function TestimonialsSection() {
               </div>
               <p className="text-[15px] leading-relaxed text-slate-600 italic">&ldquo;{t.quote}&rdquo;</p>
               <div className="mt-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 text-sm font-bold text-indigo-600">{t.initials}</div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-[var(--brand-600)]">{t.initials}</div>
                 <div>
                   <p className="text-sm font-semibold text-slate-900">{t.name}</p>
                   <p className="text-xs text-slate-400">{t.role}</p>

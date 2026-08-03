@@ -19,7 +19,7 @@ export function FaqSection() {
         <div className="mt-16 divide-y divide-slate-200">
           {FAQS.map((faq) => (
             <details key={faq.q} className="group py-6">
-              <summary className="flex cursor-pointer items-center justify-between text-lg font-semibold text-slate-800 group-open:text-indigo-600 transition-colors">
+              <summary className="flex cursor-pointer items-center justify-between text-lg font-semibold text-slate-800 group-open:text-[var(--brand-600)] transition-colors">
                 {faq.q}
                 <svg className="size-5 shrink-0 text-slate-400 group-open:rotate-180 transition-transform" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />

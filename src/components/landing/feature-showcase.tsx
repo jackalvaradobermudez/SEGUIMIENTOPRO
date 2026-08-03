@@ -26,7 +26,7 @@ function DashboardMockup() {
         </div>
         <div className="flex h-24 items-end gap-2">
           {[38, 55, 42, 68, 50, 74, 60].map((h, i) => (
-            <div key={i} className="flex-1 rounded-t-md bg-gradient-to-t from-indigo-500 to-indigo-400" style={{ height: `${h}%` }} />
+            <div key={i} className="flex-1 rounded-t-md bg-gradient-to-t from-[var(--brand-500)] to-blue-400" style={{ height: `${h}%` }} />
           ))}
         </div>
         <div className="mt-2 flex justify-between text-[9px] text-slate-400">
@@ -41,7 +41,7 @@ function ClientHistoryMockup() {
   return (
     <div className={MOCK_CARD}>
       <div className="flex items-center gap-3 border-b border-slate-100 px-5 py-4">
-        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-indigo-100 text-sm font-bold text-indigo-600">MG</div>
+        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-[var(--brand-600)]">MG</div>
         <div className="flex-1">
           <p className="text-sm font-bold text-slate-900">María González</p>
           <p className="text-[11px] text-slate-400">Cliente desde ene. 2025 · Bogotá</p>
@@ -125,7 +125,7 @@ function CalendarMockup() {
             <div
               key={d}
               className={`flex h-8 items-center justify-center rounded-lg text-[11px] font-semibold ${
-                isOverdue ? 'bg-rose-500 text-white' : isDue ? 'bg-indigo-100 text-indigo-700' : 'text-slate-400'
+                isOverdue ? 'bg-rose-500 text-white' : isDue ? 'bg-blue-100 text-[var(--brand-700)]' : 'text-slate-400'
               }`}
             >
               {d}
@@ -135,7 +135,7 @@ function CalendarMockup() {
       </div>
       <div className="mt-4 flex items-center gap-4 text-[10px] text-slate-500">
         <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-rose-500" /> Vencido</span>
-        <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-indigo-300" /> Vence pronto</span>
+        <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-blue-300" /> Vence pronto</span>
       </div>
     </div>
   )
@@ -219,7 +219,7 @@ export function FeatureShowcase() {
           {BLOCKS.map((block, i) => (
             <div key={block.eyebrow} className={`grid items-center gap-12 lg:grid-cols-2 lg:gap-20 ${i % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
               <div>
-                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-indigo-500">{block.eyebrow}</span>
+                <span className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--brand-500)]">{block.eyebrow}</span>
                 <h3 className="mt-3 font-outfit text-[28px] font-bold leading-[1.2] tracking-[-0.01em] text-slate-900 sm:text-[32px]">
                   {block.title}
                 </h3>

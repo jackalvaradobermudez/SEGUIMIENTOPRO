@@ -23,8 +23,8 @@ export function ProblemSection() {
             const Icon = p.icon
             return (
               <div key={p.title} className="group rounded-3xl border border-slate-200 bg-white p-8 transition-all hover:border-slate-300 hover:shadow-sm">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50">
-                  <Icon size={24} className="text-indigo-500" />
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50">
+                  <Icon size={24} className="text-[var(--brand-500)]" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">{p.title}</h3>
                 <p className="mt-2 text-[15px] leading-relaxed text-slate-500">{p.desc}</p>

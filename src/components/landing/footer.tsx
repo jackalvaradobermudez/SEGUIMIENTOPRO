@@ -4,11 +4,12 @@ export function LandingFooter() {
   return (
     <footer className="border-t border-slate-200 bg-[#F8FAFC] px-6 py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 sm:flex-row sm:justify-between">
-        <div className="flex items-center gap-2.5 font-outfit text-base font-bold text-slate-900">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        <div className="flex items-center gap-2 font-display text-base font-bold text-slate-900 tracking-tight">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9" stroke="var(--brand-500)" strokeWidth="2.5" fill="white"/>
+            <path d="M8.5 12L11 14.5L16 9" stroke="var(--brand-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Seguimiento<span className="text-indigo-500">PRO</span>
+          SEGUIMIENTO <span className="text-[var(--brand-500)] ml-1">PRO</span>
         </div>
         <p className="text-sm text-slate-400">&copy; {new Date().getFullYear()} SeguimientoPro. Gestión de cobros para emprendedores.</p>
         <div className="flex gap-6 text-sm">

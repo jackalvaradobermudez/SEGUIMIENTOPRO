@@ -25,7 +25,7 @@ export function ComparisonSection() {
           <div className="grid grid-cols-[1fr_auto_auto]">
             <div className="border-b border-slate-100 bg-slate-50 p-5 text-sm font-semibold text-slate-700">Función</div>
             <div className="border-b border-slate-100 bg-slate-50 p-5 text-center text-sm font-semibold text-slate-400">Libreta / Excel</div>
-            <div className="border-b border-slate-100 bg-indigo-50 p-5 text-center text-sm font-semibold text-indigo-700">SeguimientoPro</div>
+            <div className="border-b border-slate-100 bg-blue-50 p-5 text-center text-sm font-semibold text-[var(--brand-700)]">SeguimientoPro</div>
 
             {ROWS.map((row, i) => (
               <>
@@ -35,8 +35,8 @@ export function ComparisonSection() {
                 <div className={`flex items-center justify-center p-5 ${i < ROWS.length - 1 ? 'border-b border-slate-50' : ''}`}>
                   {row.notebook ? <Check size={16} className="text-emerald-500" /> : <X size={14} className="text-slate-300" />}
                 </div>
-                <div className={`flex items-center justify-center bg-indigo-50/50 p-5 ${i < ROWS.length - 1 ? 'border-b border-slate-50' : ''}`}>
-                  <Check size={16} className="text-indigo-600" />
+                <div className={`flex items-center justify-center bg-blue-50/50 p-5 ${i < ROWS.length - 1 ? 'border-b border-slate-50' : ''}`}>
+                  <Check size={16} className="text-[var(--brand-600)]" />
                 </div>
               </>
             ))}
