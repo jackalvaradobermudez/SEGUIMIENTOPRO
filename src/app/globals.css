@@ -1,45 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ================================================================
-   SeguimientoPro — Premium Corporate Fintech Dark Design System
-   Exact spec — #0B1220 base, violet #7C5CFF, cyan #26C6FF
+   SeguimientoPro — Premium Corporate Fintech Light Design System
+   Exact spec — Brand Blue #2563FF, Dark #0F172A
    ================================================================ */
 
 @theme {
-  --color-brand-500: #7C5CFF;
-  --color-brand-600: #6A4EF7;
-  --color-brand-700: #5C43F0;
-  --color-app: #F3F5FB;
-  --color-canvas: #EBEEF5;
+  --color-brand-500: #2563FF;
+  --color-brand-600: #1E4CAF;
+  --color-brand-700: #17367B;
+  --color-app: #F8FAFC;
+  --color-canvas: #F1F5F9;
   --color-shell: #FFFFFF;
-  --font-outfit: 'Outfit', system-ui, sans-serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
 }
 
 :root {
-  /* ── Brand colors (ajustados para buen contraste en light mode) ─── */
-  --brand-500: #7C5CFF;
-  --brand-600: #6A4EF7;
-  --brand-700: #5C43F0;
-  --brand-soft: rgba(124, 92, 255, 0.08);
-  --brand-soft-2: rgba(124, 92, 255, 0.15);
-  --brand-border: rgba(124, 92, 255, 0.20);
-  --brand-glow: rgba(124, 92, 255, 0.24);
+  /* ── Brand colors ─── */
+  --brand-500: #2563FF;
+  --brand-600: #1E4CAF;
+  --brand-700: #17367B;
+  --brand-soft: #EFF4FF;
+  --brand-soft-2: rgba(37, 99, 255, 0.15);
+  --brand-border: rgba(37, 99, 255, 0.20);
+  --brand-glow: rgba(37, 99, 255, 0.24);
 
   /* ── Base / surfaces (Light Mode) ──────────────────────── */
-  --bg-app: #F3F5FB;
-  --bg-canvas: #EBEEF5;
+  --bg-app: #F8FAFC;
+  --bg-canvas: #F1F5F9;
   --bg-shell: #FFFFFF;
   --surface-1: #FFFFFF;
   --surface-2: #F8FAFC;
   --surface-3: #F1F5F9;
 
-  --border-subtle: rgba(0, 0, 0, 0.04);
-  --border-medium: rgba(0, 0, 0, 0.08);
-  --border-strong: rgba(0, 0, 0, 0.12);
+  --border-subtle: rgba(15, 23, 42, 0.04);
+  --border-medium: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.12);
 
   --text-primary: #0F172A;
-  --text-secondary: #475569;
+  --text-secondary: #64748B;
   --text-muted: #94A3B8;
 
   /* ── Semantic tokens ───────────────────────────────────── */
@@ -47,17 +47,17 @@
   --info-soft: rgba(2, 132, 199, 0.16);
   --info-border: rgba(2, 132, 199, 0.28);
 
-  --success-500: #059669;
-  --success-soft: rgba(5, 150, 105, 0.16);
-  --success-border: rgba(5, 150, 105, 0.28);
+  --success-500: #22C55E;
+  --success-soft: rgba(34, 197, 94, 0.16);
+  --success-border: rgba(34, 197, 94, 0.28);
 
-  --warning-500: #D97706;
-  --warning-soft: rgba(217, 119, 6, 0.16);
-  --warning-border: rgba(217, 119, 6, 0.28);
+  --warning-500: #F59E0B;
+  --warning-soft: rgba(245, 158, 11, 0.16);
+  --warning-border: rgba(245, 158, 11, 0.28);
 
-  --danger-500: #DC2626;
-  --danger-soft: rgba(220, 38, 38, 0.16);
-  --danger-border: rgba(220, 38, 38, 0.28);
+  --danger-500: #EF4444;
+  --danger-soft: rgba(239, 68, 68, 0.16);
+  --danger-border: rgba(239, 68, 68, 0.28);
 
   /* ── Mapas retrocompatibles ────────────────────────────── */
   --bg:             var(--bg-app);
@@ -81,7 +81,7 @@
   --danger:          var(--danger-500);
 
   /* ── Tipografía familias ───────────────────────────────── */
-  --font-display:   'Outfit', system-ui, sans-serif;
+  --font-display:   'Inter', system-ui, sans-serif;
   --font-body:      'Inter', system-ui, sans-serif;
   --font-mono:      'JetBrains Mono', monospace;
 
@@ -162,7 +162,7 @@
   --shadow-sm: var(--shadow-card);
   --shadow-md: var(--shadow-card);
   --shadow-lg: var(--shadow-card);
-  --shadow-accent: 0 10px 20px rgba(124, 92, 255, 0.3);
+  --shadow-accent: 0 10px 20px rgba(37, 99, 255, 0.3);
   --shadow-glow-violet: var(--shadow-accent);
   --shadow-glow-cyan: 0 10px 20px rgba(2, 132, 199, 0.15);
   --shadow-card-hover: 15px 15px 30px rgba(166, 171, 189, 0.5), -15px -15px 30px #FFFFFF;

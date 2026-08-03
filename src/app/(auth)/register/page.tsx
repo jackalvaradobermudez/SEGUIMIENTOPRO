@@ -125,12 +125,13 @@ export default function RegisterPage() {
 
       <div className="clay-card bg-white p-10 w-full max-w-md relative z-10 animate-fade-in">
         <div className="flex items-center gap-3 mb-10">
-          <div className="w-12 h-12 flex items-center justify-center rounded-2xl clay-card-inset bg-slate-50">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+          <div className="w-12 h-12 flex items-center justify-center flex-shrink-0">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="9" stroke="var(--brand-500)" strokeWidth="2.5" fill="white"/>
+              <path d="M8.5 12L11 14.5L16 9" stroke="var(--brand-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <span className="font-display text-xl font-bold text-slate-800">Seguimiento<span className="text-[var(--brand-500)]">PRO</span></span>
+          <span className="font-display text-[22px] font-bold text-slate-900 tracking-tight">SEGUIMIENTO <span className="text-[var(--brand-500)]">PRO</span></span>
         </div>
 
         <div className="mb-8">

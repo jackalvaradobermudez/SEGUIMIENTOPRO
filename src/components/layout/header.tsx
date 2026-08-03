@@ -44,7 +44,7 @@ export default function Header({ user }: HeaderProps) {
         >
           <Menu size={18} />
         </button>
-        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-violet-400/40 bg-gradient-to-br from-violet-500/45 to-slate-900 text-sm font-bold text-white shadow-[0_0_22px_rgba(124,92,255,0.22)] flex-shrink-0">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#2563FF]/40 bg-gradient-to-br from-[#2563FF]/45 to-slate-900 text-sm font-bold text-white shadow-[0_0_22px_rgba(37,99,255,0.22)] flex-shrink-0">
           {initials}
         </div>
         <div className="flex flex-col">
@@ -81,7 +81,7 @@ export default function Header({ user }: HeaderProps) {
             title="Cobros (Core)"
           >
             <CreditCard size={18} />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-violet-600 text-[8px] font-bold text-white shadow-sm">C</span>
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#2563FF] text-[8px] font-bold text-white shadow-sm">C</span>
           </Link>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function Header({ user }: HeaderProps) {
                 onClick={() => setIsQuickMenuOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] transition-colors"
               >
-                <ShoppingCart size={15} className="text-violet-400" />
+                <ShoppingCart size={15} className="text-[#2563FF]" />
                 <span>Nueva venta</span>
               </Link>
               <Link
@@ -145,7 +145,7 @@ export default function Header({ user }: HeaderProps) {
                 onClick={() => setIsQuickMenuOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[var(--text-primary)] hover:bg-slate-50 hover:text-[var(--brand-700)] transition-colors"
               >
-                <CreditCard size={15} className="text-violet-400" />
+                <CreditCard size={15} className="text-[#2563FF]" />
                 <span>Ver Cobros (Core)</span>
               </Link>
             </div>
@@ -167,7 +167,7 @@ export default function Header({ user }: HeaderProps) {
         <NotificationsDropdown />
 
         {/* Avatar y Perfil */}
-        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#5B3DF5] to-[#201B68] text-sm font-bold text-white shadow-[0_0_24px_rgba(91,61,245,0.3)]">
+        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#2563FF] to-[#1E4CAF] text-sm font-bold text-white shadow-[0_0_24px_rgba(37,99,255,0.3)]">
           {initials}
         </div>
       </div>
