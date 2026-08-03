@@ -70,8 +70,13 @@ export default function Sidebar({
           isMobileOpen ? 'translate-x-0' : '-translate-x-full'
         } ${
           !isCollapsed ? 'px-4' : 'px-3'
-        }`}
+        } overflow-hidden`}
       >
+        {/* Ambient Glow (Efecto Liquid Glass Apple) */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none -z-10 opacity-50">
+          <div className="absolute -top-20 -left-20 w-[200px] h-[200px] rounded-full bg-violet-600/20 blur-[60px]" />
+          <div className="absolute top-1/2 left-0 w-[150px] h-[150px] rounded-full bg-indigo-600/10 blur-[50px]" />
+        </div>
         {/* Botón Toggle Flotante (estilo macOS) */}
         <button
           onClick={toggleSidebar}
@@ -110,9 +115,9 @@ export default function Sidebar({
                     !isCollapsed ? 'gap-3 px-3 w-full' : 'justify-center px-0 w-full'
                   } ${
                     active
-                      ? 'bg-white/10 text-white shadow-sm'
-                      : 'text-neutral-400 hover:bg-white/5 hover:text-neutral-100'
-                  } font-medium text-sm`}
+                      ? 'bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-900/30 font-semibold'
+                      : 'text-neutral-400 hover:bg-white/5 hover:text-neutral-100 font-medium'
+                  } text-sm`}
                   title={isCollapsed ? item.label : undefined}
                 >
                   <Icon 
