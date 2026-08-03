@@ -55,21 +55,21 @@ export default async function DashboardPage() {
         </div>
         
         <div className="flex-1 flex flex-col items-center justify-center -mt-10">
-          <div className="flex h-20 w-20 items-center justify-center rounded-[24px] bg-gradient-to-br from-violet-500/10 to-indigo-500/5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] mb-8">
-            <Sparkles size={32} strokeWidth={1.5} className="text-violet-400" />
+          <div className="flex h-20 w-20 items-center justify-center rounded-[24px] bg-gradient-to-br from-violet-500/10 to-indigo-500/5 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)] mb-8">
+            <Sparkles size={32} strokeWidth={1.5} className="text-violet-600" />
           </div>
           
-          <h2 className="text-2xl font-semibold tracking-tight text-white mb-3 text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 mb-3 text-center">
             Todo listo para arrancar
           </h2>
-          <p className="text-neutral-400 text-[15px] max-w-[420px] text-center leading-relaxed mb-10">
+          <p className="text-neutral-500 text-[15px] max-w-[420px] text-center leading-relaxed mb-10">
             Tu panel está vacío porque tu cuenta es nueva. Registra tu primer cliente o venta y observa cómo tus métricas de cobranza cobran vida de forma automática.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <Link 
               href="/dashboard/clients/new" 
-              className="flex items-center justify-center h-12 px-8 rounded-full bg-white text-black font-semibold text-[15px] transition-transform hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.15)]"
+              className="flex items-center justify-center h-12 px-8 rounded-full bg-neutral-900 text-white font-semibold text-[15px] transition-all hover:scale-105 shadow-[0_4_14px_0_rgb(0,0,0,0.1)] hover:shadow-[0_6_20px_rgba(0,0,0,0.15)] hover:bg-neutral-800"
             >
               Crear mi primer Cliente
             </Link>
