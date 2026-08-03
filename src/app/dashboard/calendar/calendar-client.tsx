@@ -46,7 +46,7 @@ export default function CalendarPageClient({
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_320px]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px]">
         <div className="overflow-x-auto">
           <CalendarView
             year={year}
@@ -58,14 +58,16 @@ export default function CalendarPageClient({
         </div>
 
         <div className="hidden lg:block">
-          <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4">
-            <h3 className="mb-4 text-sm font-semibold">
-              {selectedDate ? formatDate(selectedDate) : 'Selecciona un día'}
+          <div className="rounded-3xl bg-neutral-50/50 dark:bg-neutral-900/20 p-6 min-h-[600px]">
+            <h3 className="mb-6 text-xs font-bold tracking-widest uppercase text-neutral-400">
+              {selectedDate ? 'Eventos del Día' : 'Vista de Eventos'}
             </h3>
             {selectedDate ? (
               <DayEventsPanel date={selectedDate} events={selectedEvents} currency={currency} />
             ) : (
-              <p className="text-sm text-muted-foreground">Haz clic en un día para ver sus eventos.</p>
+              <div className="flex flex-col items-center justify-center h-48 text-center px-4">
+                <p className="text-[13px] text-neutral-500">Haz clic en un día del calendario para ver o gestionar sus eventos.</p>
+              </div>
             )}
           </div>
         </div>
