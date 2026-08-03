@@ -35,10 +35,10 @@ export function HeroSection() {
                   <ArrowRight size={18} className="ml-2" />
                 </Button>
               </Link>
-              <button className="inline-flex h-[54px] items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-6 text-[15px] font-medium text-slate-600 transition-all hover:border-slate-300 hover:text-slate-900 hover:shadow-sm">
+              <Link href="/commercial" className="inline-flex h-[54px] items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-6 text-[15px] font-medium text-slate-600 transition-all hover:border-slate-300 hover:text-slate-900 hover:shadow-sm">
                 <Play size={16} className="text-[var(--brand-500)]" />
                 Ver demo de 2 minutos
-              </button>
+              </Link>
             </div>
 
             <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-400">
