@@ -51,9 +51,17 @@ export default function RegisterPage() {
     })
 
     if (signUpError) {
-      setError(signUpError.message === 'User already registered'
+      console.error('[register] signUp error:', {
+        message: signUpError.message,
+        status: (signUpError as { status?: number }).status,
+        code: (signUpError as { code?: string }).code,
+        name: signUpError.name,
+        full: signUpError,
+      })
+      const rawMessage = signUpError.message || JSON.stringify(signUpError) || 'Error desconocido'
+      setError(rawMessage === 'User already registered'
         ? 'Este email ya está registrado'
-        : signUpError.message
+        : rawMessage
       )
       setLoading(false)
       return
