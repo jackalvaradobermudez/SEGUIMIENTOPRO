@@ -47,9 +47,8 @@ export default function Header({ user }: HeaderProps) {
         <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-sm font-bold text-white shadow-sm flex-shrink-0">
           {initials}
         </div>
-        <div className="flex flex-col">
-          <span className="text-[15px] font-semibold leading-5 text-white tracking-tight">{userName}</span>
-          <span className="text-xs leading-5 text-slate-400">Seguimiento financiero y ventas</span>
+        <div className="flex items-center">
+          <span className="text-[15px] font-semibold text-white tracking-tight">{userName}</span>
         </div>
 
         {/* Enlaces de acceso rápido con iconos estilizados */}
