@@ -2,20 +2,33 @@
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Crown, LogOut, ChevronLeft, ChevronRight } from 'lucide-react'
+import { 
+  Crown, 
+  LogOut, 
+  ChevronLeft, 
+  ChevronRight,
+  LayoutDashboard, 
+  Users, 
+  Package, 
+  ShoppingCart, 
+  CreditCard, 
+  Calendar, 
+  BarChart3, 
+  Settings
+} from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useSidebar } from '@/components/layout/sidebar-provider'
 import { formatDate } from '@/lib/utils'
 
 const NAV = [
-  { href: '/dashboard', label: 'Dashboard', icon: 'LayoutDashboard' },
-  { href: '/dashboard/clients', label: 'Clientes', icon: 'Users' },
-  { href: '/dashboard/products', label: 'Productos', icon: 'Package' },
-  { href: '/dashboard/sales', label: 'Ventas', icon: 'ShoppingCart' },
-  { href: '/dashboard/collections', label: 'Cobros', icon: 'CreditCard', badge: 'CORE' },
-  { href: '/dashboard/calendar', label: 'Calendario', icon: 'Calendar' },
-  { href: '/dashboard/reports', label: 'Reportes', icon: 'BarChart3' },
-  { href: '/dashboard/settings', label: 'Configuración', icon: 'Settings' },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/dashboard/clients', label: 'Clientes', icon: Users },
+  { href: '/dashboard/products', label: 'Productos', icon: Package },
+  { href: '/dashboard/sales', label: 'Ventas', icon: ShoppingCart },
+  { href: '/dashboard/collections', label: 'Cobros', icon: CreditCard, badge: 'CORE' },
+  { href: '/dashboard/calendar', label: 'Calendario', icon: Calendar },
+  { href: '/dashboard/reports', label: 'Reportes', icon: BarChart3 },
+  { href: '/dashboard/settings', label: 'Configuración', icon: Settings },
 ]
 
 export default function Sidebar({
@@ -46,136 +59,128 @@ export default function Sidebar({
       {/* Backdrop móvil */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden transition-opacity"
           onClick={closeMobileSidebar}
           aria-hidden="true"
         />
       )}
       <aside
-        style={{ width: isCollapsed ? '88px' : '280px' }}
-        className={`fixed left-0 top-0 z-50 flex h-screen flex-col justify-between border-r border-white/5 bg-[#0B121D]/95 py-8 sidebar-transition shadow-[inset_-1px_0_0_rgba(255,255,255,0.06)] transition-transform duration-200 md:translate-x-0 ${
+        style={{ width: isCollapsed ? '80px' : '260px' }}
+        className={`fixed left-0 top-0 z-50 flex h-screen flex-col justify-between border-r border-white/5 bg-neutral-950/80 backdrop-blur-2xl py-6 shadow-2xl transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] md:translate-x-0 ${
           isMobileOpen ? 'translate-x-0' : '-translate-x-full'
         } ${
-          !isCollapsed ? 'px-6' : 'px-3'
+          !isCollapsed ? 'px-4' : 'px-3'
         }`}
       >
-      {/* Botón Toggle Flotante */}
-      <button
-        onClick={toggleSidebar}
-        className="absolute -right-3.5 top-10 z-50 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-[#0B121D] text-slate-400 shadow-md transition-all duration-200 hover:scale-110 hover:text-white cursor-pointer"
-        aria-label={isCollapsed ? 'Expandir barra lateral' : 'Colapsar barra lateral'}
-      >
-        {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-      </button>
+        {/* Botón Toggle Flotante (estilo macOS) */}
+        <button
+          onClick={toggleSidebar}
+          className="absolute -right-3.5 top-12 z-50 flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-neutral-900 text-neutral-400 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-neutral-800 hover:text-white cursor-pointer"
+          aria-label={isCollapsed ? 'Expandir barra lateral' : 'Colapsar barra lateral'}
+        >
+          {isCollapsed ? <ChevronRight size={14} strokeWidth={2.5} /> : <ChevronLeft size={14} strokeWidth={2.5} />}
+        </button>
 
-      <div>
-        {/* Logo */}
-        <div className={`mb-10 flex items-center ${!isCollapsed ? 'gap-3.5 px-3' : 'justify-center'}`}>
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--brand-soft)] border border-[var(--brand-border)] shadow-[0_0_22px_rgba(124,92,255,0.18)] flex-shrink-0">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7C5CFF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
+        <div>
+          {/* Logo (Minimalista) */}
+          <div className={`mb-8 flex items-center ${!isCollapsed ? 'gap-3 px-2' : 'justify-center'}`}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-[0_0_20px_rgba(124,92,255,0.3)] flex-shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            {!isCollapsed && (
+              <span className="font-display text-lg font-semibold tracking-tight text-white transition-opacity duration-300">
+                Seguimiento<span className="text-violet-400">PRO</span>
+              </span>
+            )}
           </div>
-          {!isCollapsed && (
-            <span className="font-display text-[19px] font-bold tracking-tight text-white transition-opacity duration-200">
-              Seguimiento<span className="text-[var(--brand-500)]">PRO</span>
-            </span>
-          )}
+
+          {/* Nav */}
+          <nav className="flex flex-col gap-1 w-full">
+            {NAV.map((item) => {
+              const active = isActive(item.href)
+              const Icon = item.icon
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMobileSidebar}
+                  className={`group relative flex h-10 items-center rounded-xl transition-all duration-200 ${
+                    !isCollapsed ? 'gap-3 px-3 w-full' : 'justify-center px-0 w-full'
+                  } ${
+                    active
+                      ? 'bg-white/10 text-white shadow-sm'
+                      : 'text-neutral-400 hover:bg-white/5 hover:text-neutral-100'
+                  } font-medium text-sm`}
+                  title={isCollapsed ? item.label : undefined}
+                >
+                  <Icon 
+                    size={18} 
+                    strokeWidth={active ? 2.5 : 2} 
+                    className={`${active ? 'text-white' : 'text-neutral-400 group-hover:text-neutral-200'} transition-colors flex-shrink-0`}
+                  />
+                  {!isCollapsed && (
+                    <span className="flex-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                      {item.label}
+                    </span>
+                  )}
+                  {!isCollapsed && item.badge && (
+                    <span className="rounded-md bg-violet-500/20 px-1.5 py-0.5 text-[9px] font-bold tracking-wider text-violet-300 flex-shrink-0 uppercase">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              )
+            })}
+          </nav>
         </div>
 
-        {/* Nav */}
-        <nav className="flex flex-col gap-2 w-full">
-          {NAV.map((item) => {
-            const active = isActive(item.href)
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={closeMobileSidebar}
-                className={`group relative flex h-14 items-center rounded-2xl transition-all duration-200 ${
-                  !isCollapsed ? 'gap-4 px-5 w-full' : 'justify-center px-0 w-full'
-                } ${
-                  active
-                    ? 'bg-[var(--brand-soft)] border border-[var(--brand-border)] text-white shadow-[0_0_0_1px_rgba(124,92,255,0.10)]'
-                    : 'text-[var(--text-secondary)] border border-transparent hover:bg-white/[0.04] hover:text-white'
-                } font-semibold text-[15px]`}
-                title={isCollapsed ? item.label : undefined}
-              >
-                <span className={`${active ? 'text-white' : 'text-[var(--text-secondary)] group-hover:text-white'} transition-colors flex-shrink-0`}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    {item.icon === 'LayoutDashboard' && <><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></>}
-                    {item.icon === 'Users' && <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>}
-                    {item.icon === 'Package' && <><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></>}
-                    {item.icon === 'ShoppingCart' && <><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></>}
-                    {item.icon === 'CreditCard' && <><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></>}
-                    {item.icon === 'Calendar' && <><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>}
-                    {item.icon === 'BarChart3' && <><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></>}
-                    {item.icon === 'Settings' && <><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></>}
-                  </svg>
-                </span>
-                {!isCollapsed && (
-                  <span className={`flex-1 whitespace-nowrap overflow-hidden text-ellipsis transition-colors duration-200 ${
-                    active ? 'text-white' : 'text-[var(--text-secondary)] group-hover:text-white'
-                  }`}>
-                    {item.label}
-                  </span>
-                )}
-                {!isCollapsed && item.badge && (
-                  <span className="rounded-full bg-violet-500/20 px-2.5 py-1 text-[10px] font-bold text-violet-300 flex-shrink-0">
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            )
-          })}
-        </nav>
-      </div>
-
-      {/* Footer */}
-      <div className="flex flex-col gap-4 w-full">
-        {/* Plan card */}
-        {!isCollapsed && (
-          <Link
-            href="/dashboard/settings"
-            onClick={closeMobileSidebar}
-            className="overflow-hidden rounded-3xl border border-[var(--border-subtle)] bg-[var(--surface-1)] transition-all duration-200 hover:border-[var(--brand-border)]"
-          >
-            <div className="p-5">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--brand-soft)] border border-[var(--brand-border)]">
-                  <Crown size={16} className="text-violet-300" />
-                </div>
-                <div>
-                  <p className="text-[15px] font-semibold text-white">{plan === 'pro' ? 'Plan PRO' : 'Plan Gratis'}</p>
-                  <p className="flex items-center gap-1.5 text-[13px] text-[var(--text-secondary)] mt-0.5">
-                    <span className={`h-1.5 w-1.5 rounded-full ${plan === 'pro' ? 'bg-emerald-400' : 'bg-slate-400'}`} />
-                    {plan === 'pro' && planExpiresAt
-                      ? `Activo hasta ${formatDate(planExpiresAt)}`
-                      : 'Actualiza a PRO'}
-                  </p>
+        {/* Footer */}
+        <div className="flex flex-col gap-3 w-full">
+          {/* Plan card (macOS Widget style) */}
+          {!isCollapsed && (
+            <Link
+              href="/dashboard/settings"
+              onClick={closeMobileSidebar}
+              className="overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-md transition-all duration-300 hover:bg-white/[0.04] hover:border-white/10"
+            >
+              <div className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-violet-500/20 border border-violet-500/30">
+                    <Crown size={16} className="text-violet-400" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{plan === 'pro' ? 'Plan PRO' : 'Plan Gratis'}</p>
+                    <p className="flex items-center gap-1.5 text-xs text-neutral-400 mt-0.5">
+                      <span className={`h-1.5 w-1.5 rounded-full shadow-[0_0_8px_currentColor] ${plan === 'pro' ? 'bg-emerald-400 text-emerald-400' : 'bg-neutral-500 text-neutral-500'}`} />
+                      {plan === 'pro' && planExpiresAt
+                        ? `Hasta ${formatDate(planExpiresAt)}`
+                        : 'Actualiza a PRO'}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        )}
-
-        {/* Logout */}
-        <button
-          onClick={handleLogout}
-          className={`group flex h-14 w-full items-center border border-[var(--border-subtle)] bg-white/[0.03] text-[15px] font-medium transition-all duration-200 hover:bg-white/[0.05] ${
-            !isCollapsed ? 'gap-4 px-5 rounded-2xl' : 'justify-center px-0 rounded-2xl'
-          }`}
-          title={isCollapsed ? 'Cerrar sesión' : undefined}
-        >
-          <LogOut size={18} className="text-[var(--text-secondary)] group-hover:text-white transition-colors flex-shrink-0" />
-          {!isCollapsed && (
-            <span className="text-[var(--text-secondary)] group-hover:text-white transition-colors duration-200">
-              Cerrar sesión
-            </span>
+            </Link>
           )}
-        </button>
-      </div>
-    </aside>
+
+          {/* Logout */}
+          <button
+            onClick={handleLogout}
+            className={`group flex h-10 w-full items-center text-sm font-medium transition-all duration-200 hover:bg-white/5 ${
+              !isCollapsed ? 'gap-3 px-3 rounded-xl' : 'justify-center px-0 rounded-xl'
+            }`}
+            title={isCollapsed ? 'Cerrar sesión' : undefined}
+          >
+            <LogOut size={18} strokeWidth={2} className="text-neutral-400 group-hover:text-red-400 transition-colors flex-shrink-0" />
+            {!isCollapsed && (
+              <span className="text-neutral-400 group-hover:text-red-400 transition-colors duration-200">
+                Cerrar sesión
+              </span>
+            )}
+          </button>
+        </div>
+      </aside>
     </>
   )
 }
