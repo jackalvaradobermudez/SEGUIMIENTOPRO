@@ -34,7 +34,7 @@ export default function Header({ user }: HeaderProps) {
   }, [])
 
   return (
-    <header className="dashboard-header flex h-[88px] items-center justify-between px-9 bg-[#0B1120] border-b border-white/5">
+    <header className="dashboard-header flex h-[88px] items-center justify-between px-9 bg-[#0B1120]/90 border-b border-white/5">
       {/* Left: Menú móvil + Avatar + Name + Enlaces Rápidos (Iconos) */}
       <div className="flex items-center gap-4">
         <button

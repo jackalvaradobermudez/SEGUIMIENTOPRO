@@ -237,8 +237,6 @@
   z-index: 40;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background-color: rgba(243, 245, 251, 0.75);
-  border-bottom: 1px solid var(--border-subtle);
   transition: width var(--transition-sidebar);
 }
 .sidebar-transition {
