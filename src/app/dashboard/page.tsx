@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Users } from 'lucide-react'
+import { Users, Sparkles } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { getActiveBusiness } from '@/lib/supabase/get-business'
 import { KpiCards, type KpiData } from '@/components/dashboard/kpi-cards'
@@ -46,17 +46,35 @@ export default async function DashboardPage() {
 
   if (isFirstUse) {
     return (
-      <div className="animate-fade-in">
+      <div className="animate-fade-in flex flex-col h-[calc(100vh-100px)]">
         <div className="page-header">
           <div>
             <h1 className="page-title">Dashboard</h1>
-            <p className="page-subtitle">Resumen de tu cartera, ventas y cobros</p>
+            <p className="page-subtitle">Bienvenido a tu espacio de trabajo</p>
           </div>
         </div>
-        <OnboardingWizard
-          businessName={business.name}
-          currency={business.currency}
-        />
+        
+        <div className="flex-1 flex flex-col items-center justify-center -mt-10">
+          <div className="flex h-20 w-20 items-center justify-center rounded-[24px] bg-gradient-to-br from-violet-500/10 to-indigo-500/5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] mb-8">
+            <Sparkles size={32} strokeWidth={1.5} className="text-violet-400" />
+          </div>
+          
+          <h2 className="text-2xl font-semibold tracking-tight text-white mb-3 text-center">
+            Todo listo para arrancar
+          </h2>
+          <p className="text-neutral-400 text-[15px] max-w-[420px] text-center leading-relaxed mb-10">
+            Tu panel está vacío porque tu cuenta es nueva. Registra tu primer cliente o venta y observa cómo tus métricas de cobranza cobran vida de forma automática.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <Link 
+              href="/dashboard/clients/new" 
+              className="flex items-center justify-center h-12 px-8 rounded-full bg-white text-black font-semibold text-[15px] transition-transform hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.15)]"
+            >
+              Crear mi primer Cliente
+            </Link>
+          </div>
+        </div>
       </div>
     )
   }
